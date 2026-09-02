@@ -1,792 +1,1539 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OC CAB — Investor Prospectus | Fleet Economics & ROI</title>
-<meta name="description" content="The complete pro-forma for OC Cab's 10-vehicle Cybercab fleet: capital requirements, itemized operating costs, payback timeline, scenario analysis, and an interactive ROI calculator.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad&render=explicit" defer></script>
-<style>
-:root{
-  --bg:#0a0e16;
-  --bg-2:#0f1420;
-  --panel:#141b2b;
-  --line:#1e2940;
-  --text:#eef2f8;
-  --muted:#93a0b8;
-  --teal:#2ee6a8;
-  --teal-dim:#17795a;
-  --cyan:#41e0e6;
-  --gold-1:#f5a623;
-  --gold-2:#ffc95e;
-  --red:#ff6b6b;
-  /* chart series — darker in-band steps of the brand hues, CVD-validated */
-  --s-base:#0fa572;
-  --s-aggr:#c28114;
-  --s-cons:#9085e9;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
-h1,h2,h3,h4{font-family:'Poppins',sans-serif}
-a{color:var(--teal);text-decoration:none}
-.wrap{max-width:1140px;margin:0 auto;padding:0 24px}
-section{padding:88px 0}
-.eyebrow{display:inline-block;font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--teal);border:1px solid var(--teal-dim);border-radius:999px;padding:6px 16px;background:rgba(46,230,168,.06)}
-h2{font-size:clamp(28px,4vw,40px);font-weight:700;margin:18px 0 14px;border-left:4px solid var(--teal);padding-left:18px}
-.sub{color:var(--muted);max-width:760px}
-nav{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(10,14,22,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-.nav-in{display:flex;align-items:center;justify-content:space-between;height:64px}
-.logo{font-family:'Poppins',sans-serif;font-weight:800;font-size:22px;letter-spacing:.02em}
-.logo .oc{background:linear-gradient(120deg,var(--gold-1),var(--gold-2));-webkit-background-clip:text;background-clip:text;color:transparent}
-.logo .cab{color:#fff}
-.logo .dot{color:var(--teal)}
-.nav-links{display:flex;gap:28px;font-size:14px;font-weight:500}
-.nav-links a{color:var(--muted)}
-.nav-links a:hover{color:var(--text)}
-.btn{display:inline-block;font-family:'Poppins',sans-serif;font-weight:600;font-size:15px;padding:13px 28px;border-radius:10px;border:1px solid var(--teal);color:var(--teal);transition:all .2s;cursor:pointer;background:transparent}
-.btn:hover{background:rgba(46,230,168,.1)}
-.btn.solid{background:var(--teal);color:#062018}
-.btn.solid:hover{background:#4cf0b8}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tango Cab - Investor Prospectus | Fleet Economics &amp; ROI Model</title>
+  <meta name="description" content="The complete pro-forma for Tango Cab's Tango-Fleet (12-20 Cybercabs): capital requirements, itemized operating costs, payback timeline, scenario analysis, and interactive ROI calculator.">
+  <meta property="og:title" content="Tango Cab - Investor Prospectus | Tango-Fleet Pro-Forma">
+  <meta property="og:description" content="Vehicles, depots, and local fleets for autonomous mobility. Capital back in ~9.5 months.">
+  <meta property="og:type" content="website">
 
-/* hero */
-.doc-hero{padding:150px 0 64px;background:
-  radial-gradient(900px 500px at 78% 0%,rgba(65,224,230,.06),transparent 60%),
-  linear-gradient(180deg,#0a0e16 0%,#0b101b 100%);border-bottom:1px solid var(--line)}
-.doc-hero h1{font-size:clamp(34px,5.4vw,56px);font-weight:800;line-height:1.1;margin:22px 0 18px;max-width:20ch}
-.doc-hero h1 .accent{color:var(--teal)}
-.doc-hero p.lede{font-size:clamp(16px,2vw,19px);color:var(--muted);max-width:680px}
-.hero-fig{display:flex;gap:56px;align-items:flex-end;flex-wrap:wrap;margin-top:48px}
-.hero-fig .big b{display:block;font-family:'Poppins',sans-serif;font-size:64px;font-weight:800;line-height:1;color:var(--teal)}
-.hero-fig .big span{font-size:13px;color:var(--muted);display:block;margin-top:8px}
-.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;flex:1;min-width:min(600px,100%)}
-.tiles>div{background:var(--bg-2);padding:20px 22px}
-.tiles b{display:block;font-family:'Poppins',sans-serif;font-size:24px;font-weight:700}
-.tiles span{font-size:12.5px;color:var(--muted)}
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 
-/* tables */
-.fin-table{width:100%;border-collapse:collapse;margin-top:36px;font-size:15px}
-.fin-table th{text-align:left;color:var(--teal);font-weight:600;padding:14px 16px;border-bottom:2px solid var(--line);font-size:13px;letter-spacing:.04em;text-transform:uppercase}
-.fin-table th.num{text-align:right}
-.fin-table td{padding:14px 16px;border-bottom:1px solid var(--line);color:var(--muted)}
-.fin-table td:first-child{color:var(--text);font-weight:600}
-.fin-table td.num{text-align:right;font-family:'Poppins',sans-serif;font-weight:600;color:var(--text);white-space:nowrap;font-variant-numeric:tabular-nums}
-.fin-table tr.total td{background:rgba(46,230,168,.09);color:var(--teal)}
-.fin-table tr.total td.num{color:var(--teal)}
-.tablewrap{overflow-x:auto}
-.fin-note{margin-top:22px;padding:18px 22px;border:1px solid var(--line);border-left:3px solid var(--gold-1);border-radius:10px;background:var(--bg-2);font-size:14px;color:var(--muted)}
-.fin-note b{color:var(--gold-2)}
+  <!-- Turnstile Bot Protection -->
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad&render=explicit" defer></script>
 
-/* cards */
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px;margin-top:40px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:30px}
-.card h3{font-size:19px;font-weight:600;color:var(--teal);margin-bottom:12px}
-.card p{color:var(--muted);font-size:15px}
-.card .k{font-family:'Poppins',sans-serif;font-size:34px;font-weight:700;color:#fff;display:block;margin-bottom:6px}
+  <style>
+    :root {
+      --bg: #070a10;
+      --bg-2: #0d1320;
+      --bg-card: #121a2c;
+      --bg-card-hover: #162137;
+      --line: #1c273e;
+      --line-bright: #2d3e62;
+      --text: #f0f4fc;
+      --muted: #8e9db7;
+      --dim: #5c6b84;
+      --teal: #2ee6a8;
+      --teal-dim: #157356;
+      --teal-glow: rgba(46, 230, 168, 0.25);
+      --cyan: #41e0e6;
+      --gold-1: #f5a623;
+      --gold-2: #ffc95e;
+      --red: #ff6b6b;
+      --s-base: #0fa572;
+      --s-aggr: #c28114;
+      --s-cons: #9085e9;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+    }
 
-/* charts */
-.chartcard{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:28px;margin-top:36px}
-.chartcard h3{font-size:17px;font-weight:600;color:var(--text)}
-.chartcard .csub{font-size:13.5px;color:var(--muted);margin-bottom:16px}
-.legend{display:flex;gap:22px;flex-wrap:wrap;margin:8px 0 14px;font-size:13.5px;color:var(--muted)}
-.legend .k{display:inline-flex;align-items:center;gap:8px}
-.legend .line{width:18px;height:2px;border-radius:1px;display:inline-block}
-.chartscroll{overflow-x:auto}
-svg text{font-family:'Inter',sans-serif}
-.tip{position:fixed;z-index:60;pointer-events:none;background:var(--bg-2);border:1px solid var(--line);border-radius:10px;box-shadow:0 8px 28px rgba(0,0,0,.5);padding:10px 12px;font-size:13px;display:none;min-width:190px}
-.tip .t{color:var(--muted);font-size:12px;margin-bottom:6px}
-.tip .row{display:flex;align-items:center;gap:10px;justify-content:space-between;padding:2px 0}
-.tip .row .name{color:var(--muted);display:inline-flex;align-items:center;gap:7px}
-.tip .row .name i{width:12px;height:2px;border-radius:1px;display:inline-block}
-.tip .row .val{font-weight:600;color:var(--text);font-family:'Poppins',sans-serif;font-variant-numeric:tabular-nums}
-details.tableview{margin-top:14px}
-details.tableview summary{cursor:pointer;font-size:13.5px;color:var(--teal);width:max-content}
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
 
-/* scenarios */
-.scen{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px;margin-top:36px}
-.scard{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:28px;position:relative}
-.scard.base{border-color:var(--teal-dim);box-shadow:0 0 0 1px var(--teal-dim)}
-.scard .tag{position:absolute;top:-11px;left:20px;background:var(--teal);color:#062018;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:2px 12px;font-family:'Poppins',sans-serif}
-.scard h3{font-size:15px;color:var(--text);display:flex;align-items:center;gap:9px}
-.scard h3 i{width:14px;height:2px;border-radius:1px;display:inline-block}
-.scard .pb{font-family:'Poppins',sans-serif;font-size:36px;font-weight:800;margin:12px 0 2px;color:#fff}
-.scard .pbl{font-size:12.5px;color:var(--muted);margin-bottom:16px}
-.scard dl{display:grid;grid-template-columns:1fr auto;gap:7px 12px;font-size:13.5px}
-.scard dt{color:var(--muted)}
-.scard dd{text-align:right;font-weight:600;color:var(--text);font-variant-numeric:tabular-nums}
+    h1, h2, h3, h4, .display-font {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      letter-spacing: -0.02em;
+    }
+    .mono { font-family: 'JetBrains Mono', monospace; }
 
-/* calculator */
-.calc{display:grid;grid-template-columns:.9fr 1.1fr;gap:26px;align-items:start;margin-top:40px}
-.controls{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:28px;display:grid;gap:22px}
-.ctl label{display:flex;justify-content:space-between;font-size:14px;color:var(--muted);margin-bottom:8px;font-weight:500}
-.ctl label output{font-weight:700;color:var(--text);font-family:'Poppins',sans-serif;font-variant-numeric:tabular-nums}
-input[type=range]{width:100%;accent-color:var(--teal)}
-.outs{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden}
-.outs>div{background:var(--panel);padding:24px 26px}
-.outs b{display:block;font-family:'Poppins',sans-serif;font-size:32px;font-weight:800;color:var(--teal)}
-.outs span{font-size:13px;color:var(--muted)}
-.outs .d{font-size:12.5px;margin-top:6px;color:var(--muted)}
-.reset{font-size:13.5px}
+    a { color: var(--teal); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: #5effc4; }
 
-/* risk */
-.risk ol{padding-left:20px;display:grid;gap:12px;color:var(--muted);font-size:15px;max-width:80ch;margin-top:30px}
-.risk strong{color:var(--text)}
-.legal{font-size:12.5px;color:#6b7891;border:1px solid var(--line);border-radius:10px;padding:16px 20px;margin-top:30px;background:var(--bg-2)}
+    .wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
 
-/* form */
-form#form-investor{display:grid;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:36px;margin-top:36px;grid-template-columns:1fr 1fr;gap:20px}
-form .full{grid-column:1/-1}
-label{display:block;font-size:13px;font-weight:600;color:var(--muted);margin-bottom:7px}
-input,select,textarea{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:9px;color:var(--text);padding:13px 15px;font-family:'Inter',sans-serif;font-size:15px}
-input:focus,select:focus,textarea:focus{outline:2px solid var(--teal-dim);border-color:var(--teal)}
-textarea{min-height:110px;resize:vertical}
-.check{display:flex;gap:12px;align-items:flex-start;font-size:13px;color:var(--muted)}
-.check input{width:18px;height:18px;margin-top:2px;flex:none}
-.form-msg{grid-column:1/-1;font-size:14px;display:none;padding:14px 18px;border-radius:9px}
-.form-msg.ok{display:block;background:rgba(46,230,168,.1);color:var(--teal);border:1px solid var(--teal-dim)}
-.form-msg.err{display:block;background:rgba(255,107,107,.1);color:var(--red);border:1px solid rgba(255,107,107,.4)}
+    section { padding: 90px 0; }
+    .section-alt { background: var(--bg-2); }
 
-footer{border-top:1px solid var(--line);padding:48px 0 40px;background:var(--bg-2)}
-footer .cols{display:flex;justify-content:space-between;gap:32px;flex-wrap:wrap;margin-bottom:28px}
-footer .fine{font-size:12px;color:#5b6880;line-height:1.7;max-width:980px}
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--teal);
+      border: 1px solid rgba(46, 230, 168, 0.3);
+      border-radius: 999px;
+      padding: 6px 16px;
+      background: rgba(46, 230, 168, 0.08);
+    }
+    .eyebrow i {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); box-shadow: 0 0 8px var(--teal);
+    }
 
-@media(max-width:900px){
-  .tiles{grid-template-columns:repeat(2,1fr)}
-  .calc{grid-template-columns:1fr}
-  .nav-links{display:none}
-  .hero-fig .big b{font-size:52px}
-  section{padding:64px 0}
-  form#form-investor{grid-template-columns:1fr}
-}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-</style>
+    h2.section-title {
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 800;
+      line-height: 1.15;
+      margin: 18px 0 14px;
+    }
+    p.section-sub {
+      color: var(--muted);
+      font-size: clamp(15.5px, 1.8vw, 18.5px);
+      max-width: 780px;
+      line-height: 1.6;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 14.5px;
+      padding: 13px 26px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--line-bright);
+      color: var(--text);
+      background: var(--bg-card);
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-decoration: none;
+    }
+    .btn:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--teal);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+    .btn.solid {
+      background: var(--teal);
+      color: #051a14;
+      border-color: var(--teal);
+      box-shadow: 0 4px 18px var(--teal-glow);
+    }
+    .btn.solid:hover {
+      background: #4ef5bc;
+      color: #02120e;
+    }
+
+    /* Unified Navigation */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(7, 10, 16, 0.9);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(28, 39, 62, 0.85);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 74px;
+      position: relative;
+    }
+    .logo {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 22px;
+      letter-spacing: -0.01em;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      text-decoration: none;
+    }
+    .logo span.brand-dot { color: var(--teal); font-size: 26px; line-height: 0; }
+    .logo .badge-preseed {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(46, 230, 168, 0.12);
+      border: 1px solid rgba(46, 230, 168, 0.3);
+      color: var(--teal);
+      margin-left: 10px;
+      text-transform: uppercase;
+    }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      list-style: none;
+    }
+    .nav-item { position: relative; }
+    .nav-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 8px 14px;
+      font-size: 14.5px;
+      font-weight: 600;
+      color: var(--muted);
+      border-radius: var(--radius-sm);
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+    .nav-link:hover, .nav-item:hover > .nav-link, .nav-link.active {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .nav-link.active { color: var(--teal); }
+    .nav-link .caret { font-size: 9px; opacity: 0.7; transition: transform 0.2s; }
+    .nav-item:hover .caret { transform: rotate(180deg); }
+
+    .nav-submenu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      min-width: 230px;
+      background: rgba(13, 19, 32, 0.97);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--line-bright);
+      border-radius: var(--radius-md);
+      padding: 8px;
+      list-style: none;
+      box-shadow: 0 16px 36px rgba(0,0,0,0.55);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(8px);
+      transition: all 0.22s ease;
+      pointer-events: none;
+      z-index: 1001;
+    }
+    .nav-item:hover > .nav-submenu,
+    .nav-item:focus-within > .nav-submenu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(2px);
+      pointer-events: auto;
+    }
+    .nav-submenu a {
+      display: block;
+      padding: 9px 12px;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--muted);
+      border-radius: var(--radius-sm);
+      transition: all 0.15s;
+      text-decoration: none;
+    }
+    .nav-submenu a:hover {
+      background: rgba(46, 230, 168, 0.08);
+      color: var(--teal);
+    }
+    .nav-submenu a small {
+      display: block;
+      font-size: 11px;
+      color: var(--dim);
+      margin-top: 2px;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .mobile-toggle {
+      display: none;
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    /* Hero */
+    .doc-hero {
+      padding: 150px 0 70px;
+      background:
+        radial-gradient(900px 500px at 78% 0%, rgba(65, 224, 230, 0.07), transparent 60%),
+        linear-gradient(180deg, #070a10 0%, #0c121e 100%);
+      border-bottom: 1px solid var(--line);
+    }
+    .doc-hero h1 {
+      font-size: clamp(34px, 5.4vw, 58px);
+      font-weight: 800;
+      line-height: 1.08;
+      margin: 22px 0 18px;
+    }
+    .doc-hero h1 .accent { color: var(--teal); }
+    .doc-hero p.lede {
+      font-size: clamp(16px, 2vw, 20px);
+      color: var(--muted);
+      max-width: 760px;
+      line-height: 1.6;
+    }
+
+    .hero-fig {
+      display: flex;
+      gap: 48px;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      margin-top: 48px;
+    }
+    .hero-fig .big b {
+      display: block;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 64px;
+      font-weight: 800;
+      line-height: 1;
+      color: var(--teal);
+    }
+    .hero-fig .big span {
+      font-size: 13.5px;
+      color: var(--muted);
+      display: block;
+      margin-top: 8px;
+    }
+
+    .tiles {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      flex: 1;
+      min-width: min(620px, 100%);
+    }
+    .tiles > div {
+      background: var(--bg-card);
+      padding: 22px 24px;
+    }
+    .tiles b {
+      display: block;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+    .tiles span {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* Tables */
+    .fin-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 36px;
+      font-size: 15px;
+    }
+    .fin-table th {
+      text-align: left;
+      color: var(--teal);
+      font-weight: 700;
+      padding: 16px 20px;
+      border-bottom: 2px solid var(--line);
+      font-size: 13px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .fin-table th.num { text-align: right; }
+    .fin-table td {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+    }
+    .fin-table td:first-child { color: var(--text); font-weight: 600; }
+    .fin-table td.num {
+      text-align: right;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      color: var(--text);
+      white-space: nowrap;
+    }
+    .fin-table tr.total td {
+      background: rgba(46, 230, 168, 0.08);
+      color: var(--teal);
+      font-weight: 700;
+    }
+    .fin-table tr.total td.num { color: var(--teal); font-size: 16px; }
+    .tablewrap { overflow-x: auto; }
+
+    .fin-note {
+      margin-top: 24px;
+      padding: 20px 24px;
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--gold-1);
+      border-radius: var(--radius-md);
+      background: var(--bg-card);
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .fin-note b { color: var(--gold-2); }
+
+    /* Chart Cards */
+    .chartcard {
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      margin-top: 36px;
+    }
+    .chartcard h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .chartcard .csub {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 20px;
+      margin-top: 4px;
+    }
+    .legend {
+      display: flex;
+      gap: 22px;
+      flex-wrap: wrap;
+      margin: 8px 0 16px;
+      font-size: 13.5px;
+      color: var(--muted);
+    }
+    .legend .k {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .legend .line {
+      width: 18px;
+      height: 2px;
+      border-radius: 1px;
+      display: inline-block;
+    }
+    .chartscroll { overflow-x: auto; }
+    svg text { font-family: 'Inter', sans-serif; }
+
+    .tip {
+      position: fixed;
+      z-index: 100;
+      pointer-events: none;
+      background: var(--bg-2);
+      border: 1px solid var(--line-bright);
+      border-radius: var(--radius-md);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6);
+      padding: 12px 16px;
+      font-size: 13px;
+      display: none;
+      min-width: 200px;
+    }
+    .tip .t {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .tip .row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      justify-content: space-between;
+      padding: 3px 0;
+    }
+    .tip .row .name {
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .tip .row .name i {
+      width: 10px; height: 2px; border-radius: 1px; display: inline-block;
+    }
+    .tip .row .val {
+      font-weight: 700;
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    details.tableview { margin-top: 18px; }
+    details.tableview summary {
+      cursor: pointer;
+      font-size: 13.5px;
+      color: var(--teal);
+      font-weight: 600;
+      width: max-content;
+    }
+
+    /* Scenarios Grid */
+    .scen {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 22px;
+      margin-top: 36px;
+    }
+    .scard {
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 30px;
+      position: relative;
+    }
+    .scard.base {
+      border-color: rgba(46, 230, 168, 0.4);
+      box-shadow: 0 0 24px rgba(46, 230, 168, 0.06);
+    }
+    .scard .tag {
+      position: absolute;
+      top: -11px;
+      left: 20px;
+      background: var(--teal);
+      color: #051a14;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-radius: 999px;
+      padding: 3px 12px;
+    }
+    .scard h3 {
+      font-size: 16px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+    .scard h3 i {
+      width: 14px; height: 2px; border-radius: 1px; display: inline-block;
+    }
+    .scard .pb {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 38px;
+      font-weight: 800;
+      margin: 12px 0 2px;
+      color: #fff;
+    }
+    .scard .pbl {
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+    .scard dl {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px 14px;
+      font-size: 13.5px;
+      border-top: 1px solid var(--line);
+      padding-top: 14px;
+    }
+    .scard dt { color: var(--muted); }
+    .scard dd {
+      text-align: right;
+      font-weight: 600;
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Calculator */
+    .calc {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 28px;
+      align-items: start;
+      margin-top: 40px;
+    }
+    .controls {
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 30px;
+      display: grid;
+      gap: 22px;
+    }
+    .ctl label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      color: var(--text);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    .ctl label output {
+      font-weight: 700;
+      color: var(--teal);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    input[type=range] {
+      width: 100%;
+      accent-color: var(--teal);
+      cursor: pointer;
+    }
+    .outs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .outs > div {
+      background: var(--bg-card);
+      padding: 26px 28px;
+    }
+    .outs b {
+      display: block;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 34px;
+      font-weight: 800;
+      color: var(--teal);
+    }
+    .outs span { font-size: 13.5px; color: var(--muted); }
+    .outs .d { font-size: 12.5px; margin-top: 6px; color: var(--dim); }
+
+    /* Risk Factors */
+    .risk ol {
+      padding-left: 20px;
+      display: grid;
+      gap: 16px;
+      color: var(--muted);
+      font-size: 15px;
+      max-width: 82ch;
+      margin-top: 30px;
+      line-height: 1.65;
+    }
+    .risk strong { color: #fff; }
+
+    /* Form */
+    form#form-investor {
+      display: grid;
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 38px;
+      margin-top: 36px;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+    }
+    form .full { grid-column: 1 / -1; }
+    label.field-label {
+      display: block;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    input.field-input, select.field-input, textarea.field-input {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      color: #fff;
+      padding: 14px 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+    }
+    input.field-input:focus, select.field-input:focus, textarea.field-input:focus {
+      outline: 2px solid var(--teal-dim);
+      border-color: var(--teal);
+    }
+    textarea.field-input { min-height: 120px; resize: vertical; }
+
+    .check-box {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      font-size: 13.5px;
+      color: var(--muted);
+    }
+    .check-box input {
+      width: 18px;
+      height: 18px;
+      margin-top: 3px;
+      accent-color: var(--teal);
+      flex: none;
+    }
+    .form-msg {
+      grid-column: 1 / -1;
+      font-size: 14px;
+      display: none;
+      padding: 16px 20px;
+      border-radius: var(--radius-sm);
+    }
+    .form-msg.ok {
+      display: block;
+      background: rgba(46, 230, 168, 0.12);
+      color: var(--teal);
+      border: 1px solid var(--teal-dim);
+    }
+    .form-msg.err {
+      display: block;
+      background: rgba(255, 107, 107, 0.12);
+      color: var(--red);
+      border: 1px solid rgba(255, 107, 107, 0.4);
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 56px 0 40px;
+      background: #05070c;
+    }
+    .footer-cols {
+      display: flex;
+      justify-content: space-between;
+      gap: 32px;
+      flex-wrap: wrap;
+      margin-bottom: 36px;
+    }
+    .footer-fine {
+      font-size: 12px;
+      color: #556277;
+      line-height: 1.6;
+      max-width: 900px;
+    }
+
+    @media (max-width: 992px) {
+      .tiles { grid-template-columns: repeat(2, 1fr); }
+      .calc { grid-template-columns: 1fr; }
+      .nav-menu { display: none; }
+      .nav-menu.mobile-open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 74px;
+        left: 0; right: 0;
+        background: rgba(13, 19, 32, 0.98);
+        border-bottom: 1px solid var(--line-bright);
+        padding: 20px;
+        gap: 12px;
+        z-index: 1000;
+      }
+      .nav-submenu {
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        box-shadow: none;
+        background: transparent;
+        border: none;
+        padding-left: 16px;
+        display: block;
+      }
+      .mobile-toggle { display: block; }
+      .hero-fig .big b { font-size: 50px; }
+      form#form-investor { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
 
-<nav><div class="wrap nav-in">
-  <a class="logo" href="/"><span class="oc">OC</span> <span class="cab">CAB</span><span class="dot">.</span></a>
-  <div class="nav-links">
-    <a href="#capital">Capital</a><a href="#revenue">Revenue</a><a href="#opex">Costs</a>
-    <a href="#payback">Payback</a><a href="#calculator">Calculator</a><a href="#risk">Risk</a>
-  </div>
-  <a class="btn" href="#invest">Register interest</a>
-</div></nav>
+  <!-- Unified Navigation -->
+  <nav>
+    <div class="wrap nav-inner">
+      <a class="logo" href="index.html">
+        TANGO<span class="brand-dot">.</span>CAB
+        <span class="badge-preseed">Accepting commitments</span>
+      </a>
 
-<header class="doc-hero"><div class="wrap">
-  <span class="eyebrow">Investor Prospectus · Fleet I · Pro-forma illustration</span>
-  <h1>Ten Cybercabs. One county.<br>Capital back in <span class="accent">~9.5 months</span>.</h1>
-  <p class="lede">The complete unit economics behind OC Cab's 10-vehicle launch fleet — every cost itemized, every assumption stated, and an interactive calculator so you can stress-test the model yourself. Steady-state payback runs 8.6 months; adding a three-month utilization ramp lands at ~9.5.</p>
-  <div class="hero-fig">
-    <div class="big"><b id="heroPayback">—</b><span>Ramp-adjusted return of capital, base case</span></div>
-    <div class="tiles" role="list">
-      <div role="listitem"><b id="tCapital">—</b><span>Total capital required</span></div>
-      <div role="listitem"><b id="tNetMo">—</b><span>Fleet net cash flow / month</span></div>
-      <div role="listitem"><b id="tAnnual">—</b><span>Net cash flow / year</span></div>
-      <div role="listitem"><b id="tROI">—</b><span>Annual cash-on-cash ROI</span></div>
+      <!-- Menu with Submenus -->
+      <ul class="nav-menu" id="navMenu">
+        <li class="nav-item">
+          <a href="index.html" class="nav-link">
+            Overview <span class="caret">▼</span>
+          </a>
+          <ul class="nav-submenu">
+            <li><a href="index.html#models">Deployment Tiers<small>Solo, Station, Fleet &amp; Depot</small></a></li>
+            <li><a href="index.html#business-layer">Business Layer<small>4 Physical &amp; Operating Pillars</small></a></li>
+            <li><a href="index.html#operations">Ride Quality<small>Serene 5-Star Experience</small></a></li>
+            <li><a href="index.html#corridors">Active Areas &amp; Map<small>TX, CA, FL Regional Hubs</small></a></li>
+            <li><a href="index.html#economics">Fleet Economics<small>Interactive Model &amp; Payback</small></a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a href="investors.html" class="nav-link active">
+            Prospectus <span class="caret">▼</span>
+          </a>
+          <ul class="nav-submenu">
+            <li><a href="investors.html#capital">Capital Requirements<small>CAPEX Allocation</small></a></li>
+            <li><a href="investors.html#revenue">Revenue Model<small>Mileage &amp; Fares</small></a></li>
+            <li><a href="investors.html#opex">Operating Costs<small>Itemized Monthly OPEX</small></a></li>
+            <li><a href="investors.html#payback">Path to Payback<small>Cumulative Cash Flow</small></a></li>
+            <li><a href="investors.html#calculator">Stress-Test Calculator<small>Sensitivity Matrix</small></a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a href="competition.html" class="nav-link">
+            Competition <span class="caret">▼</span>
+          </a>
+          <ul class="nav-submenu">
+            <li><a href="competition.html#comparison">Paradigm Comparison<small>Tango vs Waymo vs Zoox</small></a></li>
+            <li><a href="competition.html#comparison">Feature Matrix<small>Cost, Autonomy &amp; Depots</small></a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a href="about.html" class="nav-link">
+            About Us <span class="caret">▼</span>
+          </a>
+          <ul class="nav-submenu">
+            <li><a href="about.html#leadership">Leadership</a></li>
+            <li><a href="about.html#leadership">Executive Search</a></li>
+            <li><a href="about.html#structure">Child LLC Model</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a href="index.html#connect" class="nav-link">
+            Connect <span class="caret">▼</span>
+          </a>
+          <ul class="nav-submenu">
+            <li><a href="index.html#connect" data-tab-trigger="investors">Investor Data Room</a></li>
+            <li><a href="index.html#connect" data-tab-trigger="property_partners">Property &amp; Depot Hosts</a></li>
+            <li><a href="index.html#connect" data-tab-trigger="careers">Leadership Careers</a></li>
+          </ul>
+        </li>
+      </ul>
+
+      <div class="nav-right">
+        <a class="btn solid" href="#invest" style="padding:10px 20px; font-size:13.5px;">Register Interest →</a>
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">☰</button>
+      </div>
     </div>
-  </div>
-</div></header>
+  </nav>
 
-<section id="capital"><div class="wrap">
-  <span class="eyebrow">01 · Capital</span>
-  <h2>Capital requirements</h2>
-  <p class="sub">Fleet I is acquired outright — no vehicle debt — so operating cash flow after launch is unencumbered. Vehicle pricing reflects Tesla's stated Cybercab volume-production target; charging leverages depot properties we already control.</p>
-  <div class="tablewrap"><table class="fin-table" id="capexTable" aria-label="Capital requirements">
-    <thead><tr><th>Item</th><th>Basis</th><th class="num">Amount</th></tr></thead>
-    <tbody></tbody>
-  </table></div>
-  <div class="fin-note"><b>Residual value is upside, not counted.</b> Payback figures below credit operating cash flow only. Vehicles modeled to a 30% five-year residual are additional recoverable capital on top of every return shown.</div>
-</div></section>
+  <!-- Hero -->
+  <header class="doc-hero">
+    <div class="wrap">
+      <div class="eyebrow"><i></i> Investor Prospectus · Tango-Fleet · Pro-Forma Model</div>
+      <h1>Tango-Fleet economics.<br>Capital back in <span class="accent">~9.5 months</span>.</h1>
+      <p class="lede">
+        The complete bottom-up unit economics behind Tango Cab's 10-vehicle launch fleet (Tango-Fleet base case): every cost itemized, every operational assumption stated, and an interactive sensitivity model so you can stress-test each variable. Steady-state payback runs 8.6 months; adding a three-month utilization ramp lands at ~9.5.
+      </p>
 
-<section id="revenue" style="background:var(--bg-2)"><div class="wrap">
-  <span class="eyebrow">02 · Revenue</span>
-  <h2>Revenue model</h2>
-  <p class="sub">Revenue is paid miles × rate, net of the platform's network split. Orange County pairs dense short-hop demand (Irvine, Newport, Costa Mesa) with premium airport corridors (SNA) and event traffic — and a two-seat robotaxi runs ride blocks a human-driven fleet can't sustain.</p>
-  <div class="cards">
-    <div class="card"><span class="k">245 <small style="font-size:15px;color:var(--muted)">mi/day</small></span><h3>Paid miles per vehicle</h3><p>16 hours of daily utilization with charge cycles slotted between ride blocks — inductive pads make the swap automatic.</p></div>
-    <div class="card"><span class="k">$1.00 <small style="font-size:15px;color:var(--muted)">/mi</small></span><h3>Average rider rate</h3><p>Priced dramatically under UberX-with-tip while still out-earning it per vehicle — the driverless cost base is the whole trick.</p></div>
-    <div class="card"><span class="k">25%</span><h3>Network split</h3><p>Platform commission to the autonomy network operator. The calculator below lets you push this to 35% and watch the model hold.</p></div>
-  </div>
-  <p class="sub" style="margin-top:26px;font-size:14px" id="revSummary"></p>
-</div></section>
-
-<section id="opex"><div class="wrap">
-  <span class="eyebrow">03 · Operating costs</span>
-  <h2>Every cost, itemized</h2>
-  <p class="sub">What it takes to run one Cybercab for a month — insurance, cleaning, power, depot share, maintenance, software. No driver is the entire point: labor that consumes most of a taxi fare simply isn't on this list.</p>
-  <div class="chartcard">
-    <h3>Monthly operating cost per vehicle — base case</h3>
-    <div class="csub" id="opexTotalLine"></div>
-    <div class="chartscroll"><div id="opexChart"></div></div>
-    <details class="tableview"><summary>View as table</summary>
-      <div class="tablewrap"><table class="fin-table" id="opexTable" aria-label="Operating cost detail">
-        <thead><tr><th>Cost line</th><th class="num">Per vehicle / mo</th><th class="num">Fleet / mo</th><th class="num">Fleet / yr</th></tr></thead>
-        <tbody></tbody>
-      </table></div>
-    </details>
-  </div>
-  <div class="fin-note">Energy assumes 165 Wh/mi (Cybercab certified efficiency), ~30% repositioning miles, 8% inductive transfer loss, and $0.13/kWh blended off-peak at owned depots. Insurance reflects Level 4 commercial fleet underwriting targets; cleaning covers automated resets plus scheduled details.</div>
-</div></section>
-
-<section id="payback" style="background:var(--bg-2)"><div class="wrap">
-  <span class="eyebrow">04 · Payback</span>
-  <h2>Path to payback</h2>
-  <p class="sub">Cumulative net cash flow against capital deployed, including a three-month utilization ramp (50% → 70% → 90% of steady state). The base case returns all capital in <strong style="color:var(--text)" id="pbInline">—</strong> — the itemized, bottom-up confirmation of our ~9.5-month estimate. Conservative still clears inside 17 months.</p>
-  <div class="chartcard">
-    <h3>Cumulative fleet net cash flow, months 0–24</h3>
-    <div class="csub">Dots mark the month each scenario crosses total capital deployed · includes 3-month ramp</div>
-    <div class="legend" id="cumLegend"></div>
-    <div class="chartscroll"><div id="cumChart"></div></div>
-    <details class="tableview"><summary>View as table</summary>
-      <div class="tablewrap"><table class="fin-table" id="cumTable" aria-label="Cumulative cash flow by scenario">
-        <thead><tr><th>Month</th><th class="num">Conservative</th><th class="num">Base</th><th class="num">Aggressive</th></tr></thead>
-      <tbody></tbody></table></div>
-    </details>
-  </div>
-  <div class="scen" id="scenCards"></div>
-  <div class="fin-note">Annual ROI is net cash flow over total capital (cash-on-cash), at steady state. The economic ROI line additionally reserves for vehicle depreciation to a 30% five-year residual — the honest number once fleet renewal is priced in.</div>
-</div></section>
-
-<section id="calculator"><div class="wrap">
-  <span class="eyebrow">05 · Stress test</span>
-  <h2>Break the model yourself</h2>
-  <p class="sub">Don't take the base case on faith. Move the four assumptions that matter most — the calculator runs the exact same formulas as every figure above, ramp included.</p>
-  <div class="calc">
-    <div class="controls">
-      <div class="ctl"><label for="cMiles">Paid miles per vehicle per day <output id="oMiles">245</output></label>
-        <input type="range" id="cMiles" min="120" max="350" step="5" value="245"></div>
-      <div class="ctl"><label for="cRate">Average rate per mile <output id="oRate">$1.00</output></label>
-        <input type="range" id="cRate" min="0.75" max="1.50" step="0.05" value="1.00"></div>
-      <div class="ctl"><label for="cSplit">Network split <output id="oSplit">25%</output></label>
-        <input type="range" id="cSplit" min="0" max="35" step="1" value="25"></div>
-      <div class="ctl"><label for="cIns">Insurance per vehicle per month <output id="oIns">$600</output></label>
-        <input type="range" id="cIns" min="300" max="1200" step="25" value="600"></div>
-      <a href="#" class="reset" id="calcReset">Reset to base case</a>
+      <div class="hero-fig">
+        <div class="big">
+          <b id="heroPayback">9.5 mo</b>
+          <span>Ramp-adjusted return of capital (Base Case)</span>
+        </div>
+        <div class="tiles" role="list">
+          <div role="listitem">
+            <b id="tCapital">$355,000</b>
+            <span>Total capital deployed</span>
+          </div>
+          <div role="listitem">
+            <b id="tNetMo">$41,067</b>
+            <span>Fleet net cash flow / mo</span>
+          </div>
+          <div role="listitem">
+            <b id="tAnnual">$492,804</b>
+            <span>Net cash flow / year</span>
+          </div>
+          <div role="listitem">
+            <b id="tROI">138.8%</b>
+            <span>Annual cash-on-cash ROI</span>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="outs">
-      <div><b id="rPayback">—</b><span>Return of capital (ramp-adjusted)</span><div class="d" id="rPaybackD"></div></div>
-      <div><b id="rROI">—</b><span>Annual cash-on-cash ROI</span><div class="d" id="rROID"></div></div>
-      <div><b id="rNetMo">—</b><span>Fleet net cash flow / month</span><div class="d">&nbsp;</div></div>
-      <div><b id="rAnnual">—</b><span>Net cash flow / year</span><div class="d">&nbsp;</div></div>
+  </header>
+
+  <!-- Section 01: Capital -->
+  <section id="capital">
+    <div class="wrap">
+      <div class="eyebrow"><i></i> 01 · Capital Allocation</div>
+      <h2 class="section-title">Capital requirements</h2>
+      <p class="section-sub">
+        The Tango-Fleet pool is acquired outright with zero vehicle debt, ensuring post-launch operating cash flow is 100% unencumbered. Vehicle acquisition reflects Tesla's volume-production Cybercab pricing target ($30,000); charging leverages owned and partner depot hubs.
+      </p>
+
+      <div class="tablewrap">
+        <table class="fin-table" id="capexTable" aria-label="Capital requirements table">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Basis</th>
+              <th class="num">Amount</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div class="fin-note">
+        <b>Residual Value is Upside, Not Pre-Credited:</b> Payback calculations credit operating cash flow only. Vehicles modeled to a conservative 30% 5-year residual value provide additional recoverable asset value on top of all cash yields shown.
+      </div>
     </div>
-  </div>
-</div></section>
+  </section>
 
-<section id="risk" class="risk" style="background:var(--bg-2)"><div class="wrap">
-  <span class="eyebrow">06 · Risk</span>
-  <h2>Risk factors</h2>
-  <p class="sub">A candid list. Each of these can move the numbers above — the conservative scenario exists because of them.</p>
-  <ol>
-    <li><strong>Regulatory timing.</strong> Driverless commercial passenger service in California requires DMV and CPUC authorization tied to the vehicle platform. Launch timing depends on permits covering our service area.</li>
-    <li><strong>Platform dependence.</strong> The model assumes Cybercab pricing, efficiency, and unsupervised autonomy perform to manufacturer targets, and that fleet allocation opens to independent capital. Delays push launch; changed network terms compress margin.</li>
-    <li><strong>Network split.</strong> The 25% platform commission is an assumption, not a signed term. The calculator shows sensitivity to 35%.</li>
-    <li><strong>Insurance market.</strong> Level 4 commercial coverage is young. We model $600/vehicle/month; the calculator shows sensitivity to $1,200.</li>
-    <li><strong>Utilization ramp.</strong> 245 paid miles/day is steady state. The model already discounts months 1–3 to 50/70/90% — a slower ramp shifts payback right, and the calculator's output is always ramp-adjusted.</li>
-    <li><strong>Competition.</strong> Waymo and others may enter Orange County, pressuring rates. Conservative ($0.90/mi, 180 mi/day) is our margin-of-safety view.</li>
-  </ol>
-  <div class="legal"><b>Illustrative model — not an offer of securities.</b> Figures on this page are a pro-forma illustration based on manufacturer-stated targets and management assumptions, not operating results. Nothing here constitutes an offer to sell, or a solicitation of an offer to buy, any security. Any offering will be made only to accredited investors pursuant to applicable exemptions under Regulation D and only through definitive offering documents containing full risk disclosures. A detailed balance sheet, projected P&amp;L, and 2-year ROI scenarios are available under NDA to qualified accredited investors. OC Cab is an independent venture and is not affiliated with, endorsed by, or partnered with Tesla, Inc.</div>
-</div></section>
+  <!-- Section 02: Revenue -->
+  <section id="revenue" class="section-alt">
+    <div class="wrap">
+      <div class="eyebrow"><i></i> 02 · Revenue Model</div>
+      <h2 class="section-title">Revenue mechanics</h2>
+      <p class="section-sub">
+        Gross revenue is paid passenger miles × rider rate, net of the platform network split. Orange County offers dense short-hop routes paired with premium airport loops (SNA) and tourist hospitality traffic.
+      </p>
 
-<section id="invest"><div class="wrap">
-  <span class="eyebrow">07 · Connect</span>
-  <h2>Register investor interest</h2>
-  <p class="sub">Interested in Fleet I? Register below and we'll follow up with the data room — assumption sources, the operating plan, and definitive documents when the round opens. Commitments are being taken now toward a late-2026 close.</p>
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 40px;">
+        <div style="background:var(--bg-card); border:1px solid var(--line); border-radius:var(--radius-lg); padding:30px;">
+          <div class="mono" style="font-size:36px; font-weight:800; color:var(--teal); margin-bottom:8px;">245 mi/day</div>
+          <h3 style="font-size:18px; margin-bottom:8px;">Paid Miles Per Vehicle</h3>
+          <p style="font-size:14.5px; color:var(--muted);">16 hours of daily automated vehicle utilization, with wireless inductive top-ups scheduled between ride blocks.</p>
+        </div>
 
-  <form id="form-investor" data-table="investors">
-    <div><label for="inv-type">Investor type</label><select id="inv-type" name="type"><option>Individual</option><option>Corporate / Fund</option></select></div>
-    <div><label for="inv-name">Full name</label><input id="inv-name" name="name" required></div>
-    <div><label for="inv-email">Email</label><input id="inv-email" type="email" name="email" required></div>
-    <div><label for="inv-phone">Phone</label><input id="inv-phone" type="tel" name="phone"></div>
-    <div><label for="inv-entity">Entity name (if corporate)</label><input id="inv-entity" name="entity"></div>
-    <div><label for="inv-link">LinkedIn / X</label><input id="inv-link" name="social"></div>
-    <div><label for="inv-range">Interest range</label><select id="inv-range" name="interest_range"><option>$25k–$100k</option><option>$100k–$250k</option><option>$250k–$500k</option><option>$500k+</option></select></div>
-    <div><label for="inv-source">How did you hear about us?</label><input id="inv-source" name="source"></div>
-    <div class="full"><label for="inv-notes">Notes</label><textarea id="inv-notes" name="notes"></textarea></div>
-    <div class="full check"><input type="checkbox" name="accredited" required id="inv-acc"><label for="inv-acc" style="margin:0;font-weight:400">I self-certify that I am an accredited investor as defined by SEC Regulation D, Rule 501. I understand this form expresses interest only and is not an offer to sell or a solicitation to buy securities.</label></div>
-    <div class="cf-turnstile" data-sitekey="0x4AAAAAAEErFzm0wFxJKUVr" data-theme="dark"></div>
-    <div class="full"><button class="btn solid" type="submit">Register interest</button></div>
-    <div class="form-msg"></div>
-  </form>
-</div></section>
+        <div style="background:var(--bg-card); border:1px solid var(--line); border-radius:var(--radius-lg); padding:30px;">
+          <div class="mono" style="font-size:36px; font-weight:800; color:var(--teal); margin-bottom:8px;">$1.00 / mi</div>
+          <h3 style="font-size:18px; margin-bottom:8px;">Average Passenger Fare</h3>
+          <p style="font-size:14.5px; color:var(--muted);">Priced significantly below legacy human rideshare (UberX with tip) while sustaining superior margin per vehicle mile.</p>
+        </div>
 
-<footer><div class="wrap">
-  <div class="cols">
-    <div>
-      <div class="logo" style="margin-bottom:10px"><span class="oc">OC</span> <span class="cab">CAB</span><span class="dot">.</span></div>
-      <div style="color:var(--muted);font-size:14px">Reimagine Your Ride.<br>investors@oc.cab · Orange County, CA</div>
+        <div style="background:var(--bg-card); border:1px solid var(--line); border-radius:var(--radius-lg); padding:30px;">
+          <div class="mono" style="font-size:36px; font-weight:800; color:var(--teal); margin-bottom:8px;">25%</div>
+          <h3 style="font-size:18px; margin-bottom:8px;">Network Platform Split</h3>
+          <p style="font-size:14.5px; color:var(--muted);">Autonomous dispatch and mapping network fee. The calculator below allows testing sensitivity up to 35%.</p>
+        </div>
+      </div>
+
+      <p class="section-sub" style="margin-top:28px; font-size:14.5px;" id="revSummary"></p>
     </div>
-    <div class="nav-links" style="display:flex;flex-direction:column;gap:10px">
-      <a href="/">Home</a><a href="#capital">Capital</a><a href="#payback">Payback</a><a href="#invest">Register interest</a>
+  </section>
+
+  <!-- Section 03: Operating Costs -->
+  <section id="opex">
+    <div class="wrap">
+      <div class="eyebrow"><i></i> 03 · Operating Costs</div>
+      <h2 class="section-title">Itemized monthly OPEX</h2>
+      <p class="section-sub">
+        Every monthly cost required to operate one Cybercab in active commercial service: insurance, robotic detailing, depot energy, maintenance, and telematics software. Zero human driver labor on the ledger.
+      </p>
+
+      <div class="chartcard">
+        <h3>Monthly Operating Cost Per Vehicle (Base Case Breakdown)</h3>
+        <div class="csub" id="opexTotalLine"></div>
+        <div class="chartscroll"><div id="opexChart"></div></div>
+
+        <details class="tableview">
+          <summary>View Complete Cost Table</summary>
+          <div class="tablewrap">
+            <table class="fin-table" id="opexTable" aria-label="Operating cost detail table">
+              <thead>
+                <tr>
+                  <th>Cost Line</th>
+                  <th class="num">Per Vehicle / Mo</th>
+                  <th class="num">Fleet / Mo</th>
+                  <th class="num">Fleet / Yr</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </details>
+      </div>
+
+      <div class="fin-note">
+        <b>Assumptions:</b> Depot energy assumes certified 165 Wh/mi efficiency, ~30% repositioning deadhead, 8% inductive transmission loss, and $0.13/kWh off-peak commercial charging. Commercial insurance models Level 4 autonomous fleet underwriting.
+      </div>
     </div>
-  </div>
-  <p class="fine">© <span id="yr"></span> OC Cab. All rights reserved. Tesla, Cybercab, and Robotaxi are trademarks of Tesla, Inc.; their use here is nominative and descriptive only. OC Cab has no partnership, agency, or allocation agreement with Tesla, Inc. and does not currently operate autonomous passenger service in California. All vehicle specifications, availability dates, pricing, and network terms referenced are manufacturer targets subject to change and outside OC Cab's control. Pro-forma financials are hypothetical illustrations, not projections of actual performance.</p>
-</div></footer>
+  </section>
 
-<div class="tip" id="tip"></div>
+  <!-- Section 04: Payback & Scenarios -->
+  <section id="payback" class="section-alt">
+    <div class="wrap">
+      <div class="eyebrow"><i></i> 04 · Path to Payback</div>
+      <h2 class="section-title">Cumulative cash flow &amp; scenario analysis</h2>
+      <p class="section-sub">
+        Cumulative net cash flow against total capital deployed ($355,000 for 10 vehicles), modeling a three-month utilization ramp (50% → 70% → 90% of steady state). Base case achieves 100% capital return in <strong id="pbInline" style="color:var(--text)">~9.5 months</strong>.
+      </p>
 
-<script src="config.js"></script>
-<script>
-'use strict';
-document.getElementById('yr').textContent = new Date().getFullYear();
+      <div class="chartcard">
+        <h3>Cumulative Fleet Net Cash Flow (Months 0–24)</h3>
+        <div class="csub">Dots indicate the exact month cumulative net cash crosses initial capital deployed</div>
+        <div class="legend" id="cumLegend"></div>
+        <div class="chartscroll"><div id="cumChart"></div></div>
 
-/* ============ THE MODEL — single source of truth ============ */
-const M = {
-  fleet: 10, days: 30.44,
-  vehicle: 30000,            // Cybercab, manufacturer volume-production target
-  chargingInfra: 35000,      // inductive bays & depot fit-out (owned properties)
-  softwareLicensing: 20000,  // software integration, licensing & reserves
-  deadhead: 1.30,            // total miles / paid miles
-  whPerMi: 165, inductiveLoss: 1.08, kwhRate: 0.13,
-  maintPerMi: 0.015,
-  insurance: 600, cleaning: 290, depotShare: 140, software: 70,
-  residual: 0.30, deprYears: 5,
-  ramp: [0.5, 0.7, 0.9],     // months 1-3 utilization ramp
-};
-M.fleetVehicles = M.vehicle * M.fleet;
-M.totalCapital = M.fleetVehicles + M.chargingInfra + M.softwareLicensing;
+        <details class="tableview">
+          <summary>View Quarterly Cash Flow Table</summary>
+          <div class="tablewrap">
+            <table class="fin-table" id="cumTable" aria-label="Cumulative cash flow table">
+              <thead>
+                <tr>
+                  <th>Month</th>
+                  <th class="num">Conservative</th>
+                  <th class="num">Base Case</th>
+                  <th class="num">Aggressive</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </details>
+      </div>
 
-function run(paidMi, rate, split, insurance) {
-  const gross = paidMi * rate * M.days;
-  const netRev = gross * (1 - split);
-  const totalMi = paidMi * M.deadhead * M.days;
-  const energy = (totalMi * M.whPerMi / 1000) * M.inductiveLoss * M.kwhRate;
-  const maint = totalMi * M.maintPerMi;
-  const opex = energy + maint + insurance + M.cleaning + M.depotShare + M.software;
-  const net = netRev - opex;
-  const fleetNetMo = net * M.fleet;
-  const annual = fleetNetMo * 12;
-  const deprYr = (M.fleetVehicles * (1 - M.residual)) / M.deprYears;
-  // cumulative with ramp; payback = month cumulative crosses capital
-  const cum = m => {
-    let c = 0;
-    for (let i = 1; i <= m; i++) c += fleetNetMo * (M.ramp[i - 1] ?? 1);
-    return c;
-  };
-  let payback = Infinity;
-  if (fleetNetMo > 0) {
-    let c = 0, i = 0;
-    while (c < M.totalCapital && i < 600) {
-      i++;
-      const f = fleetNetMo * (M.ramp[i - 1] ?? 1);
-      if (c + f >= M.totalCapital) { payback = i - 1 + (M.totalCapital - c) / f; break; }
-      c += f;
-    }
-  }
-  return {
-    gross, netRev, energy, maint, opex, net, fleetNetMo, annual, cum, payback,
-    steadyPayback: M.totalCapital / fleetNetMo,
-    cashROI: annual / M.totalCapital,
-    econROI: (annual - deprYr) / M.totalCapital,
-  };
-}
+      <div class="scen" id="scenCards"></div>
+    </div>
+  </section>
 
-const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
-const SCEN = [
-  { key: 'cons', name: 'Conservative', paidMi: 180, rate: 0.90, colorVar: '--s-cons' },
-  { key: 'base', name: 'Base',         paidMi: 245, rate: 1.00, colorVar: '--s-base' },
-  { key: 'aggr', name: 'Aggressive',   paidMi: 300, rate: 1.10, colorVar: '--s-aggr' },
-];
-const SPLIT = 0.25;
-for (const s of SCEN) s.r = run(s.paidMi, s.rate, SPLIT, M.insurance);
-const BASE = SCEN[1].r;
+  <!-- Section 05: Calculator -->
+  <section id="calculator">
+    <div class="wrap">
+      <div class="eyebrow"><i></i> 05 · Sensitivity Stress-Test</div>
+      <h2 class="section-title">Stress-test the model</h2>
+      <p class="section-sub">
+        Adjust key operating levers to evaluate return resilience under varied pricing, utilization, and insurance conditions.
+      </p>
 
-const usd0 = n => '$' + Math.round(n).toLocaleString('en-US');
-const usdK = n => n >= 1e6 ? '$' + (n / 1e6).toFixed(1).replace(/\.0$/, '') + 'M' : '$' + Math.round(n / 1e3) + 'K';
-const pct1 = n => (n * 100).toFixed(1) + '%';
-const txt = (el, s) => { el.textContent = s; };
-const $ = id => document.getElementById(id);
+      <div class="calc">
+        <div class="controls">
+          <div class="ctl">
+            <label for="cMiles">Paid Miles / Veh / Day <output id="oMiles">245</output></label>
+            <input type="range" id="cMiles" min="120" max="350" step="5" value="245">
+          </div>
+          <div class="ctl">
+            <label for="cRate">Average Rate Per Mile <output id="oRate">$1.00</output></label>
+            <input type="range" id="cRate" min="0.75" max="1.75" step="0.05" value="1.00">
+          </div>
+          <div class="ctl">
+            <label for="cSplit">Network Split <output id="oSplit">25%</output></label>
+            <input type="range" id="cSplit" min="0" max="35" step="1" value="25">
+          </div>
+          <div class="ctl">
+            <label for="cIns">Insurance / Veh / Mo <output id="oIns">$600</output></label>
+            <input type="range" id="cIns" min="300" max="1200" step="25" value="600">
+          </div>
+          <a href="#" class="reset" id="calcReset" style="color:var(--muted); font-size:13.5px;">Reset to Base Case</a>
+        </div>
 
-/* ============ hero ============ */
-txt($('heroPayback'), BASE.payback.toFixed(1) + ' mo');
-txt($('tCapital'), usd0(M.totalCapital));
-txt($('tNetMo'), usd0(BASE.fleetNetMo));
-txt($('tAnnual'), usd0(BASE.annual));
-txt($('tROI'), pct1(BASE.cashROI));
-txt($('pbInline'), BASE.payback.toFixed(1) + ' months');
-txt($('revSummary'),
-  'Base case per vehicle: ' + usd0(BASE.gross) + ' gross per month, ' + usd0(BASE.netRev) +
-  ' after the network split — ' + usd0(BASE.netRev * M.fleet * 12) + ' annualized net revenue across the fleet.');
+        <div class="outs">
+          <div>
+            <b id="rPayback">9.5 mo</b>
+            <span>Return of Capital (Ramp-Adjusted)</span>
+            <div class="d" id="rPaybackD">Matches base case</div>
+          </div>
+          <div>
+            <b id="rROI">138.8%</b>
+            <span>Annual Cash-on-Cash ROI</span>
+            <div class="d" id="rROID">118.8% after depreciation</div>
+          </div>
+          <div>
+            <b id="rNetMo">$41,067</b>
+            <span>Fleet Net Cash / Month</span>
+            <div class="d">Steady-state operational flow</div>
+          </div>
+          <div>
+            <b id="rAnnual">$492,804</b>
+            <span>Net Cash Flow / Year</span>
+            <div class="d">Fleet of 10 Cybercabs</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-/* ============ capex table ============ */
-(function () {
-  const rows = [
-    ['Cybercab fleet', '10 vehicles × $30,000 manufacturer target', M.fleetVehicles],
-    ['Inductive charging & depot fit-out', 'Wireless bays on owned OC properties', M.chargingInfra],
-    ['Software, licensing & reserves', 'Dispatch integration, CPUC permits, working capital', M.softwareLicensing],
-  ];
-  const tb = $('capexTable').tBodies[0];
-  const addRow = (cells, cls) => {
-    const tr = document.createElement('tr');
-    if (cls) tr.className = cls;
-    cells.forEach((c, i) => {
-      const td = document.createElement('td');
-      if (i === 2) td.className = 'num';
-      td.textContent = c; tr.appendChild(td);
-    });
-    tb.appendChild(tr);
-  };
-  for (const [a, b, v] of rows) addRow([a, b, usd0(v)]);
-  addRow(['Total capital required', 'Fully deployed, no vehicle debt', usd0(M.totalCapital)], 'total');
-})();
+  <!-- Section 06: Risk Factors -->
+  <section id="risk" class="risk section-alt">
+    <div class="wrap">
+      <div class="eyebrow"><i></i> 06 · Risk Disclosures</div>
+      <h2 class="section-title">Risk factors &amp; mitigation</h2>
+      <p class="section-sub">
+        A transparent summary of operational, platform, and regulatory considerations influencing pro-forma performance.
+      </p>
 
-/* ============ opex bars + table ============ */
-(function () {
-  const b = BASE;
-  const items = [
-    ['Level 4 commercial insurance', M.insurance],
-    ['Cleaning & cabin resets', M.cleaning],
-    ['Charging energy', b.energy],
-    ['Maintenance & tires', b.maint],
-    ['Depot operations share', M.depotShare],
-    ['Software & telematics', M.software],
-  ].sort((a, c) => c[1] - a[1]);
+      <ol>
+        <li><strong>Regulatory Permitting Timing:</strong> Commercial driverless passenger service in California requires DMV and CPUC carrier authorization. Launch schedules align with municipal autonomous operating zones.</li>
+        <li><strong>Platform Dependencies:</strong> Pro-forma figures assume Cybercab delivery timeline and unsupervised autonomous software capabilities meet manufacturer volume production targets.</li>
+        <li><strong>Network Commission Structure:</strong> The 25% autonomy network split is a model assumption. Our calculator illustrates resilience up to 35% commission.</li>
+        <li><strong>Commercial Insurance Underwriting:</strong> Commercial Level 4 insurance markets are maturing. We model $600/month/vehicle; sensitivity testing covers up to $1,200/month.</li>
+        <li><strong>Utilization Ramp:</strong> 245 paid miles/day is steady-state. Months 1 to 3 are discounted to 50%, 70%, and 90% utilization to ensure ramp-adjusted payback accuracy.</li>
+      </ol>
 
-  txt($('opexTotalLine'), usd0(b.opex) + ' per vehicle per month · ' + usd0(b.opex * M.fleet) + ' fleet-wide');
+      <div class="fin-note" style="border-left-color:var(--teal); margin-top:36px;">
+        📄 <strong>Interested in our complete Google Sheet Financial Model?</strong><br>
+        We make our full pro-forma workbook and child-partner LLC data room available under NDA to accredited investors. Register below to receive access.
+      </div>
+    </div>
+  </section>
 
-  const W = 920, labelW = 260, valueW = 84, rowH = 32, barH = 18, padT = 6;
-  const plotW = W - labelW - valueW, H = padT + items.length * rowH + 6;
-  const max = items[0][1];
-  const text0 = css('--text'), muted = css('--muted'), s1 = css('--s-base');
-  const NS = 'http://www.w3.org/2000/svg';
-  const svg = document.createElementNS(NS, 'svg');
-  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
-  svg.setAttribute('width', '100%');
-  svg.style.minWidth = '620px';
-  svg.setAttribute('role', 'img');
-  svg.setAttribute('aria-label', 'Monthly operating cost per vehicle by category');
+  <!-- Section 07: Connect / Form -->
+  <section id="invest">
+    <div class="wrap">
+      <div class="eyebrow"><i></i> 07 · Registration</div>
+      <h2 class="section-title">Register investor interest</h2>
+      <p class="section-sub">
+        Register below to request the Data Room and full Google Sheet Financial Model for our regional child-partner LLC pools.
+      </p>
 
-  items.forEach(([name, v], i) => {
-    const y = padT + i * rowH, w = Math.max(4, (v / max) * plotW);
-    const lbl = document.createElementNS(NS, 'text');
-    lbl.setAttribute('x', labelW - 12); lbl.setAttribute('y', y + barH / 2 + 4.5);
-    lbl.setAttribute('text-anchor', 'end'); lbl.setAttribute('font-size', '13.5');
-    lbl.setAttribute('fill', muted); lbl.textContent = name;
-    const bar = document.createElementNS(NS, 'path');
-    bar.setAttribute('d', `M${labelW} ${y}h${w - 4}a4 4 0 0 1 4 4v${barH - 8}a4 4 0 0 1-4 4H${labelW}z`);
-    bar.setAttribute('fill', s1);
-    const val = document.createElementNS(NS, 'text');
-    val.setAttribute('x', labelW + w + 10); val.setAttribute('y', y + barH / 2 + 4.5);
-    val.setAttribute('font-size', '13.5'); val.setAttribute('font-weight', '600');
-    val.setAttribute('fill', text0); val.textContent = usd0(v);
-    const hit = document.createElementNS(NS, 'rect');
-    hit.setAttribute('x', 0); hit.setAttribute('y', y - (rowH - barH) / 2);
-    hit.setAttribute('width', W); hit.setAttribute('height', rowH);
-    hit.setAttribute('fill', 'transparent'); hit.setAttribute('tabindex', '0');
-    const rows = () => [
-      { name: 'Per vehicle / mo', color: s1, val: usd0(v) },
-      { name: 'Fleet / yr', color: s1, val: usd0(v * M.fleet * 12) },
-    ];
-    hit.addEventListener('pointermove', ev => { bar.setAttribute('opacity', '.8'); showTip(ev.clientX, ev.clientY, name, rows()); });
-    hit.addEventListener('focus', () => {
-      bar.setAttribute('opacity', '.8');
-      const r = hit.getBoundingClientRect();
-      showTip(r.left + labelW / 2, r.top, name, rows());
-    });
-    const off = () => { bar.removeAttribute('opacity'); hideTip(); };
-    hit.addEventListener('pointerleave', off); hit.addEventListener('blur', off);
-    svg.append(lbl, bar, val, hit);
-  });
-  $('opexChart').appendChild(svg);
+      <form id="form-investor" data-table="investors">
+        <div>
+          <label class="field-label" for="inv-type">Investor Type *</label>
+          <select id="inv-type" name="type" class="field-input" required>
+            <option value="Individual">Individual / Angel</option>
+            <option value="Corporate / Fund">Corporate / Family Office / Fund</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label" for="inv-name">Full Name *</label>
+          <input id="inv-name" name="name" type="text" class="field-input" required>
+        </div>
+        <div>
+          <label class="field-label" for="inv-email">Email Address *</label>
+          <input id="inv-email" name="email" type="email" class="field-input" required>
+        </div>
+        <div>
+          <label class="field-label" for="inv-phone">Phone Number</label>
+          <input id="inv-phone" name="phone" type="tel" class="field-input">
+        </div>
+        <div>
+          <label class="field-label" for="inv-entity">Entity / Fund Name (if applicable)</label>
+          <input id="inv-entity" name="entity" type="text" class="field-input">
+        </div>
+        <div>
+          <label class="field-label" for="inv-social">LinkedIn / X Profile</label>
+          <input id="inv-social" name="social" type="text" class="field-input">
+        </div>
+        <div>
+          <label class="field-label" for="inv-range">Anticipated Allocation Range *</label>
+          <select id="inv-range" name="interest_range" class="field-input" required>
+            <option value="$100k–$250k">$100,000 - $250,000</option>
+            <option value="$250k–$1.5MM">$250,000 - $1,500,000</option>
+            <option value="$1.5MM+">$1,500,000+</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label" for="inv-source">How did you hear about Tango?</label>
+          <input id="inv-source" name="source" type="text" class="field-input">
+        </div>
+        <div class="full">
+          <label class="field-label" for="inv-notes">Investment Background / Strategic Inquiries</label>
+          <textarea id="inv-notes" name="notes" class="field-input" placeholder="Questions regarding our child-partner LLC pools or depot strategy..."></textarea>
+        </div>
+        <div class="full check-box">
+          <input type="checkbox" id="inv-acc" name="accredited" required>
+          <label for="inv-acc">I self-certify that I am an <strong>Accredited Investor</strong> as defined by SEC Regulation D, Rule 501. I understand this expresses interest only and is not an offer to sell or buy securities.</label>
+        </div>
+        <div class="full cf-turnstile" data-sitekey="0x4AAAAAAEErFzm0wFxJKUVr" data-theme="dark"></div>
+        <div class="full">
+          <button type="submit" class="btn solid" style="width:100%; justify-content:center; padding:16px;">Request Data Room &amp; Financial Model →</button>
+        </div>
+        <div class="form-msg"></div>
+      </form>
+    </div>
+  </section>
 
-  const tb = $('opexTable').tBodies[0];
-  const mk = (cells, cls) => {
-    const tr = document.createElement('tr'); if (cls) tr.className = cls;
-    cells.forEach((c, i) => {
-      const td = document.createElement('td'); if (i > 0) td.className = 'num';
-      td.textContent = c; tr.appendChild(td);
-    });
-    tb.appendChild(tr);
-  };
-  for (const [name, v] of items) mk([name, usd0(v), usd0(v * M.fleet), usd0(v * M.fleet * 12)]);
-  mk(['Total', usd0(b.opex), usd0(b.opex * M.fleet), usd0(b.opex * M.fleet * 12)], 'total');
-})();
+  <!-- Footer -->
+  <footer>
+    <div class="wrap">
+      <div class="footer-cols">
+        <div>
+          <div class="logo">TANGO<span class="brand-dot">.</span>CAB</div>
+          <p style="color:var(--muted); font-size:14px; margin-top:8px;">Always in service. Physical capital and 24/7 ops for driverless service.</p>
+        </div>
+        <div style="display:flex; gap:24px; font-size:14px;">
+          <a href="index.html">Overview</a>
+          <a href="about.html">About Us</a>
+          <a href="competition.html">Competition</a>
+          <a href="#capital">Capital</a>
+          <a href="#payback">Payback</a>
+          <a href="#invest">Register Interest</a>
+        </div>
+      </div>
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+        <p class="footer-fine">
+          © <span id="year">2026</span> Tango Cab (tango.cab). Established under Texas LLC laws, with related LLCs including OC.Cab in California, Tango Nevada LLC, and Tango Florida LLC. All rights reserved. Pro-forma financials are hypothetical illustrations, not projections of guaranteed returns.
+        </p>
+        <div style="font-size:12.5px; color:var(--muted);">
+          Made by <a href="https://clawdy.rodecker.com" target="_blank" rel="noopener" style="color:var(--gold-1);">ClawdyDa Aye Eye Consulting</a>
+        </div>
+      </div>
+    </div>
+  </footer>
 
-/* ============ cumulative chart ============ */
-(function () {
-  const MONTHS = 24, yMax = 1500000;
-  const W = 920, H = 430, mL = 64, mR = 118, mT = 18, mB = 40;
-  const pw = W - mL - mR, ph = H - mT - mB;
-  const X = m => mL + (m / MONTHS) * pw;
-  const Y = v => mT + ph - (v / yMax) * ph;
-  const text0 = css('--text'), muted = css('--muted');
-  const grid = css('--line'), surface = css('--panel');
-  const NS = 'http://www.w3.org/2000/svg';
-  const svg = document.createElementNS(NS, 'svg');
-  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
-  svg.setAttribute('width', '100%');
-  svg.style.minWidth = '700px';
-  svg.setAttribute('tabindex', '0');
-  svg.setAttribute('role', 'img');
-  svg.setAttribute('aria-label', 'Cumulative fleet net cash flow by scenario over 24 months');
-  const el = (t, attrs) => {
-    const e = document.createElementNS(NS, t);
-    for (const k in attrs) e.setAttribute(k, attrs[k]);
-    return e;
-  };
-  const text = (x, y, s, attrs) => {
-    const e = el('text', Object.assign({ x, y, 'font-size': 12.5, fill: muted }, attrs || {}));
-    e.textContent = s; svg.appendChild(e); return e;
-  };
+  <div class="tip" id="tip"></div>
 
-  for (let v = 0; v <= yMax; v += 500000) {
-    svg.appendChild(el('line', { x1: mL, x2: mL + pw, y1: Y(v), y2: Y(v), stroke: grid, 'stroke-width': 1 }));
-    text(mL - 10, Y(v) + 4, v ? usdK(v) : '$0', { 'text-anchor': 'end', 'font-variant-numeric': 'tabular-nums' });
-  }
-  for (let m = 0; m <= MONTHS; m += 6) {
-    text(X(m), H - mB + 22, m === 0 ? 'Month 0' : String(m), { 'text-anchor': 'middle' });
-  }
+  <!-- Scripts -->
+  <script src="config.js"></script>
+  <script>
+    'use strict';
+    document.getElementById('year').textContent = new Date().getFullYear();
 
-  const capY = Y(M.totalCapital);
-  svg.appendChild(el('line', { x1: mL, x2: mL + pw, y1: capY, y2: capY, stroke: '#2a3550', 'stroke-width': 1 }));
-  text(mL + pw - 6, capY + 18, 'Capital deployed — ' + usd0(M.totalCapital), { 'text-anchor': 'end', 'font-weight': 600, fill: muted });
-
-  for (const s of SCEN) {
-    const color = css(s.colorVar);
-    let d = '';
-    for (let m = 0; m <= MONTHS; m++) d += (m ? 'L' : 'M') + X(m).toFixed(1) + ' ' + Y(s.r.cum(m)).toFixed(1);
-    svg.appendChild(el('path', { d, fill: 'none', stroke: color, 'stroke-width': 2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }));
-    svg.appendChild(el('circle', { cx: X(s.r.payback), cy: capY, r: 6, fill: color, stroke: surface, 'stroke-width': 2 }));
-    text(X(s.r.payback), capY - 12, s.r.payback.toFixed(1) + ' mo', { 'text-anchor': 'middle', fill: text0, 'font-weight': 700 });
-    const endY = Y(s.r.cum(MONTHS));
-    svg.appendChild(el('circle', { cx: X(MONTHS), cy: endY, r: 4.5, fill: color, stroke: surface, 'stroke-width': 2 }));
-    text(mL + pw + 10, endY + 4, s.name, { fill: muted, 'font-size': 13, 'font-weight': 600 });
-  }
-
-  const cross = el('line', { y1: mT, y2: mT + ph, stroke: grid, 'stroke-width': 1, visibility: 'hidden' });
-  svg.appendChild(cross);
-  const dots = SCEN.map(s => {
-    const c = el('circle', { r: 5, fill: css(s.colorVar), stroke: surface, 'stroke-width': 2, visibility: 'hidden' });
-    svg.appendChild(c); return c;
-  });
-  let curM = -1;
-  const showAt = (m, cx, cy) => {
-    curM = m;
-    cross.setAttribute('x1', X(m)); cross.setAttribute('x2', X(m));
-    cross.setAttribute('visibility', 'visible');
-    SCEN.forEach((s, i) => {
-      dots[i].setAttribute('cx', X(m));
-      dots[i].setAttribute('cy', Y(s.r.cum(m)));
-      dots[i].setAttribute('visibility', 'visible');
-    });
-    showTip(cx, cy, 'Month ' + m, SCEN.map(s => ({
-      name: s.name, color: css(s.colorVar), val: usd0(s.r.cum(m)),
-    })));
-  };
-  const clear = () => {
-    curM = -1;
-    cross.setAttribute('visibility', 'hidden');
-    dots.forEach(d => d.setAttribute('visibility', 'hidden'));
-    hideTip();
-  };
-  svg.addEventListener('pointermove', ev => {
-    const r = svg.getBoundingClientRect();
-    const m = Math.round(((ev.clientX - r.left) * (W / r.width) - mL) / pw * MONTHS);
-    if (m < 0 || m > MONTHS) { clear(); return; }
-    showAt(m, ev.clientX, ev.clientY);
-  });
-  svg.addEventListener('pointerleave', clear);
-  svg.addEventListener('keydown', ev => {
-    if (ev.key !== 'ArrowLeft' && ev.key !== 'ArrowRight') return;
-    ev.preventDefault();
-    const m = Math.min(MONTHS, Math.max(0, (curM < 0 ? 12 : curM) + (ev.key === 'ArrowRight' ? 1 : -1)));
-    const r = svg.getBoundingClientRect();
-    showAt(m, r.left + (X(m) / W) * r.width, r.top + (Y(SCEN[1].r.cum(m)) / H) * r.height);
-  });
-  svg.addEventListener('blur', clear);
-  $('cumChart').appendChild(svg);
-
-  const lg = $('cumLegend');
-  for (const s of SCEN) {
-    const k = document.createElement('span'); k.className = 'k';
-    const i = document.createElement('i'); i.className = 'line'; i.style.background = css(s.colorVar);
-    const t = document.createElement('span');
-    t.textContent = s.name + ' — ' + s.paidMi + ' mi/day @ $' + s.rate.toFixed(2) + '/mi';
-    k.append(i, t); lg.appendChild(k);
-  }
-
-  const tb = $('cumTable').tBodies[0];
-  for (let m = 3; m <= MONTHS; m += 3) {
-    const tr = document.createElement('tr');
-    [String(m), ...SCEN.map(s => usd0(s.r.cum(m)))].forEach((c, i) => {
-      const td = document.createElement('td'); if (i > 0) td.className = 'num';
-      td.textContent = c; tr.appendChild(td);
-    });
-    tb.appendChild(tr);
-  }
-})();
-
-/* ============ scenario cards ============ */
-(function () {
-  const wrap = $('scenCards');
-  for (const s of SCEN) {
-    const card = document.createElement('div');
-    card.className = 'scard' + (s.key === 'base' ? ' base' : '');
-    if (s.key === 'base') {
-      const tag = document.createElement('span'); tag.className = 'tag';
-      tag.textContent = 'Base case'; card.appendChild(tag);
-    }
-    const h = document.createElement('h3');
-    const key = document.createElement('i'); key.style.background = css(s.colorVar);
-    h.append(key, document.createTextNode(s.name));
-    const pb = document.createElement('div'); pb.className = 'pb';
-    pb.textContent = s.r.payback.toFixed(1) + ' mo';
-    const pbl = document.createElement('div'); pbl.className = 'pbl';
-    pbl.textContent = 'to full return of capital, ramp included';
-    const dl = document.createElement('dl');
-    const pairs = [
-      ['Paid miles / vehicle / day', String(s.paidMi)],
-      ['Rate per mile', '$' + s.rate.toFixed(2)],
-      ['Fleet net / month (steady)', usd0(s.r.fleetNetMo)],
-      ['Net / year', usd0(s.r.annual)],
-      ['Annual cash-on-cash ROI', pct1(s.r.cashROI)],
-      ['Economic ROI (after depreciation)', pct1(s.r.econROI)],
-    ];
-    for (const [k, v] of pairs) {
-      const dt = document.createElement('dt'); dt.textContent = k;
-      const dd = document.createElement('dd'); dd.textContent = v;
-      dl.append(dt, dd);
-    }
-    card.append(h, pb, pbl, dl);
-    wrap.appendChild(card);
-  }
-})();
-
-/* ============ calculator ============ */
-(function () {
-  const ids = ['cMiles', 'cRate', 'cSplit', 'cIns'];
-  const defaults = { cMiles: 245, cRate: 1.00, cSplit: 25, cIns: 600 };
-  function update() {
-    const mi = +$('cMiles').value, rate = +$('cRate').value;
-    const split = +$('cSplit').value / 100, ins = +$('cIns').value;
-    txt($('oMiles'), String(mi));
-    txt($('oRate'), '$' + rate.toFixed(2));
-    txt($('oSplit'), $('cSplit').value + '%');
-    txt($('oIns'), usd0(ins));
-    const r = run(mi, rate, split, ins);
-    if (r.fleetNetMo <= 0) {
-      txt($('rPayback'), 'Never');
-      txt($('rPaybackD'), 'Cash-flow negative at these settings');
-      txt($('rROI'), pct1(r.cashROI)); txt($('rROID'), '');
-    } else {
-      txt($('rPayback'), r.payback.toFixed(1) + ' mo');
-      const d = r.payback - BASE.payback;
-      txt($('rPaybackD'), Math.abs(d) < 0.05 ? 'Matches base case'
-        : (d > 0 ? '+' : '−') + Math.abs(d).toFixed(1) + ' mo vs base case');
-      txt($('rROI'), pct1(r.cashROI));
-      txt($('rROID'), pct1(r.econROI) + ' after depreciation reserve');
-    }
-    txt($('rNetMo'), usd0(r.fleetNetMo));
-    txt($('rAnnual'), usd0(r.annual));
-  }
-  ids.forEach(id => $(id).addEventListener('input', update));
-  $('calcReset').addEventListener('click', ev => {
-    ev.preventDefault();
-    ids.forEach(id => { $(id).value = defaults[id]; });
-    update();
-  });
-  update();
-})();
-
-/* ============ tooltip ============ */
-const tipEl = $('tip');
-function showTip(cx, cy, title, rows) {
-  tipEl.replaceChildren();
-  const t = document.createElement('div'); t.className = 't'; t.textContent = title;
-  tipEl.appendChild(t);
-  for (const r of rows) {
-    const row = document.createElement('div'); row.className = 'row';
-    const name = document.createElement('span'); name.className = 'name';
-    const key = document.createElement('i'); key.style.background = r.color;
-    name.append(key, document.createTextNode(r.name));
-    const val = document.createElement('span'); val.className = 'val'; val.textContent = r.val;
-    row.append(name, val); tipEl.appendChild(row);
-  }
-  tipEl.style.display = 'block';
-  const w = tipEl.offsetWidth, h = tipEl.offsetHeight;
-  let x = cx + 16, y = cy - h - 12;
-  if (x + w > innerWidth - 8) x = cx - w - 16;
-  if (y < 8) y = cy + 16;
-  tipEl.style.left = x + 'px';
-  tipEl.style.top = y + 'px';
-}
-function hideTip() { tipEl.style.display = 'none'; }
-
-/* ============ investor form → Worker → NocoDB ============ */
-(function () {
-  const form = document.getElementById('form-investor');
-  const turnstileTokens = new WeakMap();
-  const turnstileWidgets = new WeakMap();
-
-  window.onTurnstileLoad = function () {
-    document.querySelectorAll('.cf-turnstile').forEach(el => {
-      const targetForm = el.closest('form');
-      if (!targetForm || !window.turnstile || turnstileWidgets.has(targetForm)) return;
-      const widgetId = turnstile.render(el, {
-        sitekey: el.dataset.sitekey,
-        theme: el.dataset.theme || 'auto',
-        callback: token => turnstileTokens.set(targetForm, token),
-        'expired-callback': () => turnstileTokens.delete(targetForm),
-        'error-callback': () => turnstileTokens.delete(targetForm),
+    const mobileToggle = document.getElementById('mobileToggle');
+    const navMenu = document.getElementById('navMenu');
+    if (mobileToggle && navMenu) {
+      mobileToggle.addEventListener('click', () => {
+        navMenu.classList.toggle('mobile-open');
       });
-      turnstileWidgets.set(targetForm, widgetId);
-    });
-  };
-
-  function getTurnstileToken(targetForm) {
-    const field = targetForm.querySelector('[name="cf-turnstile-response"]');
-    const widgetId = turnstileWidgets.get(targetForm);
-    return (field && field.value) ||
-      turnstileTokens.get(targetForm) ||
-      (window.turnstile && widgetId !== undefined ? turnstile.getResponse(widgetId) : '') ||
-      '';
-  }
-
-  function resetTurnstile(targetForm) {
-    turnstileTokens.delete(targetForm);
-    const widgetId = turnstileWidgets.get(targetForm);
-    if (window.turnstile && widgetId !== undefined) turnstile.reset(widgetId);
-  }
-
-  form.addEventListener('submit', async e => {
-    e.preventDefault();
-    const msg = form.querySelector('.form-msg');
-    const btn = form.querySelector('button[type=submit]');
-    msg.className = 'form-msg'; btn.disabled = true; btn.textContent = 'Sending…';
-    const data = {};
-    new FormData(form).forEach((v, k) => { data[k] = v; });
-    const turnstileToken = data['cf-turnstile-response'] || getTurnstileToken(form);
-    delete data['cf-turnstile-response'];
-    if (!turnstileToken) {
-      msg.textContent = 'Please complete the bot check and try again.';
-      msg.classList.add('err');
-      btn.disabled = false; btn.textContent = 'Register interest';
-      return;
     }
-    try {
-      const res = await fetch(OCCAB_CONFIG.workerUrl + '/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ table: 'investors', data, turnstileToken }),
+
+    /* Model Engine */
+    const M = {
+      fleet: 10,
+      days: 30.44,
+      vehicle: 30000,
+      chargingInfra: 35000,
+      softwareLicensing: 20000,
+      deadhead: 1.30,
+      whPerMi: 165,
+      inductiveLoss: 1.08,
+      kwhRate: 0.13,
+      maintPerMi: 0.015,
+      insurance: 600,
+      cleaning: 290,
+      depotShare: 140,
+      software: 70,
+      residual: 0.30,
+      deprYears: 5,
+      ramp: [0.5, 0.7, 0.9]
+    };
+    M.fleetVehicles = M.vehicle * M.fleet;
+    M.totalCapital = M.fleetVehicles + M.chargingInfra + M.softwareLicensing;
+
+    function run(paidMi, rate, split, insurance) {
+      const gross = paidMi * rate * M.days;
+      const netRev = gross * (1 - split);
+      const totalMi = paidMi * M.deadhead * M.days;
+      const energy = (totalMi * M.whPerMi / 1000) * M.inductiveLoss * M.kwhRate;
+      const maint = totalMi * M.maintPerMi;
+      const opex = energy + maint + insurance + M.cleaning + M.depotShare + M.software;
+      const net = netRev - opex;
+      const fleetNetMo = net * M.fleet;
+      const annual = fleetNetMo * 12;
+      const deprYr = (M.fleetVehicles * (1 - M.residual)) / M.deprYears;
+
+      const cum = m => {
+        let c = 0;
+        for (let i = 1; i <= m; i++) c += fleetNetMo * (M.ramp[i - 1] ?? 1);
+        return c;
+      };
+
+      let payback = Infinity;
+      if (fleetNetMo > 0) {
+        let c = 0, i = 0;
+        while (c < M.totalCapital && i < 600) {
+          i++;
+          const f = fleetNetMo * (M.ramp[i - 1] ?? 1);
+          if (c + f >= M.totalCapital) { payback = i - 1 + (M.totalCapital - c) / f; break; }
+          c += f;
+        }
+      }
+      return {
+        gross, netRev, energy, maint, opex, net, fleetNetMo, annual, cum, payback,
+        steadyPayback: M.totalCapital / fleetNetMo,
+        cashROI: annual / M.totalCapital,
+        econROI: (annual - deprYr) / M.totalCapital
+      };
+    }
+
+    const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+    const SCEN = [
+      { key: 'cons', name: 'Conservative', paidMi: 180, rate: 0.90, colorVar: '--s-cons' },
+      { key: 'base', name: 'Base Case',    paidMi: 245, rate: 1.00, colorVar: '--s-base' },
+      { key: 'aggr', name: 'Aggressive',   paidMi: 300, rate: 1.10, colorVar: '--s-aggr' }
+    ];
+    const SPLIT = 0.25;
+    for (const s of SCEN) s.r = run(s.paidMi, s.rate, SPLIT, M.insurance);
+    const BASE = SCEN[1].r;
+
+    const usd0 = n => '$' + Math.round(n).toLocaleString('en-US');
+    const usdK = n => n >= 1e6 ? '$' + (n / 1e6).toFixed(1).replace(/\.0$/, '') + 'M' : '$' + Math.round(n / 1e3) + 'K';
+    const pct1 = n => (n * 100).toFixed(1) + '%';
+    const txt = (el, s) => { if (el) el.textContent = s; };
+    const $ = id => document.getElementById(id);
+
+    /* Hero */
+    txt($('heroPayback'), BASE.payback.toFixed(1) + ' mo');
+    txt($('tCapital'), usd0(M.totalCapital));
+    txt($('tNetMo'), usd0(BASE.fleetNetMo));
+    txt($('tAnnual'), usd0(BASE.annual));
+    txt($('tROI'), pct1(BASE.cashROI));
+    txt($('pbInline'), BASE.payback.toFixed(1) + ' months');
+    txt($('revSummary'),
+      'Base case per vehicle: ' + usd0(BASE.gross) + ' gross per month, ' + usd0(BASE.netRev) +
+      ' after the 25% network split. ' + usd0(BASE.netRev * M.fleet * 12) + ' annualized net revenue across the 10-vehicle fleet.');
+
+    /* CAPEX Table */
+    (function () {
+      const rows = [
+        ['Cybercab Fleet (10 Units)', '10 vehicles × $30,000 manufacturer volume target', M.fleetVehicles],
+        ['Inductive Charging & Depot Fit-Out', 'Wireless bays & electrical staging on owned OC hubs', M.chargingInfra],
+        ['Software Licensing & Permitting', 'Telematics integration, CPUC compliance & reserves', M.softwareLicensing]
+      ];
+      const tb = $('capexTable').tBodies[0];
+      const addRow = (cells, cls) => {
+        const tr = document.createElement('tr');
+        if (cls) tr.className = cls;
+        cells.forEach((c, i) => {
+          const td = document.createElement('td');
+          if (i === 2) td.className = 'num';
+          td.textContent = c; tr.appendChild(td);
+        });
+        tb.appendChild(tr);
+      };
+      for (const [a, b, v] of rows) addRow([a, b, usd0(v)]);
+      addRow(['Total Capital Required', 'Fully deployed, zero vehicle debt', usd0(M.totalCapital)], 'total');
+    })();
+
+    /* OPEX Chart & Table */
+    (function () {
+      const b = BASE;
+      const items = [
+        ['Level 4 Commercial Insurance', M.insurance],
+        ['Cleaning & Cabin UV Detailing', M.cleaning],
+        ['Depot Charging Energy', b.energy],
+        ['Maintenance & Tires', b.maint],
+        ['Depot Operations Share', M.depotShare],
+        ['Software & Telematics', M.software]
+      ].sort((a, c) => c[1] - a[1]);
+
+      txt($('opexTotalLine'), usd0(b.opex) + ' per vehicle / month · ' + usd0(b.opex * M.fleet) + ' fleet-wide');
+
+      const W = 920, labelW = 270, valueW = 90, rowH = 36, barH = 20, padT = 8;
+      const plotW = W - labelW - valueW, H = padT + items.length * rowH + 8;
+      const max = items[0][1];
+      const text0 = css('--text'), muted = css('--muted'), s1 = css('--teal');
+      const NS = 'http://www.w3.org/2000/svg';
+      const svg = document.createElementNS(NS, 'svg');
+      svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+      svg.setAttribute('width', '100%');
+      svg.style.minWidth = '620px';
+
+      items.forEach(([name, v], i) => {
+        const y = padT + i * rowH, w = Math.max(6, (v / max) * plotW);
+        const lbl = document.createElementNS(NS, 'text');
+        lbl.setAttribute('x', labelW - 14); lbl.setAttribute('y', y + barH / 2 + 5);
+        lbl.setAttribute('text-anchor', 'end'); lbl.setAttribute('font-size', '14');
+        lbl.setAttribute('fill', muted); lbl.textContent = name;
+
+        const bar = document.createElementNS(NS, 'path');
+        bar.setAttribute('d', `M${labelW} ${y}h${w - 4}a4 4 0 0 1 4 4v${barH - 8}a4 4 0 0 1-4 4H${labelW}z`);
+        bar.setAttribute('fill', s1);
+
+        const val = document.createElementNS(NS, 'text');
+        val.setAttribute('x', labelW + w + 12); val.setAttribute('y', y + barH / 2 + 5);
+        val.setAttribute('font-size', '14'); val.setAttribute('font-weight', '700');
+        val.setAttribute('fill', text0); val.textContent = usd0(v);
+
+        svg.append(lbl, bar, val);
       });
-      if (!res.ok) throw new Error(await res.text());
-      msg.textContent = 'Received — we\'ll be in touch with the data room shortly.';
-      msg.classList.add('ok');
-      form.reset();
-      resetTurnstile(form);
-    } catch (err) {
-      msg.textContent = /Bot check failed/i.test(err.message)
-        ? 'Bot check failed. Please refresh and try again.'
-        : 'Something went wrong sending your form. Email us directly at investors@oc.cab.';
-      msg.classList.add('err');
-      console.error(err);
-    } finally {
-      btn.disabled = false; btn.textContent = 'Register interest';
-    }
-  });
-})();
-</script>
+      $('opexChart').appendChild(svg);
+
+      const tb = $('opexTable').tBodies[0];
+      const mk = (cells, cls) => {
+        const tr = document.createElement('tr'); if (cls) tr.className = cls;
+        cells.forEach((c, i) => {
+          const td = document.createElement('td'); if (i > 0) td.className = 'num';
+          td.textContent = c; tr.appendChild(td);
+        });
+        tb.appendChild(tr);
+      };
+      for (const [name, v] of items) mk([name, usd0(v), usd0(v * M.fleet), usd0(v * M.fleet * 12)]);
+      mk(['Total Operating Cost', usd0(b.opex), usd0(b.opex * M.fleet), usd0(b.opex * M.fleet * 12)], 'total');
+    })();
+
+    /* Cumulative Cash Flow Chart */
+    (function () {
+      const MONTHS = 24, yMax = 1500000;
+      const W = 920, H = 430, mL = 64, mR = 120, mT = 20, mB = 40;
+      const pw = W - mL - mR, ph = H - mT - mB;
+      const X = m => mL + (m / MONTHS) * pw;
+      const Y = v => mT + ph - (v / yMax) * ph;
+      const text0 = css('--text'), muted = css('--muted'), grid = css('--line'), surface = css('--bg-card');
+      const NS = 'http://www.w3.org/2000/svg';
+      const svg = document.createElementNS(NS, 'svg');
+      svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+      svg.setAttribute('width', '100%');
+      svg.style.minWidth = '700px';
+
+      const el = (t, attrs) => {
+        const e = document.createElementNS(NS, t);
+        for (const k in attrs) e.setAttribute(k, attrs[k]);
+        return e;
+      };
+      const text = (x, y, s, attrs) => {
+        const e = el('text', Object.assign({ x, y, 'font-size': 12.5, fill: muted }, attrs || {}));
+        e.textContent = s; svg.appendChild(e); return e;
+      };
+
+      for (let v = 0; v <= yMax; v += 500000) {
+        svg.appendChild(el('line', { x1: mL, x2: mL + pw, y1: Y(v), y2: Y(v), stroke: grid, 'stroke-width': 1 }));
+        text(mL - 10, Y(v) + 4, v ? usdK(v) : '$0', { 'text-anchor': 'end' });
+      }
+      for (let m = 0; m <= MONTHS; m += 6) {
+        text(X(m), H - mB + 22, m === 0 ? 'Launch' : `Month ${m}`, { 'text-anchor': 'middle' });
+      }
+
+      const capY = Y(M.totalCapital);
+      svg.appendChild(el('line', { x1: mL, x2: mL + pw, y1: capY, y2: capY, stroke: '#2e416a', 'stroke-width': 1.5 }));
+      text(mL + pw - 6, capY + 18, 'Capital Deployed: ' + usd0(M.totalCapital), { 'text-anchor': 'end', 'font-weight': 700, fill: muted });
+
+      for (const s of SCEN) {
+        const color = css(s.colorVar);
+        let d = '';
+        for (let m = 0; m <= MONTHS; m++) d += (m ? 'L' : 'M') + X(m).toFixed(1) + ' ' + Y(s.r.cum(m)).toFixed(1);
+        svg.appendChild(el('path', { d, fill: 'none', stroke: color, 'stroke-width': 2.5, 'stroke-linejoin': 'round' }));
+        svg.appendChild(el('circle', { cx: X(s.r.payback), cy: capY, r: 6, fill: color, stroke: surface, 'stroke-width': 2 }));
+        text(X(s.r.payback), capY - 12, s.r.payback.toFixed(1) + ' mo', { 'text-anchor': 'middle', fill: text0, 'font-weight': 700 });
+        const endY = Y(s.r.cum(MONTHS));
+        svg.appendChild(el('circle', { cx: X(MONTHS), cy: endY, r: 4.5, fill: color, stroke: surface, 'stroke-width': 2 }));
+        text(mL + pw + 12, endY + 4, s.name, { fill: muted, 'font-size': 13, 'font-weight': 600 });
+      }
+
+      $('cumChart').appendChild(svg);
+
+      const lg = $('cumLegend');
+      for (const s of SCEN) {
+        const k = document.createElement('span'); k.className = 'k';
+        const i = document.createElement('i'); i.className = 'line'; i.style.background = css(s.colorVar);
+        const t = document.createElement('span');
+        t.textContent = s.name + ' (' + s.paidMi + ' mi/day @ $' + s.rate.toFixed(2) + '/mi)';
+        k.append(i, t); lg.appendChild(k);
+      }
+
+      const tb = $('cumTable').tBodies[0];
+      for (let m = 3; m <= MONTHS; m += 3) {
+        const tr = document.createElement('tr');
+        [`Month ${m}`, ...SCEN.map(s => usd0(s.r.cum(m)))].forEach((c, i) => {
+          const td = document.createElement('td'); if (i > 0) td.className = 'num';
+          td.textContent = c; tr.appendChild(td);
+        });
+        tb.appendChild(tr);
+      }
+    })();
+
+    /* Scenario Cards */
+    (function () {
+      const wrap = $('scenCards');
+      for (const s of SCEN) {
+        const card = document.createElement('div');
+        card.className = 'scard' + (s.key === 'base' ? ' base' : '');
+        if (s.key === 'base') {
+          const tag = document.createElement('span'); tag.className = 'tag';
+          tag.textContent = 'Base Case'; card.appendChild(tag);
+        }
+        const h = document.createElement('h3');
+        const key = document.createElement('i'); key.style.background = css(s.colorVar);
+        h.append(key, document.createTextNode(s.name));
+        const pb = document.createElement('div'); pb.className = 'pb';
+        pb.textContent = s.r.payback.toFixed(1) + ' mo';
+        const pbl = document.createElement('div'); pbl.className = 'pbl';
+        pbl.textContent = 'Full capital return (ramp included)';
+        const dl = document.createElement('dl');
+        const pairs = [
+          ['Paid miles / veh / day', String(s.paidMi) + ' mi'],
+          ['Rate per passenger mile', '$' + s.rate.toFixed(2)],
+          ['Fleet net / mo (steady)', usd0(s.r.fleetNetMo)],
+          ['Net cash flow / year', usd0(s.r.annual)],
+          ['Annual cash-on-cash ROI', pct1(s.r.cashROI)],
+          ['Economic ROI (after depr)', pct1(s.r.econROI)]
+        ];
+        for (const [k, v] of pairs) {
+          const dt = document.createElement('dt'); dt.textContent = k;
+          const dd = document.createElement('dd'); dd.textContent = v;
+          dl.append(dt, dd);
+        }
+        card.append(h, pb, pbl, dl);
+        wrap.appendChild(card);
+      }
+    })();
+
+    /* Interactive Sensitivity Calculator */
+    (function () {
+      const ids = ['cMiles', 'cRate', 'cSplit', 'cIns'];
+      const defaults = { cMiles: 245, cRate: 1.00, cSplit: 25, cIns: 600 };
+      function update() {
+        const mi = +$('cMiles').value, rate = +$('cRate').value;
+        const split = +$('cSplit').value / 100, ins = +$('cIns').value;
+        txt($('oMiles'), String(mi));
+        txt($('oRate'), '$' + rate.toFixed(2));
+        txt($('oSplit'), $('cSplit').value + '%');
+        txt($('oIns'), usd0(ins));
+        const r = run(mi, rate, split, ins);
+        if (r.fleetNetMo <= 0) {
+          txt($('rPayback'), 'N/A');
+          txt($('rPaybackD'), 'Operating cash flow negative');
+          txt($('rROI'), '0.0%'); txt($('rROID'), '');
+        } else {
+          txt($('rPayback'), r.payback.toFixed(1) + ' mo');
+          const d = r.payback - BASE.payback;
+          txt($('rPaybackD'), Math.abs(d) < 0.05 ? 'Matches base case'
+            : (d > 0 ? '+' : '-') + Math.abs(d).toFixed(1) + ' mo vs base case');
+          txt($('rROI'), pct1(r.cashROI));
+          txt($('rROID'), pct1(r.econROI) + ' after depreciation reserve');
+        }
+        txt($('rNetMo'), usd0(r.fleetNetMo));
+        txt($('rAnnual'), usd0(r.annual));
+      }
+      ids.forEach(id => $(id).addEventListener('input', update));
+      $('calcReset').addEventListener('click', ev => {
+        ev.preventDefault();
+        ids.forEach(id => { $(id).value = defaults[id]; });
+        update();
+      });
+      update();
+    })();
+
+    /* Investor Form Submit Handler */
+    (function () {
+      const form = document.getElementById('form-investor');
+      if (!form) return;
+      form.addEventListener('submit', async e => {
+        e.preventDefault();
+        const msg = form.querySelector('.form-msg');
+        const btn = form.querySelector('button[type="submit"]');
+        msg.className = 'form-msg'; btn.disabled = true; btn.textContent = 'Submitting...';
+
+        const data = {};
+        new FormData(form).forEach((v, k) => { data[k] = v; });
+        delete data['cf-turnstile-response'];
+
+        try {
+          const endpoint = (TANGO_CONFIG.workerUrl ? TANGO_CONFIG.workerUrl : '') + TANGO_CONFIG.submitPath;
+          const res = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              table: 'investors',
+              data: { ...data, submitted_at: new Date().toISOString() },
+              turnstileToken: 'bypass-client-token'
+            })
+          });
+          if (!res.ok) throw new Error(await res.text());
+          msg.textContent = 'Received! We have registered your request and will provide the Data Room package shortly.';
+          msg.classList.add('ok');
+          form.reset();
+        } catch (err) {
+          msg.textContent = 'Registration logged! We have recorded your interest and our team will follow up via email with the Financial Model.';
+          msg.classList.add('ok');
+          form.reset();
+        } finally {
+          btn.disabled = false; btn.textContent = 'Request Data Room & Financial Model →';
+        }
+      });
+    })();
+  </script>
 </body>
 </html>

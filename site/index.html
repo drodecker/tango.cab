@@ -1,464 +1,2049 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OC CAB — Autonomous Fleet & Real Estate | Orange County, CA</title>
-<meta name="description" content="OC Cab is building the capital and real-estate layer for autonomous ride-hailing in Orange County: a self-funded Cybercab fleet, owned inductive charging depots, and a multi-state expansion corridor.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link href="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css" rel="stylesheet">
-<script src="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad&render=explicit" defer></script>
-<style>
-:root{
-  --bg:#0a0e16;
-  --bg-2:#0f1420;
-  --panel:#141b2b;
-  --line:#1e2940;
-  --text:#eef2f8;
-  --muted:#93a0b8;
-  --teal:#2ee6a8;
-  --teal-dim:#17795a;
-  --cyan:#41e0e6;
-  --gold-1:#f5a623;
-  --gold-2:#ffc95e;
-  --red:#ff6b6b;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
-h1,h2,h3,h4,.display{font-family:'Poppins',sans-serif}
-a{color:var(--teal);text-decoration:none}
-img{max-width:100%;display:block}
-.wrap{max-width:1140px;margin:0 auto;padding:0 24px}
-section{padding:96px 0}
-.eyebrow{display:inline-block;font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--teal);border:1px solid var(--teal-dim);border-radius:999px;padding:6px 16px;background:rgba(46,230,168,.06)}
-h2{font-size:clamp(28px,4vw,40px);font-weight:700;margin:18px 0 14px;border-left:4px solid var(--teal);padding-left:18px}
-.sub{color:var(--muted);max-width:720px}
-/* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(10,14,22,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-.nav-in{display:flex;align-items:center;justify-content:space-between;height:64px}
-.logo{font-family:'Poppins',sans-serif;font-weight:800;font-size:22px;letter-spacing:.02em}
-.logo .oc{background:linear-gradient(120deg,var(--gold-1),var(--gold-2));-webkit-background-clip:text;background-clip:text;color:transparent}
-.logo .cab{color:#fff}
-.logo .dot{color:var(--teal)}
-.nav-links{display:flex;gap:28px;font-size:14px;font-weight:500}
-.nav-links a{color:var(--muted)}
-.nav-links a:hover{color:var(--text)}
-.btn{display:inline-block;font-family:'Poppins',sans-serif;font-weight:600;font-size:15px;padding:13px 28px;border-radius:10px;border:1px solid var(--teal);color:var(--teal);transition:all .2s;cursor:pointer;background:transparent}
-.btn:hover{background:rgba(46,230,168,.1)}
-.btn.solid{background:var(--teal);color:#062018}
-.btn.solid:hover{background:#4cf0b8}
-/* HERO */
-.hero{min-height:100svh;display:flex;align-items:center;padding:140px 0 80px;position:relative;overflow:hidden;background:
-  radial-gradient(900px 500px at 78% 8%,rgba(65,224,230,.07),transparent 60%),
-  radial-gradient(700px 420px at 12% 90%,rgba(245,166,35,.05),transparent 60%),
-  linear-gradient(180deg,#0a0e16 0%,#0b101b 100%)}
-.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(46,230,168,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(46,230,168,.045) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,#000 30%,transparent 75%)}
-.hero-in{position:relative;max-width:820px}
-.hero h1{font-size:clamp(38px,6.4vw,68px);font-weight:800;line-height:1.08;margin:22px 0 20px}
-.hero h1 .accent{color:var(--teal)}
-.hero p.lede{font-size:clamp(17px,2vw,20px);color:var(--muted);max-width:640px}
-.hero-ctas{display:flex;gap:16px;margin-top:36px;flex-wrap:wrap}
-.hero-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:56px}
-.hero-stats div{background:var(--bg-2);padding:20px 22px}
-.hero-stats b{display:block;font-family:'Poppins',sans-serif;font-size:26px;font-weight:700;color:var(--teal)}
-.hero-stats span{font-size:13px;color:var(--muted)}
-/* CARDS */
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px;margin-top:44px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:30px}
-.card h3{font-size:19px;font-weight:600;color:var(--teal);margin-bottom:12px}
-.card p{color:var(--muted);font-size:15px}
-.card .k{font-family:'Poppins',sans-serif;font-size:34px;font-weight:700;color:#fff;display:block;margin-bottom:6px}
-/* MAP */
-#map{height:540px;border-radius:16px;border:1px solid var(--line);margin-top:40px}
-.map-legend{display:flex;gap:22px;flex-wrap:wrap;margin-top:18px;font-size:13px;color:var(--muted)}
-.map-legend span{display:flex;align-items:center;gap:8px}
-.swatch{width:12px;height:12px;border-radius:50%}
-/* TABLE */
-.fin-table{width:100%;border-collapse:collapse;margin-top:40px;font-size:15px}
-.fin-table th{text-align:left;color:var(--teal);font-weight:600;padding:14px 16px;border-bottom:2px solid var(--line);font-size:13px;letter-spacing:.04em;text-transform:uppercase}
-.fin-table td{padding:15px 16px;border-bottom:1px solid var(--line);color:var(--muted)}
-.fin-table td:first-child{color:var(--text);font-weight:600}
-.fin-table td:last-child{text-align:right;font-family:'Poppins',sans-serif;font-weight:600;color:var(--text);white-space:nowrap}
-.fin-table tr.total td{background:rgba(46,230,168,.09);color:var(--teal);font-weight:700}
-.neg{color:var(--red)!important}
-.pos{color:var(--teal)!important}
-.fin-note{margin-top:22px;padding:18px 22px;border:1px solid var(--line);border-left:3px solid var(--gold-1);border-radius:10px;background:var(--bg-2);font-size:14px;color:var(--muted)}
-/* ROADMAP */
-.road{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:22px;margin-top:44px}
-.road .step{background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--teal);border-radius:12px;padding:26px}
-.road h3{color:var(--teal);font-size:17px;margin-bottom:10px}
-.road p{font-size:14px;color:var(--muted)}
-/* FORMS */
-.tabs{display:flex;gap:10px;margin-top:40px;flex-wrap:wrap}
-.tab{font-family:'Poppins',sans-serif;font-weight:600;font-size:15px;padding:12px 24px;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--muted);cursor:pointer;transition:all .2s}
-.tab.active{border-color:var(--teal);color:var(--teal);background:rgba(46,230,168,.07)}
-form{display:none;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:36px;margin-top:22px}
-form.active{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-form .full{grid-column:1/-1}
-label{display:block;font-size:13px;font-weight:600;color:var(--muted);margin-bottom:7px}
-input,select,textarea{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:9px;color:var(--text);padding:13px 15px;font-family:'Inter',sans-serif;font-size:15px}
-input:focus,select:focus,textarea:focus{outline:2px solid var(--teal-dim);border-color:var(--teal)}
-textarea{min-height:110px;resize:vertical}
-.check{display:flex;gap:12px;align-items:flex-start;font-size:13px;color:var(--muted)}
-.check input{width:18px;height:18px;margin-top:2px;flex:none}
-.form-msg{grid-column:1/-1;font-size:14px;display:none;padding:14px 18px;border-radius:9px}
-.form-msg.ok{display:block;background:rgba(46,230,168,.1);color:var(--teal);border:1px solid var(--teal-dim)}
-.form-msg.err{display:block;background:rgba(255,107,107,.1);color:var(--red);border:1px solid rgba(255,107,107,.4)}
-.legal{font-size:12.5px;color:#6b7891;border:1px solid var(--line);border-radius:10px;padding:16px 20px;margin-top:26px;background:var(--bg-2)}
-/* FOOTER */
-footer{border-top:1px solid var(--line);padding:56px 0 40px;background:var(--bg-2)}
-footer .cols{display:flex;justify-content:space-between;gap:32px;flex-wrap:wrap;margin-bottom:36px}
-footer .fine{font-size:12px;color:#5b6880;line-height:1.7;max-width:980px}
-@media(max-width:720px){
-  .nav-links{display:none}
-  form.active{grid-template-columns:1fr}
-  section{padding:64px 0}
-  #map{height:420px}
-}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tango Cab - Always in service | Vehicles, Depots &amp; Local Fleets</title>
+  <meta name="description" content="Tango Cab establishes Cybercab fleets and partners with the RoboTaxi network to empower transportation-as-a-service: business layer, inductive depots, automated cleaning, and property monetization.">
+  <meta property="og:title" content="Tango Cab - Always in service">
+  <meta property="og:description" content="Vehicles, depots, and local fleets for autonomous mobility. Physical capital and 24/7 ops for driverless service.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Tango Cab - Always in service">
+  <meta name="twitter:description" content="Vehicles, depots, and local fleets for autonomous mobility.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <!-- Mapbox GL JS -->
+  <link href="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css" rel="stylesheet">
+  <script src="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
+
+  <!-- Turnstile Bot Protection -->
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad&render=explicit" defer></script>
+
+  <style>
+    :root {
+      --bg: #070a10;
+      --bg-2: #0d1320;
+      --bg-card: #121a2c;
+      --bg-card-hover: #162137;
+      --line: #1c273e;
+      --line-bright: #2d3e62;
+      --text: #f0f4fc;
+      --muted: #8e9db7;
+      --dim: #5c6b84;
+      --teal: #2ee6a8;
+      --teal-glow: rgba(46, 230, 168, 0.25);
+      --teal-dim: #157356;
+      --cyan: #41e0e6;
+      --gold-1: #f5a623;
+      --gold-2: #ffc95e;
+      --red: #ff6b6b;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4, .display-font {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      letter-spacing: -0.02em;
+    }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+
+    a { color: var(--teal); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: #5effc4; }
+
+    .wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    section { padding: 95px 0; position: relative; }
+    .section-alt { background: var(--bg-2); }
+
+    /* Eyebrow badge */
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--teal);
+      border: 1px solid rgba(46, 230, 168, 0.3);
+      border-radius: 999px;
+      padding: 6px 16px;
+      background: rgba(46, 230, 168, 0.08);
+      backdrop-filter: blur(8px);
+    }
+    .eyebrow i {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--teal);
+      box-shadow: 0 0 8px var(--teal);
+    }
+
+    h2.section-title {
+      font-size: clamp(30px, 4.5vw, 44px);
+      font-weight: 800;
+      line-height: 1.15;
+      margin: 20px 0 16px;
+    }
+    p.section-sub {
+      color: var(--muted);
+      font-size: clamp(16px, 2vw, 19px);
+      max-width: 800px;
+      line-height: 1.6;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 14.5px;
+      padding: 13px 26px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--line-bright);
+      color: var(--text);
+      background: var(--bg-card);
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-decoration: none;
+    }
+    .btn:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--teal);
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+    .btn.solid {
+      background: var(--teal);
+      color: #051a14;
+      border-color: var(--teal);
+      box-shadow: 0 4px 18px var(--teal-glow);
+    }
+    .btn.solid:hover {
+      background: #4ef5bc;
+      color: #02120e;
+      box-shadow: 0 6px 26px rgba(46, 230, 168, 0.45);
+    }
+
+    /* Unified Navigation */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(7, 10, 16, 0.9);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(28, 39, 62, 0.85);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 74px;
+      position: relative;
+    }
+    .logo {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 22px;
+      letter-spacing: -0.01em;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      text-decoration: none;
+    }
+    .logo span.brand-dot { color: var(--teal); font-size: 26px; line-height: 0; }
+    .logo .badge-preseed {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(46, 230, 168, 0.12);
+      border: 1px solid rgba(46, 230, 168, 0.3);
+      color: var(--teal);
+      margin-left: 10px;
+      text-transform: uppercase;
+    }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      list-style: none;
+    }
+    .nav-item {
+      position: relative;
+    }
+    .nav-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 8px 14px;
+      font-size: 14.5px;
+      font-weight: 600;
+      color: var(--muted);
+      border-radius: var(--radius-sm);
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+    .nav-link:hover, .nav-item:hover > .nav-link, .nav-link.active {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .nav-link.active {
+      color: var(--teal);
+    }
+    .nav-link .caret {
+      font-size: 9px;
+      opacity: 0.7;
+      transition: transform 0.2s;
+    }
+    .nav-item:hover .caret {
+      transform: rotate(180deg);
+    }
+
+    /* Dropdown submenu */
+    .nav-submenu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      min-width: 230px;
+      background: rgba(13, 19, 32, 0.97);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--line-bright);
+      border-radius: var(--radius-md);
+      padding: 8px;
+      list-style: none;
+      box-shadow: 0 16px 36px rgba(0,0,0,0.55);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(8px);
+      transition: all 0.22s ease;
+      pointer-events: none;
+      z-index: 1001;
+    }
+    .nav-item:hover > .nav-submenu,
+    .nav-item:focus-within > .nav-submenu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(2px);
+      pointer-events: auto;
+    }
+    .nav-submenu a {
+      display: block;
+      padding: 9px 12px;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--muted);
+      border-radius: var(--radius-sm);
+      transition: all 0.15s;
+      text-decoration: none;
+    }
+    .nav-submenu a:hover {
+      background: rgba(46, 230, 168, 0.08);
+      color: var(--teal);
+    }
+    .nav-submenu a small {
+      display: block;
+      font-size: 11px;
+      color: var(--dim);
+      margin-top: 2px;
+    }
+
+    /* Nav Right */
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--teal);
+      background: rgba(46, 230, 168, 0.08);
+      border: 1px solid rgba(46, 230, 168, 0.25);
+      padding: 6px 14px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .status-pill i {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--teal);
+      box-shadow: 0 0 8px var(--teal);
+      animation: pulse-dot 2s infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    /* Mobile toggle */
+    .mobile-toggle {
+      display: none;
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 140px 0 90px;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(900px 520px at 75% 10%, rgba(65, 224, 230, 0.08), transparent 65%),
+        radial-gradient(800px 480px at 15% 85%, rgba(46, 230, 168, 0.06), transparent 60%),
+        linear-gradient(180deg, #070a10 0%, #0c121e 100%);
+    }
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(46, 230, 168, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(46, 230, 168, 0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, #000 30%, transparent 80%);
+      pointer-events: none;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+    }
+    .hero h1 {
+      font-size: clamp(38px, 6.5vw, 74px);
+      font-weight: 800;
+      line-height: 1.05;
+      margin: 24px 0 22px;
+      letter-spacing: -0.03em;
+    }
+    .hero h1 .accent-text {
+      background: linear-gradient(135deg, var(--gold-1) 0%, #ffe7a3 42%, var(--teal) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .hero p.lede {
+      font-size: clamp(18px, 2.2vw, 22px);
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 800px;
+    }
+
+    /* Hero Stats Bar */
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin-top: 52px;
+    }
+    .hero-stat-item {
+      background: var(--bg-card);
+      padding: 24px 26px;
+      transition: background 0.2s;
+    }
+    .hero-stat-item:hover { background: var(--bg-card-hover); }
+    .hero-stat-item b {
+      display: block;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--teal);
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+    .hero-stat-item span {
+      font-size: 13.5px;
+      color: var(--muted);
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    /* 4 Deployment Tiers */
+    .tiers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 22px;
+      margin-top: 44px;
+    }
+    .tier-card {
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 30px 26px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.25s ease;
+    }
+    .tier-card:hover {
+      border-color: var(--teal);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    }
+    .tier-card.primary {
+      border-color: rgba(46, 230, 168, 0.5);
+      background: linear-gradient(180deg, rgba(46, 230, 168, 0.05) 0%, var(--bg-card) 100%);
+      box-shadow: 0 0 26px rgba(46, 230, 168, 0.08);
+    }
+    .tier-card.solo {
+      opacity: 0.68;
+      border-style: dashed;
+    }
+    .tier-card.solo:hover { opacity: 0.95; }
+    .tier-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 6px;
+      margin-bottom: 14px;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--muted);
+    }
+    .tier-card.primary .tier-badge {
+      background: var(--teal);
+      color: #051a14;
+    }
+    .tier-card h3 {
+      font-size: 22px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+    .tier-card .units {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      color: var(--teal);
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+    .tier-card p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+    .tier-card .bottom-spec {
+      margin-top: 20px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+      font-size: 12.5px;
+      color: var(--dim);
+    }
+
+    /* Showcase Visuals */
+    .showcase-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 28px;
+      margin-top: 48px;
+    }
+    .showcase-hero-box {
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      position: relative;
+    }
+    .showcase-hero-box img {
+      width: 100%;
+      height: 380px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    .showcase-hero-box:hover img { transform: scale(1.02); }
+    .showcase-hero-box .overlay-tag {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      background: rgba(7, 10, 16, 0.88);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(28, 39, 62, 0.9);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+    }
+    .showcase-hero-box .overlay-tag h4 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+    .showcase-hero-box .overlay-tag p {
+      font-size: 13.5px;
+      color: var(--muted);
+    }
+    .showcase-side {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .showcase-mini-card {
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      transition: all 0.25s ease;
+    }
+    .showcase-mini-card:hover {
+      border-color: var(--teal);
+      transform: translateY(-2px);
+    }
+    .showcase-mini-card img {
+      width: 100%;
+      height: 100%;
+      min-height: 140px;
+      object-fit: cover;
+    }
+    .showcase-mini-card .info {
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .showcase-mini-card .info h4 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .showcase-mini-card .info p {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    /* Pillars Grid */
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 48px;
+    }
+    .pillar-card {
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 34px 30px;
+      position: relative;
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .pillar-card:hover {
+      border-color: var(--teal);
+      transform: translateY(-4px);
+    }
+    .pillar-card h3 {
+      font-size: 21px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .pillar-card p {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    .pillar-card .tag-bottom {
+      margin-top: 20px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--teal);
+    }
+
+    /* Mapbox */
+    #map-wrapper {
+      position: relative;
+      margin-top: 44px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--line);
+      overflow: hidden;
+    }
+    #map {
+      width: 100%;
+      height: 560px;
+      background: #090e17;
+    }
+    .map-overlay-card {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      max-width: 320px;
+      background: rgba(7, 10, 16, 0.88);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      z-index: 10;
+    }
+    .map-overlay-card h4 { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+    .map-overlay-card p { font-size: 12.5px; color: var(--muted); line-height: 1.45; }
+    .map-legend {
+      display: flex;
+      gap: 22px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+      font-size: 13.5px;
+      color: var(--muted);
+    }
+    .map-legend span {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .swatch { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+
+    /* Calculator & Deployment Tier Tabs */
+    .calc-layout {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 32px;
+      align-items: start;
+      margin-top: 40px;
+    }
+    .calc-controls {
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      display: grid;
+      gap: 24px;
+    }
+
+    /* Tier Tabs above sliders */
+    .tier-tabs-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 6px;
+      margin-bottom: 6px;
+    }
+    .tier-tab-btn {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 12.5px;
+      padding: 10px 8px;
+      text-align: center;
+      border-radius: var(--radius-sm);
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .tier-tab-btn:hover { color: #fff; background: rgba(255,255,255,0.05); }
+    .tier-tab-btn.active {
+      background: rgba(46, 230, 168, 0.12);
+      border-color: var(--teal);
+      color: var(--teal);
+    }
+
+    /* (?) Info Icons & Tooltips */
+    .info-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 17px;
+      height: 17px;
+      border-radius: 50%;
+      background: rgba(142, 157, 183, 0.15);
+      border: 1px solid rgba(142, 157, 183, 0.3);
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-left: 6px;
+      vertical-align: middle;
+      position: relative;
+      user-select: none;
+      transition: all 0.2s;
+    }
+    .info-btn:hover, .info-btn.pinned {
+      background: var(--teal);
+      border-color: var(--teal);
+      color: #051a14;
+    }
+    .info-tooltip {
+      display: none;
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 250px;
+      background: var(--bg-2);
+      border: 1px solid var(--line-bright);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 1.45;
+      color: var(--text);
+      box-shadow: 0 10px 28px rgba(0,0,0,0.6);
+      z-index: 50;
+      pointer-events: none;
+      text-align: left;
+    }
+    .info-btn:hover .info-tooltip, .info-btn.pinned .info-tooltip {
+      display: block;
+    }
+
+    .ctl-group label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14.5px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+    .ctl-group label output {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      color: var(--teal);
+    }
+    input[type=range] {
+      width: 100%;
+      height: 6px;
+      background: var(--line-bright);
+      border-radius: 3px;
+      outline: none;
+      accent-color: var(--teal);
+      cursor: pointer;
+    }
+    .calc-outputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .calc-out-box {
+      background: var(--bg-card);
+      padding: 26px 28px;
+    }
+    .calc-out-box b {
+      display: block;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 34px;
+      font-weight: 800;
+      color: var(--teal);
+      line-height: 1.1;
+      margin-bottom: 4px;
+    }
+    .calc-out-box span {
+      font-size: 13.5px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .calc-out-box small {
+      display: block;
+      font-size: 12px;
+      color: var(--dim);
+      margin-top: 6px;
+    }
+    .calc-actions {
+      grid-column: 1 / -1;
+      background: var(--bg-2);
+      padding: 22px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+      border-top: 1px solid var(--line);
+    }
+    .calc-actions span {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* Forms */
+    .form-section {
+      background: var(--bg-2);
+      border-top: 1px solid var(--line);
+    }
+    .tabs-nav {
+      display: flex;
+      gap: 12px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      padding: 13px 26px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--line);
+      background: var(--bg-card);
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .tab-btn:hover {
+      background: var(--bg-card-hover);
+      color: #fff;
+    }
+    .tab-btn.active {
+      background: rgba(46, 230, 168, 0.1);
+      border-color: var(--teal);
+      color: var(--teal);
+    }
+
+    form.lead-form {
+      display: none;
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 38px;
+      margin-top: 24px;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+    }
+    form.lead-form.active { display: grid; }
+    form .full { grid-column: 1 / -1; }
+
+    label.field-label {
+      display: block;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    input.field-input, select.field-input, textarea.field-input {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      color: #fff;
+      padding: 14px 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+    }
+    input.field-input:focus, select.field-input:focus, textarea.field-input:focus {
+      outline: 2px solid var(--teal-dim);
+      border-color: var(--teal);
+    }
+    textarea.field-input { min-height: 120px; resize: vertical; }
+
+    .check-box {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      font-size: 13.5px;
+      color: var(--muted);
+    }
+    .check-box input {
+      width: 18px;
+      height: 18px;
+      margin-top: 3px;
+      accent-color: var(--teal);
+      flex: none;
+    }
+    .form-msg {
+      grid-column: 1 / -1;
+      font-size: 14px;
+      display: none;
+      padding: 16px 20px;
+      border-radius: var(--radius-sm);
+    }
+    .form-msg.ok {
+      display: block;
+      background: rgba(46, 230, 168, 0.12);
+      color: var(--teal);
+      border: 1px solid var(--teal-dim);
+    }
+
+    .legal-notice {
+      font-size: 13px;
+      color: var(--dim);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 20px 24px;
+      margin-top: 32px;
+      background: var(--bg);
+      line-height: 1.6;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 64px 0 44px;
+      background: #05070c;
+    }
+    .footer-cols {
+      display: flex;
+      justify-content: space-between;
+      gap: 36px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+    .footer-brand p {
+      color: var(--muted);
+      font-size: 14.5px;
+      max-width: 400px;
+      margin-top: 10px;
+      line-height: 1.5;
+    }
+    .footer-links-col {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .footer-links-col h4 {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .footer-links-col a { color: var(--muted); }
+    .footer-links-col a:hover { color: var(--teal); }
+    .footer-bottom {
+      border-top: 1px solid rgba(28, 39, 62, 0.6);
+      padding-top: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-fine {
+      font-size: 12px;
+      color: #556277;
+      line-height: 1.6;
+      max-width: 820px;
+    }
+    .consultant-tag {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+    .consultant-tag a { color: var(--gold-1); }
+
+    @media (max-width: 992px) {
+      .nav-menu { display: none; }
+      .nav-menu.mobile-open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 74px;
+        left: 0; right: 0;
+        background: rgba(13, 19, 32, 0.98);
+        border-bottom: 1px solid var(--line-bright);
+        padding: 20px;
+        gap: 12px;
+        z-index: 1000;
+      }
+      .nav-submenu {
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        box-shadow: none;
+        background: transparent;
+        border: none;
+        padding-left: 16px;
+        display: block;
+      }
+      .mobile-toggle { display: block; }
+      .hero-stats { grid-template-columns: repeat(2, 1fr); }
+      .showcase-grid { grid-template-columns: 1fr; }
+      .calc-layout { grid-template-columns: 1fr; }
+      form.lead-form.active { grid-template-columns: 1fr; }
+      .tier-tabs-bar { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .hero-stats { grid-template-columns: 1fr; }
+      .tiers-grid { grid-template-columns: 1fr; }
+      .calc-outputs { grid-template-columns: 1fr; }
+      section { padding: 70px 0; }
+      .logo .badge-preseed { display: none; }
+    }
+  </style>
 </head>
 <body>
 
-<nav><div class="wrap nav-in">
-  <div class="logo"><span class="oc">OC</span> <span class="cab">CAB</span><span class="dot">.</span></div>
-  <div class="nav-links">
-    <a href="#thesis">Thesis</a><a href="#assets">Assets</a><a href="#map-section">Coverage</a>
-    <a href="/investors.html">Investors</a><a href="#roadmap">Roadmap</a><a href="#connect">Connect</a>
-  </div>
-  <a class="btn" href="#connect">Get in touch</a>
-</div></nav>
+  <!-- Unified Navigation -->
+  <nav>
+    <div class="wrap nav-inner">
+      <a href="index.html" class="logo">
+        TANGO<span class="brand-dot">.</span>CAB
+        <span class="badge-preseed">Accepting commitments</span>
+      </a>
 
-<!-- HERO -->
-<header class="hero">
-  <div class="hero-grid" aria-hidden="true"></div>
-  <div class="wrap hero-in">
-    <span class="eyebrow">Autonomous Ride-Hailing · Orange County, CA</span>
-    <h1>The capital &amp; real-estate layer for the <span class="accent">robotaxi era</span>.</h1>
-    <p class="lede">OC Cab is assembling a self-funded Cybercab fleet, owned inductive charging depots, and premium Orange County transit corridors — positioned for the moment autonomous ride-hailing opens to independent fleet capital.</p>
-    <div class="hero-ctas">
-      <a class="btn solid" href="#connect" data-tab-link="investor">Investor interest</a>
-      <a class="btn" href="#connect" data-tab-link="property">Partner a property</a>
+      <!-- Menu with Submenus -->
+      <ul class="nav-menu" id="navMenu">
+        <li class="nav-item">
+          <a href="index.html" class="nav-link active">
+            Overview <span class="caret">▼</span>
+          </a>
+          <ul class="nav-submenu">
+            <li><a href="index.html#models">Deployment Tiers<small>Solo, Station, Fleet &amp; Depot</small></a></li>
+            <li><a href="index.html#business-layer">Business Layer<small>4 Physical &amp; Operating Pillars</small></a></li>
+            <li><a href="index.html#operations">Ride Quality<small>Serene 5-Star Experience</small></a></li>
+            <li><a href="index.html#corridors">Active Areas &amp; Map<small>TX, CA, FL Regional Hubs</small></a></li>
+            <li><a href="index.html#economics">Fleet Economics<small>Interactive Model &amp; Payback</small></a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a href="investors.html" class="nav-link">
+            Prospectus <span class="caret">▼</span>
+          </a>
+          <ul class="nav-submenu">
+            <li><a href="investors.html#capital">Capital Requirements<small>CAPEX Allocation</small></a></li>
+            <li><a href="investors.html#revenue">Revenue Model<small>Mileage &amp; Fares</small></a></li>
+            <li><a href="investors.html#opex">Operating Costs<small>Itemized Monthly OPEX</small></a></li>
+            <li><a href="investors.html#payback">Path to Payback<small>Cumulative Cash Flow</small></a></li>
+            <li><a href="investors.html#calculator">Stress-Test Calculator<small>Sensitivity Matrix</small></a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a href="competition.html" class="nav-link">
+            Competition <span class="caret">▼</span>
+          </a>
+          <ul class="nav-submenu">
+            <li><a href="competition.html#comparison">Paradigm Comparison<small>Tango vs Waymo vs Zoox</small></a></li>
+            <li><a href="competition.html#comparison">Feature Matrix<small>Cost, Autonomy &amp; Depots</small></a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a href="about.html" class="nav-link">
+            About Us <span class="caret">▼</span>
+          </a>
+          <ul class="nav-submenu">
+            <li><a href="about.html#leadership">Leadership</a></li>
+            <li><a href="about.html#leadership">Executive Search</a></li>
+            <li><a href="about.html#structure">Child LLC Model</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a href="index.html#connect" class="nav-link">
+            Connect <span class="caret">▼</span>
+          </a>
+          <ul class="nav-submenu">
+            <li><a href="index.html#connect" data-tab-trigger="investors">Investor Data Room</a></li>
+            <li><a href="index.html#connect" data-tab-trigger="property_partners">Property &amp; Depot Hosts</a></li>
+            <li><a href="index.html#connect" data-tab-trigger="careers">Leadership Careers</a></li>
+          </ul>
+        </li>
+      </ul>
+
+      <div class="nav-right">
+        <a class="btn solid" href="index.html#connect" data-tab-trigger="investors" style="padding:10px 20px; font-size:13.5px;">Connect →</a>
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">☰</button>
+      </div>
     </div>
-    <div class="hero-stats">
-      <div><b>12</b><span>Cybercabs — self-funded initial fleet</span></div>
-      <div><b>~20</b><span>Owned charging stations</span></div>
-      <div><b>100s</b><span>Parking spaces controlled</span></div>
-      <div><b>4 states</b><span>CA · AZ · NV · TX expansion</span></div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header id="top" class="hero">
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="wrap hero-content">
+      <div class="eyebrow"><i></i> Transportation-As-A-Service · 24/7 Fleet Operations</div>
+      <h1>Always in <span class="accent-text">service.</span></h1>
+      <p class="lede">
+        Vehicles, depots, and local fleets for autonomous mobility. Tango Cab establishes dedicated Cybercab fleets and partners with the RoboTaxi network to provide the complete operating layer: vehicle management, automated cleaning, inductive charging depots, and legal underwriting. Physical capital and 24/7 ops for driverless service.
+      </p>
+
+      <!-- Hero Statistics -->
+      <div class="hero-stats">
+        <div class="hero-stat-item">
+          <b>Tango-Fleet</b>
+          <span>12 to 20 Cybercabs on 4 charging pads per hub</span>
+        </div>
+        <div class="hero-stat-item">
+          <b>Private LLC Pools</b>
+          <span>Ring-fenced child-partner LLC for each deployment</span>
+        </div>
+        <div class="hero-stat-item">
+          <b>16 hrs/day</b>
+          <span>Continuous automated vehicle utilization</span>
+        </div>
+        <div class="hero-stat-item">
+          <b>~9.5 mo</b>
+          <span>Ramp-adjusted capital return (base case pro-forma)</span>
+        </div>
+      </div>
     </div>
-  </div>
-</header>
+  </header>
 
-<!-- THESIS -->
-<section id="thesis"><div class="wrap">
-  <span class="eyebrow">Vision</span>
-  <h2>Landlords, capital &amp; real estate in the autonomous age</h2>
-  <p class="sub">Autonomous ride-hailing is live today — Tesla's unsupervised Robotaxi network already operates in Austin. The vehicles will scale; the scarce inputs are <b style="color:var(--text)">capital, charging real estate, and local operating know-how</b>. OC Cab is building that layer in Orange County first.</p>
-  <div class="cards">
-    <div class="card"><h3>Geographic arbitrage</h3><p>Newport Beach, Irvine, and John Wayne Airport (SNA) form dense, high-yield corridors: business transit, premium airport loops, and the highest local willingness to pay for a driverless experience.</p></div>
-    <div class="card"><h3>Real assets, not slideware</h3><p>Charging stations and parking inventory we already control — the physical footprint autonomous fleets require for inductive charging, cleaning, staging, and dispatch.</p></div>
-    <div class="card"><h3>The OC → Vegas corridor</h3><p>A signature concept: nonstop autonomous service between Orange County and Las Vegas — point-to-point, no terminal, no TSA line, door to door.</p></div>
-  </div>
-</div></section>
+  <!-- Deployment Options / Architectural Tiers -->
+  <section id="models" class="section-alt">
+    <div class="wrap">
+      <div class="eyebrow"><i></i> Deployment Models</div>
+      <h2 class="section-title">Four scalable deployment tiers.</h2>
+      <p class="section-sub">
+        From single-vehicle monitoring for independent owners up to major airport transit depots, Tango provides standardized operational infrastructure.
+      </p>
 
-<!-- ASSETS -->
-<section id="assets" style="background:var(--bg-2)"><div class="wrap">
-  <span class="eyebrow">Assets &amp; Operations</span>
-  <h2>Built on infrastructure we own</h2>
-  <div class="cards">
-    <div class="card"><span class="k">16 hrs</span><h3>Daily utilization target</h3><p>Purpose-built two-seat robotaxis with no downtime for a driver. Inductive pads mean charge cycles slot between ride blocks automatically.</p></div>
-    <div class="card"><span class="k">165 Wh/mi</span><h3>Class-leading efficiency</h3><p>The Cybercab's certified efficiency puts raw power cost near $0.026/mile — the lowest energy cost per passenger mile of any production vehicle.</p></div>
-    <div class="card"><span class="k">Depot-first</span><h3>Inductive charging hubs</h3><p>Wireless charging bays, autonomous cleaning, and staging built into properties across our OC footprint — expandable to partner properties.</p></div>
-  </div>
-</div></section>
+      <div class="tiers-grid">
+        <!-- Tier 1: Solo Tango (Grayed out / Illustration) -->
+        <div class="tier-card solo">
+          <div>
+            <span class="tier-badge">INDEPENDENT OPERATORS</span>
+            <h3>Solo Tango</h3>
+            <div class="units">1 Cybercab (Independent)</div>
+            <p>
+              Shown for unit economics and operational illustration. Independent vehicle owners partner with Tango.Cab for wireless pad access, telematics monitoring, QA, and scheduled cleaning services.
+            </p>
+          </div>
+          <div class="bottom-spec">
+            * Managed partner vehicle; not owned by Tango
+          </div>
+        </div>
 
-<!-- MAP -->
-<section id="map-section"><div class="wrap">
-  <span class="eyebrow">Coverage</span>
-  <h2>Markets &amp; expansion corridors</h2>
-  <p class="sub">Core launch in Orange County premium corridors, expansion across CA / AZ / NV / TX, and the OC → Las Vegas nonstop concept.</p>
-  <div id="map"></div>
-  <div class="map-legend">
-    <span><i class="swatch" style="background:var(--teal)"></i> Current focus (OC)</span>
-    <span><i class="swatch" style="background:var(--gold-1)"></i> Expansion markets</span>
-    <span><i class="swatch" style="background:var(--cyan)"></i> Live autonomous ops (Austin)</span>
-    <span><i class="swatch" style="background:var(--teal);border-radius:2px;width:22px;height:3px"></i> OC → Vegas corridor concept</span>
-  </div>
-</div></section>
+        <!-- Tier 2: Tango Station -->
+        <div class="tier-card">
+          <div>
+            <span class="tier-badge">MICRO-DEPOT</span>
+            <h3>Tango Station</h3>
+            <div class="units">3 to 4 Cybercabs · 1 Pad</div>
+            <p>
+              Modeled after typical automobile fueling stations or car washes. 4 parking spots available overnight with 1 wireless inductive charging pad servicing the rotation.
+            </p>
+          </div>
+          <div class="bottom-spec">
+            Ideal for gas stations, car washes &amp; retail lots
+          </div>
+        </div>
 
-<!-- INVESTOR TEASE -->
-<section id="financials" style="background:var(--bg-2)"><div class="wrap">
-  <span class="eyebrow">For Investors</span>
-  <h2>The economics, in the open</h2>
-  <p class="sub">We published the complete Fleet I pro-forma on a dedicated investor page: capital requirements, every operating cost itemized, the payback timeline under three scenarios, and an interactive calculator so you can stress-test each assumption yourself.</p>
-  <div class="cards">
-    <div class="card"><h3>Itemized</h3><p>Fleet acquisition, inductive charging, insurance, power, cleaning, depot operations — every line stated, nothing hand-waved.</p></div>
-    <div class="card"><h3>Stress-testable</h3><p>Move utilization, rate per mile, network split, and insurance yourself and watch payback and ROI respond in real time.</p></div>
-    <div class="card"><h3>Scenario-bracketed</h3><p>Conservative, base, and aggressive cases — with the ramp-up months discounted, not ignored.</p></div>
-  </div>
-  <div style="margin-top:36px"><a class="btn solid" href="/investors.html">Read the investor prospectus</a></div>
-</div></section>
+        <!-- Tier 3: Tango Fleet (Core Base Case) -->
+        <div class="tier-card primary">
+          <div>
+            <span class="tier-badge">SEEKING INVESTOR GROUPS</span>
+            <h3>Tango Fleet</h3>
+            <div class="units">12 to 20 Cybercabs · 4 Pads</div>
+            <p>
+              Our flagship economic engine. A single dedicated commercial property equipped with 4 wireless charging pads, automated cleaning, and 12-20 vehicles in continuous rotation.
+            </p>
+          </div>
+          <div class="bottom-spec" style="color:var(--teal); font-weight:600;">
+            ★ Base case economics: ~9.5 mo payback
+          </div>
+        </div>
 
-<!-- ROADMAP -->
-<section id="roadmap"><div class="wrap">
-  <span class="eyebrow">Roadmap</span>
-  <h2>12-month deployment plan</h2>
-  <div class="road">
-    <div class="step"><h3>Q1 — Foundational</h3><p>Corporate structure finalized, Tesla B2B account, formal intent for fleet allocation logged.</p></div>
-    <div class="step"><h3>Q2 — Infrastructure</h3><p>Depot facilities activated across owned OC properties; inductive charging bays installed.</p></div>
-    <div class="step"><h3>Q3 — Licensing</h3><p>CPUC passenger permits, Level 4 commercial insurance underwriting secured.</p></div>
-    <div class="step"><h3>Q4 — Go-Live</h3><p>Fleet delivery, dispatch software integration, commercial operations launch in OC corridors.</p></div>
-  </div>
-</div></section>
-
-<!-- FORMS -->
-<section id="connect" style="background:var(--bg-2)"><div class="wrap">
-  <span class="eyebrow">Connect</span>
-  <h2>Join the build</h2>
-  <p class="sub">Three ways in: capital, property, or leadership. Interim executive roles are unpaid until operational profitability, with compensation set by board vote.</p>
-
-  <div class="tabs">
-    <button class="tab active" data-tab="investor">Investor</button>
-    <button class="tab" data-tab="property">Property partner</button>
-    <button class="tab" data-tab="careers">Careers</button>
-  </div>
-
-  <form id="form-investor" class="active" data-table="investors">
-    <div><label for="inv-type">Investor type</label><select id="inv-type" name="type"><option>Individual</option><option>Corporate / Fund</option></select></div>
-    <div><label for="inv-name">Full name</label><input id="inv-name" name="name" required></div>
-    <div><label for="inv-email">Email</label><input id="inv-email" type="email" name="email" required></div>
-    <div><label for="inv-phone">Phone</label><input id="inv-phone" type="tel" name="phone"></div>
-    <div><label for="inv-entity">Entity name (if corporate)</label><input id="inv-entity" name="entity"></div>
-    <div><label for="inv-link">LinkedIn / X</label><input id="inv-link" name="social"></div>
-    <div><label for="inv-range">Interest range</label><select id="inv-range" name="interest_range"><option>$25k–$100k</option><option>$100k–$250k</option><option>$250k–$500k</option><option>$500k+</option></select></div>
-    <div><label for="inv-source">How did you hear about us?</label><input id="inv-source" name="source"></div>
-    <div class="full"><label for="inv-notes">Notes</label><textarea id="inv-notes" name="notes"></textarea></div>
-    <div class="full check"><input type="checkbox" name="accredited" required id="inv-acc"><label for="inv-acc" style="margin:0;font-weight:400">I self-certify that I am an accredited investor as defined by SEC Regulation D, Rule 501. I understand this form expresses interest only and is not an offer to sell or a solicitation to buy securities.</label></div>
-    <div class="cf-turnstile" data-sitekey="0x4AAAAAAEErFzm0wFxJKUVr" data-theme="dark"></div>
-    <div class="full"><button class="btn solid" type="submit">Register interest</button></div>
-    <div class="form-msg"></div>
-  </form>
-
-  <form id="form-property" data-table="property_partners">
-    <div><label for="pp-name">Full name</label><input id="pp-name" name="name" required></div>
-    <div><label for="pp-email">Email</label><input id="pp-email" type="email" name="email" required></div>
-    <div><label for="pp-phone">Phone</label><input id="pp-phone" type="tel" name="phone"></div>
-    <div><label for="pp-mkts">Markets of interest</label><select id="pp-mkts" name="markets" multiple size="4"><option>Orange County — Newport Beach</option><option>Orange County — Irvine</option><option>Orange County — SNA / Airport</option><option>Orange County — Other</option><option>Phoenix, AZ</option><option>Las Vegas, NV</option><option>Austin, TX</option></select></div>
-    <div><label for="pp-stalls">Parking stalls / sq ft available</label><input id="pp-stalls" name="capacity"></div>
-    <div><label for="pp-charging">Existing charging on site?</label><select id="pp-charging" name="existing_charging"><option>No</option><option>Yes — Level 2</option><option>Yes — DC fast</option><option>Yes — other</option></select></div>
-    <div class="full"><label for="pp-notes">Property details / notes</label><textarea id="pp-notes" name="notes"></textarea></div>
-    <div class="cf-turnstile" data-sitekey="0x4AAAAAAEErFzm0wFxJKUVr" data-theme="dark"></div>
-    <div class="full"><button class="btn solid" type="submit">Submit property</button></div>
-    <div class="form-msg"></div>
-  </form>
-
-  <form id="form-careers" data-table="careers">
-    <div><label for="cr-role">Role</label><select id="cr-role" name="role"><option>CEO</option><option>CFO</option><option>CTO</option><option>COO</option><option>CMO</option><option>Other / Advisory</option></select></div>
-    <div><label for="cr-name">Full name</label><input id="cr-name" name="name" required></div>
-    <div><label for="cr-email">Email</label><input id="cr-email" type="email" name="email" required></div>
-    <div><label for="cr-phone">Phone / SMS</label><input id="cr-phone" type="tel" name="phone"></div>
-    <div><label for="cr-li">LinkedIn</label><input id="cr-li" name="linkedin"></div>
-    <div><label for="cr-x">X / GitHub</label><input id="cr-x" name="other_profile"></div>
-    <div class="full"><label for="cr-resume">Resume link</label><input id="cr-resume" name="resume_url" placeholder="https://"></div>
-    <div class="full"><label for="cr-why">Why you, why this</label><textarea id="cr-why" name="notes"></textarea></div>
-    <div class="full check"><span style="font-weight:400">Note: interim C-level roles are unpaid until operational profitability; compensation is set later by board vote.</span></div>
-    <div class="cf-turnstile" data-sitekey="0x4AAAAAAEErFzm0wFxJKUVr" data-theme="dark"></div>
-    <div class="full"><button class="btn solid" type="submit">Apply</button></div>
-    <div class="form-msg"></div>
-  </form>
-
-  <div class="legal"><b>Accredited investors only — this is not an offer to sell securities.</b> Nothing on this site constitutes an offer to sell, or a solicitation of an offer to buy, any security. Any offering will be made only to accredited investors pursuant to applicable exemptions under Regulation D and only through definitive offering documents. Forward-looking statements and pro-forma figures are illustrative, involve significant risk, and actual results may differ materially. OC Cab is an independent venture and is not affiliated with, endorsed by, or partnered with Tesla, Inc. Consult your own legal, tax, and financial advisors.</div>
-</div></section>
-
-<footer><div class="wrap">
-  <div class="cols">
-    <div>
-      <div class="logo" style="margin-bottom:10px"><span class="oc">OC</span> <span class="cab">CAB</span><span class="dot">.</span></div>
-      <div style="color:var(--muted);font-size:14px">Reimagine Your Ride.<br>investors@oc.cab · Orange County, CA</div>
+        <!-- Tier 4: Tango Depot (Airports / Municipal) -->
+        <div class="tier-card">
+          <div>
+            <span class="tier-badge">MASS TRANSIT &amp; AIRPORT</span>
+            <h3>Tango Depot</h3>
+            <div class="units">20+ Cybercabs · Multi-Pad</div>
+            <p>
+              Large-scale transit hubs for airport staging loops, convention centers, and municipal authorities seeking high-capacity autonomous transit networks.
+            </p>
+          </div>
+          <div class="bottom-spec">
+            Airport authorities &amp; government partnerships
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="nav-links" style="display:flex;flex-direction:column;gap:10px">
-      <a href="#thesis">Thesis</a><a href="/investors.html">Investors</a><a href="#connect">Connect</a>
+  </section>
+
+  <!-- Visual Showcase / Fleet Operations -->
+  <section style="padding-top:60px;">
+    <div class="wrap">
+      <div class="showcase-grid">
+        <div class="showcase-hero-box">
+          <img src="images/cybercab_fleet_hero.jpg" alt="Tesla Cybercab Fleet in Orange County Pavilion">
+          <div class="overlay-tag">
+            <h4>Decentralized Local Fleets</h4>
+            <p>Strategically balanced near demand centers to deliver optimal ride response times with minimal real estate opportunity cost.</p>
+          </div>
+        </div>
+        <div class="showcase-side">
+          <div class="showcase-mini-card">
+            <img src="images/cybercab_charging_pad.jpg" alt="Cybercab on Wireless Inductive Charging Pad">
+            <div class="info">
+              <h4>Wireless Inductive Depots</h4>
+              <p>Flush ground charging pads top up vehicles automatically between ride blocks with zero cable labor.</p>
+            </div>
+          </div>
+          <div class="showcase-mini-card">
+            <img src="images/cybercab_carwash_cleaning.jpg" alt="Cybercab Robotic Cleaning & Detailing Bay">
+            <div class="info">
+              <h4>Robotic Quality Control</h4>
+              <p>Touchless exterior wash and interior UV sanitization ensure pristine cabin standards on every ride.</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-  <p class="fine">© <span id="yr"></span> OC Cab. All rights reserved. Tesla, Cybercab, and Robotaxi are trademarks of Tesla, Inc.; their use here is nominative and descriptive only. OC Cab has no partnership, agency, or allocation agreement with Tesla, Inc. and does not currently operate autonomous passenger service in California. All vehicle specifications, availability dates, pricing, and network terms referenced are manufacturer targets subject to change and outside OC Cab's control. Pro-forma financials are hypothetical illustrations, not projections of actual performance.</p>
-</div></footer>
+  </section>
 
-<script src="config.js"></script>
-<script>
-document.getElementById('yr').textContent = new Date().getFullYear();
+  <!-- Operations Focus: Quality Ride-Sharing Experience -->
+  <section id="operations" class="section-alt">
+    <div class="wrap">
+      <div class="eyebrow"><i></i> Passenger Standards</div>
+      <h2 class="section-title">The serene, 5-star passenger experience.</h2>
+      <p class="section-sub">
+        We do not build or sell Cybercabs; we deliver an exclusive, standardized ride-sharing experience. Every Tango vehicle looks immaculate inside and out, smells fresh, and delivers serene comfort.
+      </p>
 
-/* ---------- Tabs ---------- */
-const tabs = document.querySelectorAll('.tab');
-const forms = {investor:document.getElementById('form-investor'),property:document.getElementById('form-property'),careers:document.getElementById('form-careers')};
-function showTab(name){
-  tabs.forEach(t=>t.classList.toggle('active',t.dataset.tab===name));
-  Object.entries(forms).forEach(([k,f])=>f.classList.toggle('active',k===name));
-}
-tabs.forEach(t=>t.addEventListener('click',()=>showTab(t.dataset.tab)));
-document.querySelectorAll('[data-tab-link]').forEach(a=>a.addEventListener('click',()=>showTab(a.dataset.tabLink)));
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 44px;">
+        <div style="background:var(--bg-card); border:1px solid var(--line); border-radius:var(--radius-lg); padding:30px;">
+          <h3 style="font-size:20px; color:var(--teal); margin-bottom:10px;">Pristine Cleanliness</h3>
+          <p style="font-size:14.5px; color:var(--muted);">Automated cleaning tunnels and UV-C sanitization reset every cabin before peak booking blocks. No litter, no dirt, no driver odors.</p>
+        </div>
 
-const turnstileTokens = new WeakMap();
-const turnstileWidgets = new WeakMap();
+        <div style="background:var(--bg-card); border:1px solid var(--line); border-radius:var(--radius-lg); padding:30px;">
+          <h3 style="font-size:20px; color:var(--teal); margin-bottom:10px;">Serene Atmosphere</h3>
+          <p style="font-size:14.5px; color:var(--muted);">Consistent pleasant scenting, whisper-quiet electric ride, customized climate control, and zero intrusive driver conversation.</p>
+        </div>
 
-window.onTurnstileLoad = function(){
-  document.querySelectorAll('.cf-turnstile').forEach(el=>{
-    const form = el.closest('form');
-    if(!form || !window.turnstile || turnstileWidgets.has(form)) return;
-    const widgetId = turnstile.render(el, {
-      sitekey: el.dataset.sitekey,
-      theme: el.dataset.theme || 'auto',
-      callback: token=>turnstileTokens.set(form, token),
-      'expired-callback': ()=>turnstileTokens.delete(form),
-      'error-callback': ()=>turnstileTokens.delete(form)
-    });
-    turnstileWidgets.set(form, widgetId);
-  });
-};
+        <div style="background:var(--bg-card); border:1px solid var(--line); border-radius:var(--radius-lg); padding:30px;">
+          <h3 style="font-size:20px; color:var(--teal); margin-bottom:10px;">Zero Driver Friction</h3>
+          <p style="font-size:14.5px; color:var(--muted);">Point-to-point transit with seamless mobile unlock, transparent pricing, and predictable luxury without surge gouging.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-function getTurnstileToken(form){
-  const field = form.querySelector('[name="cf-turnstile-response"]');
-  const widgetId = turnstileWidgets.get(form);
-  return (field && field.value) ||
-    turnstileTokens.get(form) ||
-    (window.turnstile && widgetId !== undefined ? turnstile.getResponse(widgetId) : '') ||
-    '';
-}
+  <!-- The Tango Business Layer -->
+  <section id="business-layer">
+    <div class="wrap">
+      <div class="eyebrow"><i></i> The Tango Business Layer</div>
+      <h2 class="section-title">Physical capital and 24/7 ops for driverless service.</h2>
+      <p class="section-sub">
+        The scarce assets in autonomous mobility are capital, physical charging real estate, and operational execution. Tango delivers that complete business layer.
+      </p>
 
-function resetTurnstile(form){
-  turnstileTokens.delete(form);
-  const widgetId = turnstileWidgets.get(form);
-  if(window.turnstile && widgetId !== undefined) turnstile.reset(widgetId);
-}
+      <div class="pillars-grid">
+        <div class="pillar-card">
+          <div>
+            <h3>Fleet Asset Management</h3>
+            <p>Equity-acquired Cybercabs operating under ring-fenced partner LLCs with real-time telematics and dispatch optimization.</p>
+          </div>
+          <div class="tag-bottom">Unencumbered Cash Flow</div>
+        </div>
 
-/* ---------- Form submit → Cloudflare Worker → NocoDB ---------- */
-Object.values(forms).forEach(form=>{
-  form.addEventListener('submit', async e=>{
-    e.preventDefault();
-    const msg = form.querySelector('.form-msg');
-    const btn = form.querySelector('button[type=submit]');
-    msg.className='form-msg'; btn.disabled=true; btn.textContent='Sending…';
-    const data = {};
-    new FormData(form).forEach((v,k)=>{
-      if(data[k]!==undefined){ data[k]=[].concat(data[k],v); } else { data[k]=v; }
-    });
-    // multi-select fix
-    form.querySelectorAll('select[multiple]').forEach(s=>{
-      data[s.name]=[...s.selectedOptions].map(o=>o.value).join(', ');
-    });
-    const turnstileToken = data['cf-turnstile-response'] || getTurnstileToken(form);
-    delete data['cf-turnstile-response'];
-    if(!turnstileToken){
-      msg.textContent='Please complete the bot check and try again.';
-      msg.classList.add('err');
-      btn.disabled=false;
-      btn.textContent = form.id==='form-investor'?'Register interest':form.id==='form-property'?'Submit property':'Apply';
-      return;
-    }
-    try{
-      const res = await fetch(OCCAB_CONFIG.workerUrl + '/submit', {
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({table: form.dataset.table, data, turnstileToken})
+        <div class="pillar-card">
+          <div>
+            <h3>Wireless Inductive Depots</h3>
+            <p>Flush charging pads slot power cycles between trips automatically, eliminating manual cable plugging.</p>
+          </div>
+          <div class="tag-bottom">Continuous Power Top-Ups</div>
+        </div>
+
+        <div class="pillar-card">
+          <div>
+            <h3>Robotic Cleaning &amp; QA</h3>
+            <p>Standardized automated wash stations and UV detailing ensure a 5-star experience on every booking.</p>
+          </div>
+          <div class="tag-bottom">Standardized Quality Control</div>
+        </div>
+
+        <div class="pillar-card">
+          <div>
+            <h3>Property Host Monetization</h3>
+            <p>Converting dormant commercial parking stalls into recurring monthly cash-flow charging depots.</p>
+          </div>
+          <div class="tag-bottom">Passive Landlord Yields</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RoboTaxi Networks & Tango Operations Interactive Map -->
+  <section id="corridors" class="section-alt">
+    <div class="wrap">
+      <div class="eyebrow"><i></i> Geographic Footprint</div>
+      <h2 class="section-title">RoboTaxi networks &amp; Tango operations.</h2>
+      <p class="section-sub">
+        See the broader active RoboTaxi network alongside Tango's operating and investment footprint. Orange County, CA has a committed Tango investor through OC.Cab; Tango is seeking additional fleet investor groups and property owners for regional fleet and depot growth.
+      </p>
+
+      <div id="map-wrapper">
+        <div id="map"></div>
+        <div class="map-overlay-card">
+          <h4>RoboTaxi Networks &amp; Tango Operations</h4>
+          <p>Click any marker or coverage area to distinguish active RoboTaxi markets, Tango investment activity, and planned expansion.</p>
+        </div>
+      </div>
+
+      <div class="map-legend">
+        <span><i class="swatch" style="background:var(--cyan)"></i> Active RoboTaxi Networks (Bay Area, Austin, Dallas, Houston, Tampa, Orlando, Miami)</span>
+        <span><i class="swatch" style="background:var(--teal)"></i> Tango investor committed via OC.Cab (Orange County, CA)</span>
+        <span><i class="swatch" style="background:var(--gold-1)"></i> Coming Soon Expansion (Las Vegas)</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Financial Model & ROI Calculator with Tier Tabs & Info Icons -->
+  <section id="economics">
+    <div class="wrap">
+      <div class="eyebrow"><i></i> Interactive Pro-Forma</div>
+      <h2 class="section-title">Fleet economics &amp; ROI model.</h2>
+      <p class="section-sub">
+        Stress-test our bottom-up financial model yourself. Select a deployment tier or adjust individual sliders in real time, with ramp-up discounts included.
+      </p>
+
+      <div class="calc-layout">
+        <!-- Controls -->
+        <div class="calc-controls">
+          <!-- Tier Selection Tabs -->
+          <div class="tier-tabs-bar">
+            <button type="button" class="tier-tab-btn" data-tier="solo">Solo Tango (1)</button>
+            <button type="button" class="tier-tab-btn" data-tier="station">Station (4)</button>
+            <button type="button" class="tier-tab-btn active" data-tier="fleet">Tango Fleet (12)</button>
+            <button type="button" class="tier-tab-btn" data-tier="depot">Depot (24+)</button>
+          </div>
+
+          <div class="ctl-group">
+            <label for="calcFleet">
+              <span>
+                Fleet Size
+                <span class="info-btn" title="Click to toggle info">?
+                  <span class="info-tooltip">Selects 1 (Solo) up to 50+ vehicles. Automatically selects corresponding tier: Solo Tango (1), Tango Station (3-4), Tango Fleet (12-20), or Tango Depot (20+).</span>
+                </span>
+              </span>
+              <output id="outFleet">12 vehicles</output>
+            </label>
+            <input type="range" id="calcFleet" min="1" max="50" step="1" value="12">
+          </div>
+
+          <div class="ctl-group">
+            <label for="calcMiles">
+              <span>
+                Paid Miles / Vehicle / Day
+                <span class="info-btn" title="Click to toggle info">?
+                  <span class="info-tooltip">Average per 24-hour day over course of month</span>
+                </span>
+              </span>
+              <output id="outMiles">245 mi</output>
+            </label>
+            <input type="range" id="calcMiles" min="120" max="350" step="5" value="245">
+          </div>
+
+          <div class="ctl-group">
+            <label for="calcRate">
+              <span>
+                Average Rate Per Mile
+                <span class="info-btn" title="Click to toggle info">?
+                  <span class="info-tooltip">Accounting for surge, weekday/end variance</span>
+                </span>
+              </span>
+              <output id="outRate">$1.00</output>
+            </label>
+            <input type="range" id="calcRate" min="0.75" max="1.75" step="0.05" value="1.00">
+          </div>
+
+          <div class="ctl-group">
+            <label for="calcSplit">
+              <span>
+                Autonomy Network Split
+                <span class="info-btn" title="Click to toggle info">?
+                  <span class="info-tooltip">Tesla has reported this number as between 25% &amp; 27% in public statements</span>
+                </span>
+              </span>
+              <output id="outSplit">25%</output>
+            </label>
+            <input type="range" id="calcSplit" min="0" max="35" step="1" value="25">
+          </div>
+
+          <div class="ctl-group">
+            <label for="calcIns">
+              <span>
+                Commercial Insurance / Veh / Mo
+                <span class="info-btn" title="Click to toggle info">?
+                  <span class="info-tooltip">Offered by two leading companies, and potentially Tesla themselves</span>
+                </span>
+              </span>
+              <output id="outIns">$600</output>
+            </label>
+            <input type="range" id="calcIns" min="300" max="1200" step="25" value="600">
+          </div>
+
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:12.5px; color:var(--muted);">Pro-forma includes 3-month ramp</span>
+            <a href="investors.html" class="btn" style="padding:8px 16px; font-size:13px;">View Full Prospectus →</a>
+          </div>
+        </div>
+
+        <!-- Outputs -->
+        <div>
+          <div class="calc-outputs">
+            <div class="calc-out-box">
+              <b id="resPayback">~9.5 mo</b>
+              <span>Ramp-Adjusted Capital Payback</span>
+              <small id="resPaybackDesc">Full recovery of initial capital</small>
+            </div>
+
+            <div class="calc-out-box">
+              <b id="resROI">138.8%</b>
+              <span>Annual Cash-on-Cash ROI</span>
+              <small id="resEconROI">118.8% after depreciation</small>
+            </div>
+
+            <div class="calc-out-box">
+              <b id="resNetMo">$49,280</b>
+              <span>Fleet Net Cash Flow / Month</span>
+              <small>Steady state after all opex</small>
+            </div>
+
+            <div class="calc-out-box">
+              <b id="resAnnualNet">$591,365</b>
+              <span>Net Cash Flow / Year</span>
+              <small id="resGrossAnnual">Gross: $1,073,923 / yr</small>
+            </div>
+
+            <div class="calc-actions">
+              <div>
+                <strong style="color:#fff; display:block;">Looking for our detailed Financial Model?</strong>
+                <span>We provide our complete Google Sheet financial pro-forma to accredited investors.</span>
+              </div>
+              <a href="#connect" data-tab-trigger="investors" class="btn solid" style="padding:10px 20px; font-size:13.5px;">Request Model</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Connect & Multi-Track Lead Capture -->
+  <section id="connect" class="form-section">
+    <div class="wrap">
+      <div class="eyebrow"><i></i> Join The Build</div>
+      <h2 class="section-title">Connect with Tango.</h2>
+      <p class="section-sub">
+        Choose your track below: register as an accredited fleet investor, partner your real-estate parking property or municipal depot, or submit a careers inquiry.
+      </p>
+
+      <!-- Tabs Navigation -->
+      <div class="tabs-nav">
+        <button class="tab-btn active" data-tab="investors">01. Investor Registration</button>
+        <button class="tab-btn" data-tab="property_partners">02. Property / Depot Partner</button>
+        <button class="tab-btn" data-tab="careers">03. Careers &amp; Leadership</button>
+      </div>
+
+      <!-- Form 1: Investors -->
+      <form id="form-investors" class="lead-form active" data-table="investors">
+        <div>
+          <label class="field-label" for="inv-type">Investor Classification *</label>
+          <select id="inv-type" name="type" class="field-input" required>
+            <option value="Individual">Individual / Angel</option>
+            <option value="Corporate / Fund">Corporate / Family Office / Fund</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label" for="inv-name">Full Name *</label>
+          <input id="inv-name" name="name" type="text" class="field-input" placeholder="e.g. David Vance" required>
+        </div>
+        <div>
+          <label class="field-label" for="inv-email">Email Address *</label>
+          <input id="inv-email" name="email" type="email" class="field-input" placeholder="david@example.com" required>
+        </div>
+        <div>
+          <label class="field-label" for="inv-phone">Phone Number</label>
+          <input id="inv-phone" name="phone" type="tel" class="field-input" placeholder="(949) 555-0199">
+        </div>
+        <div>
+          <label class="field-label" for="inv-entity">Entity / Fund Name (if applicable)</label>
+          <input id="inv-entity" name="entity" type="text" class="field-input" placeholder="e.g. Vance Capital LLC">
+        </div>
+        <div>
+          <label class="field-label" for="inv-social">LinkedIn / X Profile</label>
+          <input id="inv-social" name="social" type="text" class="field-input" placeholder="https://linkedin.com/in/...">
+        </div>
+        <div>
+          <label class="field-label" for="inv-range">Anticipated Allocation Range *</label>
+          <select id="inv-range" name="interest_range" class="field-input" required>
+            <option value="$100k–$250k">$100,000 - $250,000</option>
+            <option value="$250k–$1.5MM">$250,000 - $1,500,000</option>
+            <option value="$1.5MM+">$1,500,000+</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label" for="inv-source">How did you hear about Tango?</label>
+          <input id="inv-source" name="source" type="text" class="field-input" placeholder="Referral / Event / Web">
+        </div>
+        <div class="full">
+          <label class="field-label" for="inv-notes">Investment Background / Strategic Value</label>
+          <textarea id="inv-notes" name="notes" class="field-input" placeholder="Tell us about your investment focus or questions regarding our child-partner LLC pools..."></textarea>
+        </div>
+        <div class="full check-box">
+          <input type="checkbox" id="inv-acc" name="accredited" required>
+          <label for="inv-acc">I self-certify that I am an <strong>Accredited Investor</strong> under SEC Regulation D, Rule 501. I understand this expresses interest only and is not an offer to buy securities.</label>
+        </div>
+        <div class="full cf-turnstile" data-sitekey="0x4AAAAAAEErFzm0wFxJKUVr" data-theme="dark"></div>
+        <div class="full">
+          <button type="submit" class="btn solid" style="width:100%; justify-content:center; padding:16px;">Register Investor Interest &amp; Request Data Room →</button>
+        </div>
+        <div class="form-msg"></div>
+      </form>
+
+      <!-- Form 2: Property & Depot Partners -->
+      <form id="form-property" class="lead-form" data-table="property_partners">
+        <div>
+          <label class="field-label" for="pp-name">Contact Full Name *</label>
+          <input id="pp-name" name="name" type="text" class="field-input" required>
+        </div>
+        <div>
+          <label class="field-label" for="pp-email">Email Address *</label>
+          <input id="pp-email" name="email" type="email" class="field-input" required>
+        </div>
+        <div>
+          <label class="field-label" for="pp-phone">Phone Number</label>
+          <input id="pp-phone" name="phone" type="tel" class="field-input">
+        </div>
+        <div>
+          <label class="field-label" for="pp-stalls">Capacity / Property Type *</label>
+          <input id="pp-stalls" name="capacity" type="text" class="field-input" placeholder="e.g. 4 stalls (Tango Station), 15 stalls (Tango Fleet), or Airport Depot (20+ stalls)" required>
+        </div>
+        <div>
+          <label class="field-label" for="pp-charging">Existing Electrical Infrastructure</label>
+          <select id="pp-charging" name="existing_charging" class="field-input">
+            <option value="No">No existing EV infrastructure</option>
+            <option value="Yes — Level 2">Yes - Level 2 Commercial</option>
+            <option value="Yes — DC fast">Yes - DC Fast / High Power</option>
+            <option value="Yes — other">Yes - 480V 3-Phase transformer / Airport / Gov Depot</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label" for="pp-mkts">Property Location / Market *</label>
+          <input id="pp-mkts" name="markets" type="text" class="field-input" placeholder="e.g. Irvine, Newport Beach, SNA Airport, Austin, Dallas, Houston, Miami, Las Vegas" required>
+        </div>
+        <div class="full">
+          <label class="field-label" for="pp-notes">Property Details &amp; Operational Notes</label>
+          <textarea id="pp-notes" name="notes" class="field-input" placeholder="Details about property type (retail, gas station, hotel, office park, municipal lot, airport transit hub) and access hours..."></textarea>
+        </div>
+        <div class="full cf-turnstile" data-sitekey="0x4AAAAAAEErFzm0wFxJKUVr" data-theme="dark"></div>
+        <div class="full">
+          <button type="submit" class="btn solid" style="width:100%; justify-content:center; padding:16px;">Submit Property / Depot for Evaluation →</button>
+        </div>
+        <div class="form-msg"></div>
+      </form>
+
+      <!-- Form 3: Careers & Leadership -->
+      <form id="form-careers" class="lead-form" data-table="careers">
+        <div>
+          <label class="field-label" for="cr-role">Target Role *</label>
+          <select id="cr-role" name="role" class="field-input" required>
+            <option value="CEO">Chief Executive Officer (CEO)</option>
+            <option value="CFO">Chief Financial Officer (CFO)</option>
+            <option value="COO">Chief Operating Officer (COO)</option>
+            <option value="CMO">Chief Marketing Officer (CMO)</option>
+            <option value="CTO">Engineering / Infrastructure</option>
+            <option value="Other">Advisory / Strategic Board Member</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label" for="cr-name">Full Name *</label>
+          <input id="cr-name" name="name" type="text" class="field-input" required>
+        </div>
+        <div>
+          <label class="field-label" for="cr-email">Email Address *</label>
+          <input id="cr-email" name="email" type="email" class="field-input" required>
+        </div>
+        <div>
+          <label class="field-label" for="cr-phone">Phone / SMS</label>
+          <input id="cr-phone" name="phone" type="tel" class="field-input">
+        </div>
+        <div>
+          <label class="field-label" for="cr-li">LinkedIn Profile URL *</label>
+          <input id="cr-li" name="linkedin" type="url" class="field-input" placeholder="https://linkedin.com/in/..." required>
+        </div>
+        <div>
+          <label class="field-label" for="cr-other">X / GitHub / Portfolio URL</label>
+          <input id="cr-other" name="other_profile" type="url" class="field-input" placeholder="https://...">
+        </div>
+        <div class="full">
+          <label class="field-label" for="cr-resume">Resume / CV Link</label>
+          <input id="cr-resume" name="resume_url" type="url" class="field-input" placeholder="https://...">
+        </div>
+        <div class="full">
+          <label class="field-label" for="cr-notes">Why Tango? Background &amp; Track Record *</label>
+          <textarea id="cr-notes" name="notes" class="field-input" placeholder="Summarize your relevant domain experience in mobility, fleet logistics, fundraising, or scaling hardware/software ventures..." required></textarea>
+        </div>
+        <div class="full check-box">
+          <span style="font-size:13px; color:var(--muted);">ℹ️ Note: Tango Cab is a remote-first organization. Interim C-level roles are equity/advisory until operational profitability.</span>
+        </div>
+        <div class="full cf-turnstile" data-sitekey="0x4AAAAAAEErFzm0wFxJKUVr" data-theme="dark"></div>
+        <div class="full">
+          <button type="submit" class="btn solid" style="width:100%; justify-content:center; padding:16px;">Submit Application →</button>
+        </div>
+        <div class="form-msg"></div>
+      </form>
+
+      <!-- Legal Disclosure Box -->
+      <div class="legal-notice">
+        <strong>Accredited Investors Only - Confidential Information Notice:</strong>
+        Nothing on this website constitutes an offer to sell, or a solicitation of an offer to buy, any security. Any offering will be made solely to accredited investors pursuant to applicable exemptions under SEC Regulation D (Rule 506) and only through definitive offering documents. Pro-forma financial models, unit economics, and return forecasts are illustrative scenarios based on management estimates. Actual results may vary. Tango Cab is established under the LLC laws of Texas, with related child-partner LLCs including OC.Cab (OC's Tango in California), Tango Nevada LLC, and Tango Florida LLC. Tango Cab is an independent venture and is not affiliated with, sponsored by, or endorsed by Tesla, Inc.
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="wrap">
+      <div class="footer-cols">
+        <div class="footer-brand">
+          <div class="logo">
+            TANGO<span class="brand-dot">.</span>CAB
+          </div>
+          <p>
+            Always in service. Physical capital and 24/7 ops for driverless service.
+          </p>
+        </div>
+
+        <div class="footer-links-col">
+          <h4>Navigation</h4>
+          <a href="#models">Deployment Tiers</a>
+          <a href="#business-layer">Business Layer</a>
+          <a href="#operations">Ride Quality</a>
+          <a href="#corridors">Active Areas &amp; Map</a>
+          <a href="#economics">Fleet Economics</a>
+          <a href="about.html">About Us</a>
+          <a href="competition.html">Competition</a>
+          <a href="investors.html">Investor Prospectus</a>
+        </div>
+
+        <div class="footer-links-col">
+          <h4>Connect</h4>
+          <a href="#connect" data-tab-trigger="investors">Investor Data Room</a>
+          <a href="#connect" data-tab-trigger="property_partners">Host a Depot</a>
+          <a href="#connect" data-tab-trigger="careers">Leadership Careers</a>
+          <a href="mailto:investors@tango.cab">investors@tango.cab</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p class="footer-fine">
+          © <span id="year">2026</span> Tango Cab (tango.cab). Established under Texas LLC laws, with related LLCs in Florida, Nevada, and California (OC.Cab). All rights reserved. Tesla, Cybercab, and Robotaxi are registered trademarks of Tesla, Inc.; their mention is nominative and descriptive.
+        </p>
+        <div class="consultant-tag">
+          Made by <a href="https://clawdy.rodecker.com" target="_blank" rel="noopener">ClawdyDa Aye Eye Consulting</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="config.js"></script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    /* Mobile Nav Toggle */
+    const mobileToggle = document.getElementById('mobileToggle');
+    const navMenu = document.getElementById('navMenu');
+    if (mobileToggle && navMenu) {
+      mobileToggle.addEventListener('click', () => {
+        navMenu.classList.toggle('mobile-open');
       });
-      if(!res.ok) throw new Error(await res.text());
-      msg.textContent='Received — we\'ll be in touch shortly.';
-      msg.classList.add('ok');
-      form.reset();
-      resetTurnstile(form);
-    }catch(err){
-      msg.textContent = /Bot check failed/i.test(err.message)
-        ? 'Bot check failed. Please refresh and try again.'
-        : 'Something went wrong sending your form. Email us directly at investors@oc.cab.';
-      msg.classList.add('err');
-      console.error(err);
-    }finally{
-      btn.disabled=false;
-      btn.textContent = form.id==='form-investor'?'Register interest':form.id==='form-property'?'Submit property':'Apply';
     }
-  });
-});
 
-/* ---------- Mapbox ---------- */
-if (window.mapboxgl && OCCAB_CONFIG.mapboxToken && OCCAB_CONFIG.mapboxToken.startsWith('pk.')) {
-  mapboxgl.accessToken = OCCAB_CONFIG.mapboxToken;
-  const map = new mapboxgl.Map({
-    container:'map',
-    style:'mapbox://styles/mapbox/dark-v11',
-    center:[-113.5, 34.6],
-    zoom:5.3,
-    cooperativeGestures:true
-  });
-  map.addControl(new mapboxgl.NavigationControl(), 'top-right');
+    /* Tab Navigation for Lead Capture Forms */
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const forms = {
+      investors: document.getElementById('form-investors'),
+      property_partners: document.getElementById('form-property'),
+      careers: document.getElementById('form-careers')
+    };
 
-  const TEAL='#2ee6a8', GOLD='#f5a623', CYAN='#41e0e6';
-  const markers = [
-    {name:'Newport Beach', desc:'Premium coastal corridor', lngLat:[-117.9298,33.6189], color:TEAL},
-    {name:'Irvine', desc:'Business transit demand', lngLat:[-117.8265,33.6846], color:TEAL},
-    {name:'John Wayne Airport (SNA)', desc:'Premium airport loops', lngLat:[-117.8674,33.6757], color:TEAL},
-    {name:'Anaheim / Disneyland', desc:'Tourist hospitality corridor', lngLat:[-117.9190,33.8121], color:TEAL},
-    {name:'Phoenix, AZ', desc:'Expansion market', lngLat:[-112.0740,33.4484], color:GOLD},
-    {name:'Las Vegas, NV', desc:'Expansion + corridor endpoint', lngLat:[-115.1398,36.1699], color:GOLD},
-    {name:'Austin, TX', desc:'Tesla unsupervised Robotaxi — live today', lngLat:[-97.7431,30.2672], color:CYAN},
-  ];
-  markers.forEach(m=>{
-    const el=document.createElement('div');
-    el.style.cssText=`width:14px;height:14px;border-radius:50%;background:${m.color};box-shadow:0 0 10px ${m.color},0 0 2px #000;cursor:pointer`;
-    new mapboxgl.Marker({element:el})
-      .setLngLat(m.lngLat)
-      .setPopup(new mapboxgl.Popup({offset:14,closeButton:false}).setHTML(`<b>${m.name}</b><br><span style="color:#555">${m.desc}</span>`))
-      .addTo(map);
-  });
+    function switchTab(targetTab) {
+      tabBtns.forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.tab === targetTab);
+      });
+      Object.entries(forms).forEach(([key, formEl]) => {
+        if (formEl) {
+          formEl.classList.toggle('active', key === targetTab);
+        }
+      });
+    }
 
-  map.on('load',()=>{
-    // OC → Vegas corridor concept (gently arced via Barstow / I-15 alignment)
-    map.addSource('corridor',{type:'geojson',data:{
-      type:'Feature',geometry:{type:'LineString',coordinates:[
-        [-117.8674,33.6757],  // SNA
-        [-117.55,33.95],
-        [-117.30,34.30],
-        [-117.02,34.90],      // Barstow
-        [-115.75,35.60],
-        [-115.1398,36.1699]   // Las Vegas
-      ]}
-    }});
-    map.addLayer({id:'corridor-line',type:'line',source:'corridor',
-      paint:{'line-color':TEAL,'line-width':3,'line-dasharray':[2,2],'line-opacity':.85}});
-
-    // Tesla Robotaxi Service Areas
-    map.addSource('tesla-areas', {
-      type: 'geojson',
-      data: './tesla_areas.geojson'
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => switchTab(btn.dataset.tab));
     });
-    
-    map.addLayer({
-      id: 'tesla-areas-fill',
-      type: 'fill',
-      source: 'tesla-areas',
-      paint: {
-        'fill-color': CYAN,
-        'fill-opacity': 0.15
+
+    document.querySelectorAll('[data-tab-trigger]').forEach(link => {
+      link.addEventListener('click', () => {
+        const tab = link.getAttribute('data-tab-trigger');
+        switchTab(tab);
+        if (navMenu) navMenu.classList.remove('mobile-open');
+      });
+    });
+
+    /* Turnstile Handler */
+    const turnstileTokens = new WeakMap();
+    const turnstileWidgets = new WeakMap();
+
+    window.onTurnstileLoad = function() {
+      document.querySelectorAll('.cf-turnstile').forEach(el => {
+        const form = el.closest('form');
+        if (!form || !window.turnstile || turnstileWidgets.has(form)) return;
+        const widgetId = turnstile.render(el, {
+          sitekey: el.dataset.sitekey || TANGO_CONFIG.turnstileSiteKey,
+          theme: el.dataset.theme || 'dark',
+          callback: token => turnstileTokens.set(form, token),
+          'expired-callback': () => turnstileTokens.delete(form),
+          'error-callback': () => turnstileTokens.delete(form)
+        });
+        turnstileWidgets.set(form, widgetId);
+      });
+    };
+
+    function getTurnstileToken(form) {
+      const field = form.querySelector('[name="cf-turnstile-response"]');
+      const widgetId = turnstileWidgets.get(form);
+      return (field && field.value) ||
+        turnstileTokens.get(form) ||
+        (window.turnstile && widgetId !== undefined ? turnstile.getResponse(widgetId) : '') ||
+        '';
+    }
+
+    function resetTurnstile(form) {
+      turnstileTokens.delete(form);
+      const widgetId = turnstileWidgets.get(form);
+      if (window.turnstile && widgetId !== undefined) turnstile.reset(widgetId);
+    }
+
+    /* Form Submissions */
+    Object.values(forms).forEach(form => {
+      if (!form) return;
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const msg = form.querySelector('.form-msg');
+        const btn = form.querySelector('button[type="submit"]');
+        const originalBtnText = btn.textContent;
+
+        msg.className = 'form-msg';
+        btn.disabled = true;
+        btn.textContent = 'Submitting to secure base...';
+
+        const rawData = {};
+        new FormData(form).forEach((v, k) => {
+          if (rawData[k] !== undefined) {
+            rawData[k] = [].concat(rawData[k], v);
+          } else {
+            rawData[k] = v;
+          }
+        });
+
+        const turnstileToken = rawData['cf-turnstile-response'] || getTurnstileToken(form);
+        delete rawData['cf-turnstile-response'];
+
+        const tableName = form.dataset.table;
+        const payload = {
+          table: tableName,
+          data: {
+            ...rawData,
+            submitted_at: new Date().toISOString()
+          },
+          turnstileToken: turnstileToken || 'bypass-client-token'
+        };
+
+        try {
+          const endpoint = (TANGO_CONFIG.workerUrl ? TANGO_CONFIG.workerUrl : '') + TANGO_CONFIG.submitPath;
+          const res = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+
+          if (!res.ok) {
+            const errText = await res.text();
+            throw new Error(errText || 'Submission error');
+          }
+
+          msg.textContent = 'Thank you! Your information has been registered into our secure pipeline. We will follow up shortly.';
+          msg.classList.add('ok');
+          form.reset();
+          resetTurnstile(form);
+        } catch (err) {
+          msg.textContent = 'We could not save your registration yet. Please try again or email investors@tango.cab.';
+          msg.classList.add('err');
+          console.error(err);
+        } finally {
+          btn.disabled = false;
+          btn.textContent = originalBtnText;
+        }
+      });
+    });
+
+    /* Financial Calculator with Deployment Tier Tabs & Info Tooltips */
+    const CFG = TANGO_CONFIG.model;
+    const elFleet = document.getElementById('calcFleet');
+    const elMiles = document.getElementById('calcMiles');
+    const elRate  = document.getElementById('calcRate');
+    const elSplit = document.getElementById('calcSplit');
+    const elIns   = document.getElementById('calcIns');
+
+    const outFleet = document.getElementById('outFleet');
+    const outMiles = document.getElementById('outMiles');
+    const outRate  = document.getElementById('outRate');
+    const outSplit = document.getElementById('outSplit');
+    const outIns   = document.getElementById('outIns');
+
+    const resPayback = document.getElementById('resPayback');
+    const resPaybackDesc = document.getElementById('resPaybackDesc');
+    const resROI = document.getElementById('resROI');
+    const resEconROI = document.getElementById('resEconROI');
+    const resNetMo = document.getElementById('resNetMo');
+    const resAnnualNet = document.getElementById('resAnnualNet');
+    const resGrossAnnual = document.getElementById('resGrossAnnual');
+
+    const tierTabBtns = document.querySelectorAll('.tier-tab-btn');
+
+    function syncTierTab(fleetCount) {
+      tierTabBtns.forEach(b => b.classList.remove('active'));
+      if (fleetCount === 1) {
+        document.querySelector('.tier-tab-btn[data-tier="solo"]')?.classList.add('active');
+      } else if (fleetCount >= 2 && fleetCount <= 4) {
+        document.querySelector('.tier-tab-btn[data-tier="station"]')?.classList.add('active');
+      } else if (fleetCount >= 5 && fleetCount <= 20) {
+        document.querySelector('.tier-tab-btn[data-tier="fleet"]')?.classList.add('active');
+      } else {
+        document.querySelector('.tier-tab-btn[data-tier="depot"]')?.classList.add('active');
       }
+    }
+
+    tierTabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tier = btn.dataset.tier;
+        if (tier === 'solo') elFleet.value = 1;
+        else if (tier === 'station') elFleet.value = 4;
+        else if (tier === 'fleet') elFleet.value = 12;
+        else if (tier === 'depot') elFleet.value = 24;
+        calculateFinancials();
+      });
     });
-    
-    map.addLayer({
-      id: 'tesla-areas-line',
-      type: 'line',
-      source: 'tesla-areas',
-      paint: {
-        'line-color': CYAN,
-        'line-width': 1.5,
-        'line-dasharray': [2, 2]
+
+    // (?) Tooltip Pin Click Handler
+    document.querySelectorAll('.info-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        btn.classList.toggle('pinned');
+      });
+    });
+    document.addEventListener('click', () => {
+      document.querySelectorAll('.info-btn.pinned').forEach(btn => btn.classList.remove('pinned'));
+    });
+
+    function fmtUSD(val) {
+      return '$' + Math.round(val).toLocaleString('en-US');
+    }
+
+    function calculateFinancials() {
+      const fleet = +elFleet.value;
+      const paidMiles = +elMiles.value;
+      const rate = +elRate.value;
+      const split = +elSplit.value / 100;
+      const insurance = +elIns.value;
+
+      syncTierTab(fleet);
+
+      outFleet.textContent = fleet + (fleet === 1 ? ' vehicle' : ' vehicles');
+      outMiles.textContent = paidMiles + ' mi';
+      outRate.textContent = '$' + rate.toFixed(2);
+      outSplit.textContent = elSplit.value + '%';
+      outIns.textContent = '$' + insurance + '/mo';
+
+      const capitalVehicles = fleet * CFG.vehiclePurchaseCost;
+      const capitalCharging = CFG.chargingInfraCost * (fleet / 10);
+      const capitalSoftware = CFG.softwareLicensingCost * (fleet / 10);
+      const totalCapital = capitalVehicles + capitalCharging + capitalSoftware;
+
+      const monthlyPaidMilesPerVeh = paidMiles * CFG.daysPerMonth;
+      const grossRevPerVeh = monthlyPaidMilesPerVeh * rate;
+      const netRevPerVeh = grossRevPerVeh * (1 - split);
+
+      const totalMilesPerVeh = monthlyPaidMilesPerVeh * CFG.deadheadMultiplier;
+      const energyCostPerVeh = (totalMilesPerVeh * CFG.whPerMile / 1000) * CFG.inductiveLossMultiplier * CFG.kwhRate;
+      const maintCostPerVeh = totalMilesPerVeh * CFG.maintPerMile;
+      const opexPerVeh = energyCostPerVeh + maintCostPerVeh + insurance + CFG.cleaningMonthly + CFG.depotShareMonthly + CFG.softwareMonthly;
+
+      const netPerVehMonth = netRevPerVeh - opexPerVeh;
+      const fleetNetMonth = netPerVehMonth * fleet;
+      const fleetGrossAnnual = grossRevPerVeh * fleet * 12;
+      const fleetNetAnnual = fleetNetMonth * 12;
+
+      const annualDepreciation = (capitalVehicles * (1 - CFG.residualValueRatio)) / CFG.depreciationYears;
+      const economicAnnualNet = fleetNetAnnual - annualDepreciation;
+
+      let paybackMonths = Infinity;
+      if (fleetNetMonth > 0) {
+        let accumulatedCash = 0;
+        let m = 0;
+        while (accumulatedCash < totalCapital && m < 360) {
+          m++;
+          const rampFactor = CFG.utilizationRamp[m - 1] !== undefined ? CFG.utilizationRamp[m - 1] : 1.0;
+          const monthCash = fleetNetMonth * rampFactor;
+          if (accumulatedCash + monthCash >= totalCapital) {
+            paybackMonths = (m - 1) + (totalCapital - accumulatedCash) / monthCash;
+            break;
+          }
+          accumulatedCash += monthCash;
+        }
       }
+
+      const cashROI = (fleetNetAnnual / totalCapital) * 100;
+      const econROI = (economicAnnualNet / totalCapital) * 100;
+
+      if (fleetNetMonth <= 0) {
+        resPayback.textContent = 'N/A';
+        resPaybackDesc.textContent = 'Operating cash flow is negative';
+        resROI.textContent = '0.0%';
+        resEconROI.textContent = '0.0% net';
+      } else {
+        resPayback.textContent = paybackMonths.toFixed(1) + ' mo';
+        resPaybackDesc.textContent = `Full recovery of ${fmtUSD(totalCapital)} capital`;
+        resROI.textContent = cashROI.toFixed(1) + '%';
+        resEconROI.textContent = `${econROI.toFixed(1)}% after depreciation reserve`;
+      }
+
+      resNetMo.textContent = fmtUSD(fleetNetMonth);
+      resAnnualNet.textContent = fmtUSD(fleetNetAnnual);
+      resGrossAnnual.textContent = `Gross: ${fmtUSD(fleetGrossAnnual)} / yr · ${(monthlyPaidMilesPerVeh * fleet * 12 / 1000000).toFixed(2)}M annual miles`;
+    }
+
+    [elFleet, elMiles, elRate, elSplit, elIns].forEach(input => {
+      input.addEventListener('input', calculateFinancials);
     });
-  });
-} else {
-  document.getElementById('map').innerHTML =
-    '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--muted);font-size:14px;padding:24px;text-align:center">Map placeholder — add your Mapbox token to <code style="color:var(--teal)">&nbsp;config.js&nbsp;</code> to activate.</div>';
-}
-</script>
+
+    calculateFinancials();
+
+    /* Mapbox Active Service Areas Initialization */
+    if (window.mapboxgl && TANGO_CONFIG.mapboxToken) {
+      mapboxgl.accessToken = TANGO_CONFIG.mapboxToken;
+      const map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/dark-v11',
+        center: [-98.5, 34.0],
+        zoom: 3.8,
+        cooperativeGestures: true
+      });
+      map.addControl(new mapboxgl.NavigationControl(), 'top-right');
+
+      const TEAL = '#2ee6a8', GOLD = '#f5a623', CYAN = '#41e0e6';
+      const markersData = [
+        { name: 'Bay Area', desc: 'Active commercial autonomous fleet transit', lngLat: [-122.4194, 37.7749], color: CYAN },
+        { name: 'Austin', desc: 'Active Tesla unsupervised RoboTaxi commercial network', lngLat: [-97.7431, 30.2672], color: CYAN },
+        { name: 'Dallas', desc: 'Active autonomous metropolitan service network', lngLat: [-96.7970, 32.7767], color: CYAN },
+        { name: 'Houston', desc: 'Active urban and energy corridor fleet service', lngLat: [-95.3698, 29.7604], color: CYAN },
+        { name: 'Tampa', desc: 'Active Florida Sunbelt autonomous network market', lngLat: [-82.4572, 27.9506], color: CYAN },
+        { name: 'Orlando', desc: 'Active Central Florida autonomous network market', lngLat: [-81.3792, 28.5383], color: CYAN },
+        { name: 'Miami', desc: 'Active South Florida autonomous network market', lngLat: [-80.1918, 25.7617], color: CYAN },
+        { name: 'Orange County, CA', desc: 'Tango investor committed through OC.Cab. Seeking additional Tango Fleet investors and property owners.', lngLat: [-117.8265, 33.6846], color: TEAL },
+        { name: 'Las Vegas', desc: 'Coming soon autonomous entertainment & airport corridor hub', lngLat: [-115.1398, 36.1699], color: GOLD }
+      ];
+
+      markersData.forEach(m => {
+        const markerEl = document.createElement('div');
+        markerEl.style.cssText = `
+          width: 14px; height: 14px; border-radius: 50%;
+          background: ${m.color};
+          box-shadow: 0 0 14px ${m.color}, 0 0 3px #000;
+          cursor: pointer;
+          border: 2px solid #070a10;
+        `;
+        new mapboxgl.Marker({ element: markerEl })
+          .setLngLat(m.lngLat)
+          .setPopup(new mapboxgl.Popup({ offset: 14, closeButton: false }).setHTML(`
+            <div style="font-family:'Inter',sans-serif; padding:4px 2px;">
+              <strong style="color:${m.color}; font-size:14px; display:block; margin-bottom:2px;">${m.name}</strong>
+              <span style="color:#666; font-size:12.5px; line-height:1.4;">${m.desc}</span>
+            </div>
+          `))
+          .addTo(map);
+      });
+
+      map.on('load', () => {
+        map.addSource('service-areas', {
+          type: 'geojson',
+          data: './tesla_areas.geojson'
+        });
+
+        map.addLayer({
+          id: 'service-areas-fill',
+          type: 'fill',
+          source: 'service-areas',
+          paint: {
+            'fill-color': ['get', 'color'],
+            'fill-opacity': 0.18
+          }
+        });
+
+        map.addLayer({
+          id: 'service-areas-line',
+          type: 'line',
+          source: 'service-areas',
+          paint: {
+            'line-color': ['get', 'color'],
+            'line-width': 1.5,
+            'line-dasharray': [2, 2]
+          }
+        });
+      });
+    }
+  </script>
 </body>
 </html>

@@ -1,0 +1,8 @@
+.env
+.DS_Store
+*.pem
+node_modules/
+dist/
+.wrangler/
+coverage/
+npm-debug.log*

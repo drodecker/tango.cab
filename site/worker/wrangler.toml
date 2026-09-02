@@ -1,0 +1,14 @@
+name = "tango-forms"
+main = "worker.js"
+compatibility_date = "2026-07-01"
+
+[vars]
+ALLOWED_ORIGIN = "https://tango.cab, http://localhost:3000, http://localhost:8080"
+TABLE_INVESTORS = "mqi90dk7p4nlpf0"
+TABLE_PROPERTY  = "m2fsritrqpepcc2"
+TABLE_CAREERS   = "mewoa8u9qvjlsvb"
+
+# Secrets to set via `wrangler secret put`:
+#   NOCODB_URL        e.g. https://nocodb.yourdomain.com
+#   NOCODB_TOKEN      nc_pat_...
+#   TURNSTILE_SECRET  (optional)
