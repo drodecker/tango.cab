@@ -999,18 +999,52 @@
       background: var(--bg-card-hover);
     }
 
+    body.nav-locked {
+      overflow: hidden !important;
+      touch-action: none;
+    }
+
     @media (max-width: 992px) {
       nav {
         background: #070a10 !important;
         backdrop-filter: none !important;
         -webkit-backdrop-filter: none !important;
       }
+      nav.mobile-active {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+        background: #070a10 !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch;
+        z-index: 99999 !important;
+        display: flex !important;
+        flex-direction: column !important;
+      }
       .nav-inner {
-        height: 68px;
-        position: static !important;
-        display: flex;
+        height: auto !important;
+        min-height: 68px;
+        display: flex !important;
+        flex-wrap: wrap !important;
         align-items: center;
         justify-content: space-between;
+        position: static !important;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        box-sizing: border-box;
+      }
+      .logo {
+        order: 1;
+      }
+      .nav-right {
+        order: 2;
+        display: flex;
+        align-items: center;
       }
       .logo .badge-preseed {
         display: none !important;
@@ -1018,50 +1052,46 @@
       .nav-right .btn {
         display: none !important;
       }
+      .mobile-toggle {
+        display: flex !important;
+      }
       .nav-menu {
         display: none;
       }
       .nav-menu.mobile-open {
-        display: block !important;
-        position: absolute !important;
-        top: 68px !important;
-        left: 0 !important;
-        right: 0 !important;
-        width: 100vw !important;
-        height: calc(100dvh - 68px) !important;
-        height: calc(100vh - 68px) !important;
-        max-height: calc(100dvh - 68px) !important;
-        max-height: calc(100vh - 68px) !important;
-        overflow-y: auto !important;
-        -webkit-overflow-scrolling: touch;
-        background: #090e18 !important;
-        border-top: 1px solid var(--line-bright);
-        padding: 16px 20px 90px !important;
+        order: 3;
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        flex-basis: 100% !important;
+        padding: 20px 0 100px !important;
+        gap: 16px !important;
+        list-style: none !important;
+        margin: 0 !important;
         box-sizing: border-box !important;
-        z-index: 10000 !important;
-        box-shadow: 0 24px 48px rgba(0, 0, 0, 0.95);
       }
       .nav-item {
         width: 100%;
-        margin-bottom: 10px;
+        margin-bottom: 4px;
         border-bottom: 1px solid rgba(28, 39, 62, 0.7);
-        padding-bottom: 8px;
+        padding-bottom: 12px;
       }
       .nav-item:last-child {
         border-bottom: none;
         margin-bottom: 0;
+        padding-bottom: 0;
       }
       .nav-link {
-        font-size: 16.5px;
+        font-size: 17px;
         font-weight: 700;
         color: #fff;
-        padding: 10px 12px;
+        padding: 12px 14px;
         display: flex;
         justify-content: space-between;
         align-items: center;
         border-radius: var(--radius-sm);
         background: rgba(255, 255, 255, 0.04);
-        border: 1px solid rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.08);
         text-decoration: none;
       }
       .nav-link:hover, .nav-link.active {
@@ -1081,11 +1111,11 @@
         background: transparent !important;
         border: none !important;
         border-left: 2px solid rgba(46, 230, 168, 0.35) !important;
-        margin: 6px 0 4px 12px !important;
-        padding: 2px 0 2px 10px !important;
+        margin: 8px 0 4px 14px !important;
+        padding: 4px 0 4px 12px !important;
         display: flex !important;
         flex-direction: column !important;
-        gap: 2px !important;
+        gap: 4px !important;
         pointer-events: auto !important;
         list-style: none !important;
       }
@@ -1095,12 +1125,12 @@
       .nav-submenu a {
         display: flex !important;
         align-items: center;
-        padding: 9px 12px !important;
+        padding: 10px 12px !important;
         font-size: 15px !important;
         font-weight: 500;
         color: #b8c7df;
         border-radius: var(--radius-sm);
-        min-height: 40px;
+        min-height: 42px;
         transition: all 0.15s ease;
         text-decoration: none !important;
       }
@@ -1829,18 +1859,31 @@
     /* Mobile Nav Toggle & Auto-Close */
     const mobileToggle = document.getElementById('mobileToggle');
     const navMenu = document.getElementById('navMenu');
+    const navHeader = document.querySelector('nav');
     if (mobileToggle && navMenu) {
+      function openMobileNav() {
+        if (navHeader) navHeader.classList.add('mobile-active');
+        navMenu.classList.add('mobile-open');
+        document.body.classList.add('nav-locked');
+        mobileToggle.setAttribute('aria-expanded', 'true');
+        mobileToggle.textContent = '✕';
+      }
+
       function closeMobileNav() {
+        if (navHeader) navHeader.classList.remove('mobile-active');
         navMenu.classList.remove('mobile-open');
+        document.body.classList.remove('nav-locked');
         mobileToggle.setAttribute('aria-expanded', 'false');
         mobileToggle.textContent = '☰';
       }
 
       mobileToggle.addEventListener('click', (e) => {
         e.stopPropagation();
-        const isOpen = navMenu.classList.toggle('mobile-open');
-        mobileToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-        mobileToggle.textContent = isOpen ? '✕' : '☰';
+        if (navMenu.classList.contains('mobile-open')) {
+          closeMobileNav();
+        } else {
+          openMobileNav();
+        }
       });
 
       navMenu.querySelectorAll('a').forEach(link => {
