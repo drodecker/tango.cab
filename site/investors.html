@@ -15,7 +15,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 
   <!-- Turnstile Bot Protection -->
-  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad&render=explicit" defer></script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
   <style>
     :root {
@@ -1245,10 +1245,12 @@
 
       <form id="form-investor" data-table="investors">
         <div>
-          <label class="field-label" for="inv-type">Investor Type *</label>
+          <label class="field-label" for="inv-type">Investor Classification *</label>
           <select id="inv-type" name="type" class="field-input" required>
+            <option value="" disabled selected>Select classification...</option>
             <option value="Individual">Individual / Angel</option>
             <option value="Corporate / Fund">Corporate / Family Office / Fund</option>
+            <option value="Other">Other</option>
           </select>
         </div>
         <div>
@@ -1288,8 +1290,8 @@
           <textarea id="inv-notes" name="notes" class="field-input" placeholder="Questions regarding our child-partner LLC pools or depot strategy..."></textarea>
         </div>
         <div class="full check-box">
-          <input type="checkbox" id="inv-acc" name="accredited" required>
-          <label for="inv-acc">I self-certify that I am an <strong>Accredited Investor</strong> as defined by SEC Regulation D, Rule 501. I understand this expresses interest only and is not an offer to sell or buy securities.</label>
+          <input type="checkbox" id="inv-privacy" name="privacy_consent" checked required>
+          <label for="inv-privacy">We respect your privacy: we never spam, nor will we sell your information.</label>
         </div>
         <div class="full cf-turnstile" data-sitekey="0x4AAAAAAEErFzm0wFxJKUVr" data-theme="dark"></div>
         <div class="full">
@@ -1704,6 +1706,7 @@
 
         const data = {};
         new FormData(form).forEach((v, k) => { data[k] = v; });
+        const turnstileToken = data['cf-turnstile-response'] || '';
         delete data['cf-turnstile-response'];
 
         try {
@@ -1714,17 +1717,21 @@
             body: JSON.stringify({
               table: 'investors',
               data: { ...data, submitted_at: new Date().toISOString() },
-              turnstileToken: 'bypass-client-token'
+              turnstileToken: turnstileToken || 'bypass-client-token'
             })
           });
           if (!res.ok) throw new Error(await res.text());
           msg.textContent = 'Received! We have registered your request and will provide the Data Room package shortly.';
           msg.classList.add('ok');
           form.reset();
+          const tEl = form.querySelector('.cf-turnstile');
+          if (window.turnstile && tEl) { try { turnstile.reset(tEl); } catch {} }
         } catch (err) {
           msg.textContent = 'Registration logged! We have recorded your interest and our team will follow up via email with the Financial Model.';
           msg.classList.add('ok');
           form.reset();
+          const tEl = form.querySelector('.cf-turnstile');
+          if (window.turnstile && tEl) { try { turnstile.reset(tEl); } catch {} }
         } finally {
           btn.disabled = false; btn.textContent = 'Request Data Room & Financial Model →';
         }

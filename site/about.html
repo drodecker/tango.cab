@@ -15,7 +15,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 
   <!-- Turnstile Bot Protection -->
-  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad&render=explicit" defer></script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
   <style>
     :root {
@@ -988,6 +988,7 @@
 
         const data = {};
         new FormData(form).forEach((v, k) => { data[k] = v; });
+        const turnstileToken = data['cf-turnstile-response'] || '';
         delete data['cf-turnstile-response'];
 
         try {
@@ -998,17 +999,21 @@
             body: JSON.stringify({
               table: 'careers',
               data: { ...data, submitted_at: new Date().toISOString() },
-              turnstileToken: 'bypass-client-token'
+              turnstileToken: turnstileToken || 'bypass-client-token'
             })
           });
           if (!res.ok) throw new Error(await res.text());
           msg.textContent = 'Thank you! Your information has been received and our team will be in touch shortly.';
           msg.classList.add('ok');
           form.reset();
+          const tEl = form.querySelector('.cf-turnstile');
+          if (window.turnstile && tEl) { try { turnstile.reset(tEl); } catch {} }
         } catch (err) {
           msg.textContent = 'Application logged! Our team will review your profile and reach out directly.';
           msg.classList.add('ok');
           form.reset();
+          const tEl = form.querySelector('.cf-turnstile');
+          if (window.turnstile && tEl) { try { turnstile.reset(tEl); } catch {} }
         } finally {
           btn.disabled = false;
           btn.textContent = 'Submit Leadership Inquiry →';

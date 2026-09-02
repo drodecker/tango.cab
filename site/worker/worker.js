@@ -32,6 +32,8 @@ const FIELDS = {
     "source",
     "notes",
     "accredited",
+    "privacy_consent",
+    "privacy",
     "status",
     "submitted_at",
     "ip",

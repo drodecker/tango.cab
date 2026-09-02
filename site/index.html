@@ -22,7 +22,7 @@
   <script src="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
 
   <!-- Turnstile Bot Protection -->
-  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad&render=explicit" defer></script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
   <style>
     :root {
@@ -1654,29 +1654,31 @@
         <div>
           <label class="field-label" for="inv-type">Investor Classification *</label>
           <select id="inv-type" name="type" class="field-input" required>
+            <option value="" disabled selected>Select classification...</option>
             <option value="Individual">Individual / Angel</option>
             <option value="Corporate / Fund">Corporate / Family Office / Fund</option>
+            <option value="Other">Other</option>
           </select>
         </div>
         <div>
           <label class="field-label" for="inv-name">Full Name *</label>
-          <input id="inv-name" name="name" type="text" class="field-input" placeholder="e.g. David Vance" required>
+          <input id="inv-name" name="name" type="text" class="field-input" required>
         </div>
         <div>
           <label class="field-label" for="inv-email">Email Address *</label>
-          <input id="inv-email" name="email" type="email" class="field-input" placeholder="david@example.com" required>
+          <input id="inv-email" name="email" type="email" class="field-input" required>
         </div>
         <div>
           <label class="field-label" for="inv-phone">Phone Number</label>
-          <input id="inv-phone" name="phone" type="tel" class="field-input" placeholder="(949) 555-0199">
+          <input id="inv-phone" name="phone" type="tel" class="field-input">
         </div>
         <div>
           <label class="field-label" for="inv-entity">Entity / Fund Name (if applicable)</label>
-          <input id="inv-entity" name="entity" type="text" class="field-input" placeholder="e.g. Vance Capital LLC">
+          <input id="inv-entity" name="entity" type="text" class="field-input">
         </div>
         <div>
           <label class="field-label" for="inv-social">LinkedIn / X Profile</label>
-          <input id="inv-social" name="social" type="text" class="field-input" placeholder="https://linkedin.com/in/...">
+          <input id="inv-social" name="social" type="text" class="field-input">
         </div>
         <div>
           <label class="field-label" for="inv-range">Anticipated Allocation Range *</label>
@@ -1688,15 +1690,15 @@
         </div>
         <div>
           <label class="field-label" for="inv-source">How did you hear about Tango?</label>
-          <input id="inv-source" name="source" type="text" class="field-input" placeholder="Referral / Event / Web">
+          <input id="inv-source" name="source" type="text" class="field-input">
         </div>
         <div class="full">
           <label class="field-label" for="inv-notes">Investment Background / Strategic Value</label>
           <textarea id="inv-notes" name="notes" class="field-input" placeholder="Tell us about your investment focus or questions regarding our child-partner LLC pools..."></textarea>
         </div>
         <div class="full check-box">
-          <input type="checkbox" id="inv-acc" name="accredited" required>
-          <label for="inv-acc">I self-certify that I am an <strong>Accredited Investor</strong> under SEC Regulation D, Rule 501. I understand this expresses interest only and is not an offer to buy securities.</label>
+          <input type="checkbox" id="inv-privacy" name="privacy_consent" checked required>
+          <label for="inv-privacy">We respect your privacy: we never spam, nor will we sell your information.</label>
         </div>
         <div class="full cf-turnstile" data-sitekey="0x4AAAAAAEErFzm0wFxJKUVr" data-theme="dark"></div>
         <div class="full">
@@ -1936,38 +1938,27 @@
       });
     });
 
-    /* Turnstile Handler */
-    const turnstileTokens = new WeakMap();
-    const turnstileWidgets = new WeakMap();
-
-    window.onTurnstileLoad = function() {
-      document.querySelectorAll('.cf-turnstile').forEach(el => {
-        const form = el.closest('form');
-        if (!form || !window.turnstile || turnstileWidgets.has(form)) return;
-        const widgetId = turnstile.render(el, {
-          sitekey: el.dataset.sitekey || TANGO_CONFIG.turnstileSiteKey,
-          theme: el.dataset.theme || 'dark',
-          callback: token => turnstileTokens.set(form, token),
-          'expired-callback': () => turnstileTokens.delete(form),
-          'error-callback': () => turnstileTokens.delete(form)
-        });
-        turnstileWidgets.set(form, widgetId);
-      });
-    };
-
+    /* Turnstile Helpers */
     function getTurnstileToken(form) {
       const field = form.querySelector('[name="cf-turnstile-response"]');
-      const widgetId = turnstileWidgets.get(form);
-      return (field && field.value) ||
-        turnstileTokens.get(form) ||
-        (window.turnstile && widgetId !== undefined ? turnstile.getResponse(widgetId) : '') ||
-        '';
+      if (field && field.value) return field.value;
+      const turnstileEl = form.querySelector('.cf-turnstile');
+      if (window.turnstile && turnstileEl) {
+        try {
+          const res = turnstile.getResponse(turnstileEl);
+          if (res) return res;
+        } catch {}
+      }
+      return '';
     }
 
     function resetTurnstile(form) {
-      turnstileTokens.delete(form);
-      const widgetId = turnstileWidgets.get(form);
-      if (window.turnstile && widgetId !== undefined) turnstile.reset(widgetId);
+      const turnstileEl = form.querySelector('.cf-turnstile');
+      if (window.turnstile && turnstileEl) {
+        try {
+          turnstile.reset(turnstileEl);
+        } catch {}
+      }
     }
 
     /* Form Submissions */

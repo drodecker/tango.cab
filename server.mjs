@@ -11,7 +11,7 @@ const tables = {
   careers: process.env.NOCODB_CAREERS_TABLE || "mewoa8u9qvjlsvb",
 };
 const fields = {
-  investors: ["type", "name", "email", "phone", "entity", "social", "interest_range", "source", "notes", "accredited"],
+  investors: ["type", "name", "email", "phone", "entity", "social", "interest_range", "source", "notes", "accredited", "privacy_consent", "privacy"],
   property_partners: ["name", "email", "phone", "markets", "capacity", "existing_charging", "notes"],
   careers: ["role", "name", "email", "phone", "linkedin", "other_profile", "resume_url", "notes"],
 };
