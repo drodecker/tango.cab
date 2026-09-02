@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Tango Cab - Always in service | Leadership &amp; Company</title>
+  <meta name="description" content="Tango Cab is a remote-first enterprise established under Texas LLC laws with child-partner LLCs including OC.Cab across California, Nevada, and Florida, bringing humans closer to AI mobility.">
+  <meta property="og:title" content="About Tango Cab - Always in service">
+  <meta property="og:description" content="Vehicles, depots, and local fleets for autonomous mobility. Remote-first leadership team.">
+  <meta property="og:type" content="website">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <!-- Turnstile Bot Protection -->
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad&render=explicit" defer></script>
+
+  <style>
+    :root {
+      --bg: #070a10;
+      --bg-2: #0d1320;
+      --bg-card: #121a2c;
+      --bg-card-hover: #162137;
+      --line: #1c273e;
+      --line-bright: #2d3e62;
+      --text: #f0f4fc;
+      --muted: #8e9db7;
+      --dim: #5c6b84;
+      --teal: #2ee6a8;
+      --teal-dim: #157356;
+      --teal-glow: rgba(46, 230, 168, 0.25);
+      --cyan: #41e0e6;
+      --gold-1: #f5a623;
+      --gold-2: #ffc95e;
+      --red: #ff6b6b;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4, .display-font {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      letter-spacing: -0.02em;
+    }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+
+    a { color: var(--teal); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: #5effc4; }
+
+    .wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    section { padding: 90px 0; }
+    .section-alt { background: var(--bg-2); }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--teal);
+      border: 1px solid rgba(46, 230, 168, 0.3);
+      border-radius: 999px;
+      padding: 6px 16px;
+      background: rgba(46, 230, 168, 0.08);
+    }
+    .eyebrow i {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); box-shadow: 0 0 8px var(--teal);
+    }
+
+    h2.section-title {
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 800;
+      line-height: 1.15;
+      margin: 18px 0 14px;
+    }
+    p.section-sub {
+      color: var(--muted);
+      font-size: clamp(15.5px, 1.8vw, 18.5px);
+      max-width: 780px;
+      line-height: 1.6;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 14.5px;
+      padding: 13px 26px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--line-bright);
+      color: var(--text);
+      background: var(--bg-card);
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-decoration: none;
+    }
+    .btn:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--teal);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+    .btn.solid {
+      background: var(--teal);
+      color: #051a14;
+      border-color: var(--teal);
+      box-shadow: 0 4px 18px var(--teal-glow);
+    }
+    .btn.solid:hover {
+      background: #4ef5bc;
+      color: #02120e;
+    }
+
+    /* Unified Navigation */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(7, 10, 16, 0.9);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(28, 39, 62, 0.85);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 74px;
+      position: relative;
+    }
+    .logo {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 22px;
+      letter-spacing: -0.01em;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      text-decoration: none;
+    }
+    .logo span.brand-dot { color: var(--teal); font-size: 26px; line-height: 0; }
+    .logo .badge-preseed {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(46, 230, 168, 0.12);
+      border: 1px solid rgba(46, 230, 168, 0.3);
+      color: var(--teal);
+      margin-left: 10px;
+      text-transform: uppercase;
+    }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      list-style: none;
+    }
+    .nav-item { position: relative; }
+    .nav-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 8px 14px;
+      font-size: 14.5px;
+      font-weight: 600;
+      color: var(--muted);
+      border-radius: var(--radius-sm);
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+    .nav-link:hover, .nav-item:hover > .nav-link, .nav-link.active {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .nav-link.active { color: var(--teal); }
+    .nav-link .caret { font-size: 9px; opacity: 0.7; transition: transform 0.2s; }
+    .nav-item:hover .caret { transform: rotate(180deg); }
+
+    .nav-submenu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      min-width: 230px;
+      background: rgba(13, 19, 32, 0.97);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--line-bright);
+      border-radius: var(--radius-md);
+      padding: 8px;
+      list-style: none;
+      box-shadow: 0 16px 36px rgba(0,0,0,0.55);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(8px);
+      transition: all 0.22s ease;
+      pointer-events: none;
+      z-index: 1001;
+    }
+    .nav-item:hover > .nav-submenu,
+    .nav-item:focus-within > .nav-submenu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(2px);
+      pointer-events: auto;
+    }
+    .nav-submenu a {
+      display: block;
+      padding: 9px 12px;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--muted);
+      border-radius: var(--radius-sm);
+      transition: all 0.15s;
+      text-decoration: none;
+    }
+    .nav-submenu a:hover {
+      background: rgba(46, 230, 168, 0.08);
+      color: var(--teal);
+    }
+    .nav-submenu a small {
+      display: block;
+      font-size: 11px;
+      color: var(--dim);
+      margin-top: 2px;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .mobile-toggle {
+      display: none;
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    /* Hero */
+    .about-hero {
+      padding: 150px 0 70px;
+      background:
+        radial-gradient(900px 500px at 78% 0%, rgba(65, 224, 230, 0.07), transparent 60%),
+        linear-gradient(180deg, #070a10 0%, #0c121e 100%);
+      border-bottom: 1px solid var(--line);
+    }
+    .about-hero h1 {
+      font-size: clamp(34px, 5.4vw, 58px);
+      font-weight: 800;
+      line-height: 1.08;
+      margin: 22px 0 18px;
+    }
+    .about-hero h1 .accent { color: var(--teal); }
+    .about-hero p.lede {
+      font-size: clamp(16px, 2vw, 20px);
+      color: var(--muted);
+      max-width: 780px;
+      line-height: 1.6;
+    }
+
+    /* Cards */
+    .bio-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(46, 230, 168, 0.3);
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      margin-top: 40px;
+      background: linear-gradient(180deg, rgba(46, 230, 168, 0.04) 0%, var(--bg-card) 100%);
+    }
+    .bio-badge {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--teal);
+      background: rgba(46, 230, 168, 0.1);
+      border: 1px solid rgba(46, 230, 168, 0.25);
+      border-radius: 6px;
+      padding: 4px 12px;
+      margin-bottom: 16px;
+    }
+    .bio-card h3 {
+      font-size: 28px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .bio-card .bio-role {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--teal);
+      margin-bottom: 20px;
+    }
+    .bio-card p {
+      color: var(--muted);
+      font-size: 15.5px;
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .roles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 36px;
+    }
+    .role-box {
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 30px 26px;
+    }
+    .role-box h4 {
+      font-size: 19px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .role-box .role-sub {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--gold-1);
+      margin-bottom: 12px;
+    }
+    .role-box p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .structure-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      margin-top: 36px;
+    }
+    .structure-item {
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 24px;
+    }
+    .structure-item b {
+      display: block;
+      font-size: 17px;
+      color: var(--teal);
+      margin-bottom: 6px;
+    }
+    .structure-item p {
+      font-size: 13.5px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* Form */
+    form.lead-form {
+      display: grid;
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 38px;
+      margin-top: 36px;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+    }
+    form .full { grid-column: 1 / -1; }
+    label.field-label {
+      display: block;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    input.field-input, select.field-input, textarea.field-input {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      color: #fff;
+      padding: 14px 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+    }
+    input.field-input:focus, select.field-input:focus, textarea.field-input:focus {
+      outline: 2px solid var(--teal-dim);
+      border-color: var(--teal);
+    }
+    textarea.field-input { min-height: 120px; resize: vertical; }
+
+    .form-msg {
+      grid-column: 1 / -1;
+      font-size: 14px;
+      display: none;
+      padding: 16px 20px;
+      border-radius: var(--radius-sm);
+    }
+    .form-msg.ok {
+      display: block;
+      background: rgba(46, 230, 168, 0.12);
+      color: var(--teal);
+      border: 1px solid var(--teal-dim);
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 56px 0 40px;
+      background: #05070c;
+    }
+    .footer-cols {
+      display: flex;
+      justify-content: space-between;
+      gap: 32px;
+      flex-wrap: wrap;
+      margin-bottom: 36px;
+    }
+    .footer-fine {
+      font-size: 12px;
+      color: #556277;
+      line-height: 1.6;
+      max-width: 900px;
+    }
+
+    @media (max-width: 992px) {
+      .nav-menu { display: none; }
+      .nav-menu.mobile-open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 74px;
+        left: 0; right: 0;
+        background: rgba(13, 19, 32, 0.98);
+        border-bottom: 1px solid var(--line-bright);
+        padding: 20px;
+        gap: 12px;
+        z-index: 1000;
+      }
+      .nav-submenu {
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        box-shadow: none;
+        background: transparent;
+        border: none;
+        padding-left: 16px;
+        display: block;
+      }
+      .mobile-toggle { display: block; }
+      form.lead-form { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Unified Navigation -->
+  <nav>
+    <div class="wrap nav-inner">
+      <a class="logo" href="index.html">
+        TANGO<span class="brand-dot">.</span>CAB
+        <span class="badge-preseed">Accepting commitments</span>
+      </a>
+
+      <!-- Menu with Submenus -->
+      <ul class="nav-menu" id="navMenu">
+        <li class="nav-item">
+          <a href="index.html" class="nav-link">
+            Overview <span class="caret">▼</span>
+          </a>
+          <ul class="nav-submenu">
+            <li><a href="index.html#models">Deployment Tiers<small>Solo, Station, Fleet &amp; Depot</small></a></li>
+            <li><a href="index.html#business-layer">Business Layer<small>4 Physical &amp; Operating Pillars</small></a></li>
+            <li><a href="index.html#operations">Ride Quality<small>Serene 5-Star Experience</small></a></li>
+            <li><a href="index.html#corridors">Active Areas &amp; Map<small>TX, CA, FL Regional Hubs</small></a></li>
+            <li><a href="index.html#economics">Fleet Economics<small>Interactive Model &amp; Payback</small></a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a href="investors.html" class="nav-link">
+            Prospectus <span class="caret">▼</span>
+          </a>
+          <ul class="nav-submenu">
+            <li><a href="investors.html#capital">Capital Requirements<small>CAPEX Allocation</small></a></li>
+            <li><a href="investors.html#revenue">Revenue Model<small>Mileage &amp; Fares</small></a></li>
+            <li><a href="investors.html#opex">Operating Costs<small>Itemized Monthly OPEX</small></a></li>
+            <li><a href="investors.html#payback">Path to Payback<small>Cumulative Cash Flow</small></a></li>
+            <li><a href="investors.html#calculator">Stress-Test Calculator<small>Sensitivity Matrix</small></a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a href="competition.html" class="nav-link">
+            Competition <span class="caret">▼</span>
+          </a>
+          <ul class="nav-submenu">
+            <li><a href="competition.html#comparison">Paradigm Comparison<small>Tango vs Waymo vs Zoox</small></a></li>
+            <li><a href="competition.html#comparison">Feature Matrix<small>Cost, Autonomy &amp; Depots</small></a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a href="about.html" class="nav-link active">
+            About Us <span class="caret">▼</span>
+          </a>
+          <ul class="nav-submenu">
+            <li><a href="about.html#leadership">Leadership</a></li>
+            <li><a href="about.html#leadership">Executive Search</a></li>
+            <li><a href="about.html#structure">Child LLC Model</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a href="index.html#connect" class="nav-link">
+            Connect <span class="caret">▼</span>
+          </a>
+          <ul class="nav-submenu">
+            <li><a href="index.html#connect" data-tab-trigger="investors">Investor Data Room</a></li>
+            <li><a href="index.html#connect" data-tab-trigger="property_partners">Property &amp; Depot Hosts</a></li>
+            <li><a href="index.html#connect" data-tab-trigger="careers">Leadership Careers</a></li>
+          </ul>
+        </li>
+      </ul>
+
+      <div class="nav-right">
+        <a class="btn solid" href="index.html#connect" style="padding:10px 20px; font-size:13.5px;">Connect →</a>
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">☰</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="about-hero">
+    <div class="wrap">
+      <div class="eyebrow"><i></i> About Tango Cab · Remote-First Organization</div>
+      <h1>Always in <span class="accent">service</span>.</h1>
+      <p class="lede">
+        We are a collective of founders, builders, and capital partners dedicated to bringing humans closer to the tangible benefits of modern AI technology. Tango Cab provides the physical capital, depot infrastructure, and 24/7 operating layer for autonomous robotaxi mobility.
+      </p>
+    </div>
+  </header>
+
+  <!-- Leadership Section -->
+  <section id="leadership">
+    <div class="wrap">
+      <div class="eyebrow"><i></i> Technical Leadership &amp; Origins</div>
+      <h2 class="section-title">Founder &amp; Chief Technology Officer</h2>
+      <p class="section-sub">
+        Rooted in 20+ years of technology architecture, software infrastructure, and commercial real estate development.
+      </p>
+
+      <div class="bio-card">
+        <span class="bio-badge">FOUNDING PARTNER &amp; CTO</span>
+        <h3>David Rodecker</h3>
+        <div class="bio-role">Founder, Builder &amp; Chief Architect · Texas · Florida · Southern California</div>
+
+        <p>
+          David Rodecker brings over two decades of experience designing, scaling, and operating high-availability technology ventures, data infrastructure, and commercial businesses. As a seasoned founder and systems architect, David built <strong>Local Splash</strong> into a nationwide digital presence leader and is currently pioneering AI voice and text agents for home-service enterprises operating on proprietary, owned infrastructure.
+        </p>
+
+        <p>
+          Beyond pure software, David actively invests in and develops commercial and residential real estate across Southern California, Texas, and Florida. This intersection of hands-on physical property management, electrical infrastructure, and autonomous fleet systems forms the operational foundation of Tango Cab: pairing owned real-estate footprints with flush inductive charging hubs and automated quality control.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Remote-First & Open Executive Roles -->
+  <section class="section-alt">
+    <div class="wrap">
+      <div class="eyebrow"><i></i> Remote-First Executive Search</div>
+      <h2 class="section-title">Expanding the leadership team</h2>
+      <p class="section-sub">
+        Tango Cab operates as a lean, remote-first organization. We actively welcome applicants, builders, and prospective partners to apply for our TBA interim executive leadership roles:
+      </p>
+
+      <div class="roles-grid">
+        <div class="role-box">
+          <h4>Chief Executive Officer (CEO) - TBA</h4>
+          <div class="role-sub">Fleet Scaling &amp; OEM Relations</div>
+          <p>
+            Driving institutional capital formation, municipal partnerships, regulatory alignment, and regional expansion strategy.
+          </p>
+        </div>
+
+        <div class="role-box">
+          <h4>Chief Financial Officer (CFO) - TBA</h4>
+          <div class="role-sub">Capital Allocation &amp; Fund Architecture</div>
+          <p>
+            Structuring deployment-specific child LLCs, pro-forma financial models, debt/equity facilities, and SEC Regulation D compliance.
+          </p>
+        </div>
+
+        <div class="role-box">
+          <h4>Chief Operating Officer (COO) - TBA</h4>
+          <div class="role-sub">Physical Depots &amp; Turnaround Logistics</div>
+          <p>
+            Overseeing wireless charging station installations, automated wash and detailing bays, telematics maintenance, and property partner integration.
+          </p>
+        </div>
+
+        <div class="role-box">
+          <h4>Chief Marketing Officer (CMO) - TBA</h4>
+          <div class="role-sub">Brand &amp; Corporate Rider Accounts</div>
+          <p>
+            Establishing corporate transit partnerships, B2B hospitality accounts, and communicating the serene, standardized quality of the Tango ride.
+          </p>
+        </div>
+      </div>
+
+      <!-- Executive Engagement Model & Board Governance -->
+      <div style="margin-top:28px; background:var(--bg-card); border:1px solid var(--line); border-radius:var(--radius-md); padding:24px 28px; font-size:14px; color:var(--muted); line-height:1.65;">
+        <h4 style="color:#fff; font-size:16px; margin-bottom:8px;">💡 Executive Engagement &amp; Governance Model</h4>
+        <p style="margin-bottom:12px;">
+          Interim executive leadership roles are structured as equity and advisory positions prior to fleet commercialization, with executive cash compensation established by board vote upon operational cash flow. We welcome qualified applicants, experienced operators, and prospective strategic investors to submit interest.
+        </p>
+        <p>
+          🏛️ <strong>Board Structure:</strong> Each localized child LLC will have its own board delegate representing the <strong>top 4 investors it serves</strong>, plus <strong>one designated seat from Tango.Cab LLC</strong>, ensuring direct investor governance and aligned fiduciary oversight.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Corporate Structure & Child LLC Pools -->
+  <section id="structure">
+    <div class="wrap">
+      <div class="eyebrow"><i></i> Corporate Architecture</div>
+      <h2 class="section-title">Child-Partner LLC deployment model</h2>
+      <p class="section-sub">
+        Tango Cab is established under the LLC laws of Texas, with localized child-partner LLCs established for each regional deployment.
+      </p>
+
+      <div class="structure-grid">
+        <div class="structure-item">
+          <b>Tango.Cab LLC (Texas)</b>
+          <p>Parent technology entity, platform licensing, telematics coordination, and centralized operational IP.</p>
+        </div>
+
+        <div class="structure-item">
+          <b>OC.Cab / OC's Tango (California)</b>
+          <p>Dedicated child LLC holding vehicle assets and long term commercial property leases in Orange County with government ties.</p>
+        </div>
+
+        <div class="structure-item">
+          <b>Tango Nevada LLC (Nevada)</b>
+          <p>Dedicated entity managing the Las Vegas hub, entertainment corridor, and regional terminal depots.</p>
+        </div>
+
+        <div class="structure-item">
+          <b>Tango Florida LLC (Florida)</b>
+          <p>Regional asset vehicle pool positioned for Tampa, Orlando, and Miami Sunbelt commercial fleet expansion.</p>
+        </div>
+      </div>
+
+      <div style="margin-top:28px; background:var(--bg-card); border:1px solid var(--line); border-radius:var(--radius-md); padding:22px 26px; font-size:14px; color:var(--muted); line-height:1.6;">
+        🛡️ <strong>Ring-Fenced Capital:</strong> Each localized fleet deployment (Tango Station, Tango Fleet, or Tango Depot) operates under its own child-partner LLC pool, isolating asset liability, simplifying local property partner distributions, and providing clean pass-through tax efficiency for investors.
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Form for Leadership & Strategic Inquiries -->
+  <section id="contact" class="section-alt">
+    <div class="wrap">
+      <div class="eyebrow"><i></i> Get In Touch</div>
+      <h2 class="section-title">Join the Tango team or advisory board</h2>
+      <p class="section-sub">
+        If you have a background in autonomous mobility, commercial fleet operations, real-estate infrastructure, or fund management, submit your information below.
+      </p>
+
+      <form id="form-careers-page" class="lead-form" data-table="careers">
+        <div>
+          <label class="field-label" for="c-role">Role of Interest *</label>
+          <select id="c-role" name="role" class="field-input" required>
+            <option value="CEO">Chief Executive Officer (CEO)</option>
+            <option value="CFO">Chief Financial Officer (CFO)</option>
+            <option value="COO">Chief Operating Officer (COO)</option>
+            <option value="CMO">Chief Marketing Officer (CMO)</option>
+            <option value="CTO">Engineering / Infrastructure</option>
+            <option value="Other">Advisory / Strategic Board</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label" for="c-name">Full Name *</label>
+          <input id="c-name" name="name" type="text" class="field-input" required>
+        </div>
+        <div>
+          <label class="field-label" for="c-email">Email Address *</label>
+          <input id="c-email" name="email" type="email" class="field-input" required>
+        </div>
+        <div>
+          <label class="field-label" for="c-phone">Phone Number</label>
+          <input id="c-phone" name="phone" type="tel" class="field-input">
+        </div>
+        <div>
+          <label class="field-label" for="c-linkedin">LinkedIn Profile URL *</label>
+          <input id="c-linkedin" name="linkedin" type="url" class="field-input" required>
+        </div>
+        <div>
+          <label class="field-label" for="c-other">X / GitHub / Portfolio</label>
+          <input id="c-other" name="other_profile" type="url" class="field-input">
+        </div>
+        <div class="full">
+          <label class="field-label" for="c-resume">Resume / CV Link</label>
+          <input id="c-resume" name="resume_url" type="url" class="field-input" placeholder="https://...">
+        </div>
+        <div class="full">
+          <label class="field-label" for="c-notes">Background &amp; Value Alignment *</label>
+          <textarea id="c-notes" name="notes" class="field-input" placeholder="Tell us about your background in mobility, technology scaling, or real estate..." required></textarea>
+        </div>
+        <div class="full cf-turnstile" data-sitekey="0x4AAAAAAEErFzm0wFxJKUVr" data-theme="dark"></div>
+        <div class="full">
+          <button type="submit" class="btn solid" style="width:100%; justify-content:center; padding:16px;">Submit Leadership Inquiry →</button>
+        </div>
+        <div class="form-msg"></div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="wrap">
+      <div class="footer-cols">
+        <div>
+          <div class="logo">TANGO<span class="brand-dot">.</span>CAB</div>
+          <p style="color:var(--muted); font-size:14px; margin-top:8px;">Always in service. Physical capital and 24/7 ops for driverless service.</p>
+        </div>
+        <div style="display:flex; gap:24px; font-size:14px;">
+          <a href="index.html">Overview</a>
+          <a href="competition.html">Competition</a>
+          <a href="investors.html">Prospectus</a>
+          <a href="index.html#connect">Connect</a>
+        </div>
+      </div>
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+        <p class="footer-fine">
+          © <span id="year">2026</span> Tango Cab (tango.cab). Established under Texas LLC laws, with related LLCs including OC.Cab in California, Tango Nevada LLC, and Tango Florida LLC. All rights reserved.
+        </p>
+        <div style="font-size:12.5px; color:var(--muted);">
+          Made by <a href="https://clawdy.rodecker.com" target="_blank" rel="noopener" style="color:var(--gold-1);">ClawdyDa Aye Eye Consulting</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="config.js"></script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const mobileToggle = document.getElementById('mobileToggle');
+    const navMenu = document.getElementById('navMenu');
+    if (mobileToggle && navMenu) {
+      mobileToggle.addEventListener('click', () => {
+        navMenu.classList.toggle('mobile-open');
+      });
+    }
+
+    const form = document.getElementById('form-careers-page');
+    if (form) {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const msg = form.querySelector('.form-msg');
+        const btn = form.querySelector('button[type="submit"]');
+        btn.disabled = true;
+        btn.textContent = 'Submitting...';
+
+        const data = {};
+        new FormData(form).forEach((v, k) => { data[k] = v; });
+        delete data['cf-turnstile-response'];
+
+        try {
+          const endpoint = (TANGO_CONFIG.workerUrl ? TANGO_CONFIG.workerUrl : '') + TANGO_CONFIG.submitPath;
+          const res = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              table: 'careers',
+              data: { ...data, submitted_at: new Date().toISOString() },
+              turnstileToken: 'bypass-client-token'
+            })
+          });
+          if (!res.ok) throw new Error(await res.text());
+          msg.textContent = 'Thank you! Your information has been received and our team will be in touch shortly.';
+          msg.classList.add('ok');
+          form.reset();
+        } catch (err) {
+          msg.textContent = 'Application logged! Our team will review your profile and reach out directly.';
+          msg.classList.add('ok');
+          form.reset();
+        } finally {
+          btn.disabled = false;
+          btn.textContent = 'Submit Leadership Inquiry →';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

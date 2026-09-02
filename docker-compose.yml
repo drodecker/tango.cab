@@ -1,0 +1,15 @@
+services:
+  tango:
+    build: .
+    container_name: tango
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "127.0.0.1:3010:3000"
+    networks:
+      - tango
+      - npm_network
+networks:
+  tango:
+  npm_network:
+    external: true
