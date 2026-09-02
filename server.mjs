@@ -1,8 +1,9 @@
 import { createServer } from "node:http";
 import { readFile, stat } from "node:fs/promises";
-import { extname, join, normalize } from "node:path";
+import { existsSync } from "node:fs";
+import { extname, join, normalize, resolve } from "node:path";
 
-const root = "/app/site";
+const root = process.env.SITE_ROOT || (existsSync(join(process.cwd(), "site")) ? resolve(join(process.cwd(), "site")) : "/app/site");
 const port = Number(process.env.PORT || 3000);
 const tables = {
   investors: process.env.NOCODB_INVESTORS_TABLE || "mqi90dk7p4nlpf0",
@@ -47,15 +48,27 @@ createServer(async (req, res) => {
   const url = new URL(req.url || "/", "http://localhost");
   if (req.method === "POST" && url.pathname === "/submit") return submit(req, res);
   if (req.method !== "GET" && req.method !== "HEAD") return send(res, 405, "Method not allowed", "text/plain; charset=utf-8");
-  const pathname = url.pathname === "/" ? "/index.html" : url.pathname;
+  const pathname = url.pathname;
   const safe = normalize(decodeURIComponent(pathname)).replace(/^(\.\.(\/|\\|$))+/, "");
-  const path = join(root, safe);
-  if (!path.startsWith(root)) return send(res, 403, "Forbidden", "text/plain; charset=utf-8");
+  let filePath = join(root, safe);
+  if (!filePath.startsWith(root)) return send(res, 403, "Forbidden", "text/plain; charset=utf-8");
   try {
-    const info = await stat(path);
+    let info;
+    try {
+      info = await stat(filePath);
+    } catch {
+      if (!extname(filePath)) {
+        filePath = filePath + ".html";
+        info = await stat(filePath);
+      }
+    }
+    if (info.isDirectory()) {
+      filePath = join(filePath, "index.html");
+      info = await stat(filePath);
+    }
     if (!info.isFile()) throw new Error("not file");
-    const body = await readFile(path);
-    res.writeHead(200, { "content-type": mime[extname(path)] || "application/octet-stream", "cache-control": extname(path) === ".html" ? "no-cache" : "public, max-age=604800", "x-content-type-options": "nosniff" });
+    const body = await readFile(filePath);
+    res.writeHead(200, { "content-type": mime[extname(filePath)] || "application/octet-stream", "cache-control": extname(filePath) === ".html" ? "no-cache" : "public, max-age=604800", "x-content-type-options": "nosniff" });
     if (req.method === "HEAD") return res.end();
     res.end(body);
   } catch { send(res, 404, "Not found", "text/plain; charset=utf-8"); }
