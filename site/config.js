@@ -50,7 +50,7 @@ const TANGO_CONFIG = {
   },
 
   // Turnstile Cloudflare Bot Protection Sitekey
-  turnstileSiteKey: "0x4AAAAAAElRwipUlgg5Pjwk",
+  turnstileSiteKey: "0x4AAAAAAEmjsuqU2u0elLJG",
 
   // Baseline Financial Model Constants (Tango-Fleet Base Case: 12-20 vehicles)
   model: {

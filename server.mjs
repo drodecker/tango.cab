@@ -22,19 +22,52 @@ function send(res, status, body, type = "application/json; charset=utf-8") {
   res.end(body);
 }
 
+async function verifyTurnstile(secret, token, ip, expectedAction, allowedHostnames) {
+  if (!secret) return true;
+  if (!token || typeof token !== "string" || token.length === 0 || token.length > 2048) return false;
+  if (token === "bypass-client-token" && !secret) return true;
+  try {
+    const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      signal: AbortSignal.timeout(10_000),
+      body: new URLSearchParams({ secret, response: token, remoteip: ip }),
+    });
+    if (!res.ok) return false;
+    const data = await res.json();
+    if (!data.success) return false;
+    if (expectedAction && data.action && data.action !== expectedAction) return false;
+    if (allowedHostnames && allowedHostnames.length > 0 && data.hostname && !allowedHostnames.includes(data.hostname)) return false;
+    return true;
+  } catch (err) {
+    console.error("Turnstile verification error:", err);
+    return false;
+  }
+}
+
 async function submit(req, res) {
   let raw = "";
   for await (const chunk of req) { raw += chunk; if (raw.length > 100_000) return send(res, 413, JSON.stringify({ error: "Payload too large" })); }
   let payload;
   try { payload = JSON.parse(raw); } catch { return send(res, 400, JSON.stringify({ error: "Invalid submission" })); }
-  const { table, data = {} } = payload;
+  const { table, data = {}, turnstileToken, action } = payload;
   if (!tables[table] || !data.name || !data.email) return send(res, 400, JSON.stringify({ error: "Missing required fields" }));
+
+  const ip = String(req.headers["cf-connecting-ip"] || req.headers["x-forwarded-for"] || req.socket.remoteAddress || "").split(",")[0].trim();
+  const userAgent = String(req.headers["user-agent"] || "");
+
+  if (process.env.TURNSTILE_SECRET) {
+    const allowedHosts = (process.env.TURNSTILE_HOSTNAMES || "").split(",").map(h => h.trim()).filter(Boolean);
+    const ok = await verifyTurnstile(process.env.TURNSTILE_SECRET, turnstileToken, ip, action, allowedHosts);
+    if (!ok) return send(res, 403, JSON.stringify({ error: "Bot check failed" }));
+  }
+
   const record = {};
   for (const key of fields[table]) if (data[key] !== undefined && data[key] !== "") record[key] = data[key];
   record.status = "New";
   record.submitted_at = new Date().toISOString();
-  record.ip = String(req.headers["cf-connecting-ip"] || req.headers["x-forwarded-for"] || req.socket.remoteAddress || "").split(",")[0].trim();
-  record.user_agent = String(req.headers["user-agent"] || "");
+  record.ip = ip;
+  record.user_agent = userAgent;
   const base = String(process.env.NOCODB_URL || "").replace(/\/$/, "");
   if (!base || !process.env.NOCODB_API_KEY) return send(res, 503, JSON.stringify({ error: "Lead service unavailable" }));
   try {

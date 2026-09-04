@@ -1727,7 +1727,7 @@
           <input type="checkbox" id="inv-privacy" name="privacy_consent" checked required>
           <label for="inv-privacy">We respect your privacy: we never spam, nor will we sell your information.</label>
         </div>
-        <div class="full cf-turnstile" data-sitekey="0x4AAAAAAElRwipUlgg5Pjwk" data-theme="dark"></div>
+        <div class="full cf-turnstile" data-sitekey="0x4AAAAAAEmjsuqU2u0elLJG" data-theme="dark" data-action="investor_registration"></div>
         <div class="full">
           <button type="submit" class="btn solid" style="width:100%; justify-content:center; padding:16px;">Register Investor Interest &amp; Request Data Room →</button>
         </div>
@@ -1769,7 +1769,7 @@
           <label class="field-label" for="pp-notes">Property Details &amp; Operational Notes</label>
           <textarea id="pp-notes" name="notes" class="field-input" placeholder="Details about property type (retail, gas station, hotel, office park, municipal lot, airport transit hub) and access hours..."></textarea>
         </div>
-        <div class="full cf-turnstile" data-sitekey="0x4AAAAAAElRwipUlgg5Pjwk" data-theme="dark"></div>
+        <div class="full cf-turnstile" data-sitekey="0x4AAAAAAEmjsuqU2u0elLJG" data-theme="dark" data-action="property_partner"></div>
         <div class="full">
           <button type="submit" class="btn solid" style="width:100%; justify-content:center; padding:16px;">Submit Property / Depot for Evaluation →</button>
         </div>
@@ -1820,7 +1820,7 @@
         <div class="full check-box">
           <span style="font-size:13px; color:var(--muted);">ℹ️ Note: Tango Cab is a remote-first organization. Interim C-level roles are equity/advisory until operational profitability.</span>
         </div>
-        <div class="full cf-turnstile" data-sitekey="0x4AAAAAAElRwipUlgg5Pjwk" data-theme="dark"></div>
+        <div class="full cf-turnstile" data-sitekey="0x4AAAAAAEmjsuqU2u0elLJG" data-theme="dark" data-action="careers_application"></div>
         <div class="full">
           <button type="submit" class="btn solid" style="width:100%; justify-content:center; padding:16px;">Submit Application →</button>
         </div>
@@ -2014,8 +2014,11 @@
         delete rawData['cf-turnstile-response'];
 
         const tableName = form.dataset.table;
+        const turnstileEl = form.querySelector('.cf-turnstile');
+        const action = turnstileEl?.dataset.action || '';
         const payload = {
           table: tableName,
+          action: action,
           data: {
             ...rawData,
             submitted_at: new Date().toISOString()

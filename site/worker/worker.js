@@ -82,17 +82,31 @@ function cors(request, env) {
   };
 }
 
-async function verifyTurnstile(secret, token, ip) {
+async function verifyTurnstile(secret, token, ip, expectedAction, allowedHostnames) {
   if (!secret) return true;
-  if (!token || token === "bypass-client-token") return true;
+  if (!token || typeof token !== "string" || token.length === 0 || token.length > 2048) {
+    return false;
+  }
+  if (token === "bypass-client-token" && !secret) return true;
 
-  const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({ secret, response: token, remoteip: ip }),
-  });
-  const data = await res.json();
-  return Boolean(data.success);
+  try {
+    const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({ secret, response: token, remoteip: ip }),
+    });
+    if (!res.ok) return false;
+    const data = await res.json();
+    if (!data.success) return false;
+    if (expectedAction && data.action && data.action !== expectedAction) return false;
+    if (allowedHostnames && allowedHostnames.length > 0 && data.hostname) {
+      if (!allowedHostnames.includes(data.hostname)) return false;
+    }
+    return true;
+  } catch (err) {
+    console.error("Turnstile verification error:", err);
+    return false;
+  }
 }
 
 export default {
@@ -112,7 +126,7 @@ export default {
       return new Response("Invalid JSON payload", { status: 400, headers: cors(request, env) });
     }
 
-    const { table, data, turnstileToken } = payload;
+    const { table, data, turnstileToken, action } = payload;
     const tableId = TABLE_MAP(env)[table];
     if (!tableId) {
       return new Response(`Unknown table: ${table}`, { status: 400, headers: cors(request, env) });
@@ -122,9 +136,10 @@ export default {
     const userAgent = request.headers.get("User-Agent") || "";
 
     if (env.TURNSTILE_SECRET) {
-      const ok = await verifyTurnstile(env.TURNSTILE_SECRET, turnstileToken, ip);
+      const allowedHosts = (env.TURNSTILE_HOSTNAMES || "").split(",").map(h => h.trim()).filter(Boolean);
+      const ok = await verifyTurnstile(env.TURNSTILE_SECRET, turnstileToken, ip, action, allowedHosts);
       if (!ok) {
-        return new Response("Bot check failed", { status: 403, headers: cors(request, env) });
+        return new Response(JSON.stringify({ error: "Bot check failed" }), { status: 403, headers: { ...cors(request, env), "Content-Type": "application/json" } });
       }
     }
 

@@ -889,7 +889,7 @@
           <label class="field-label" for="c-notes">Background &amp; Value Alignment *</label>
           <textarea id="c-notes" name="notes" class="field-input" placeholder="Tell us about your background in mobility, technology scaling, or real estate..." required></textarea>
         </div>
-        <div class="full cf-turnstile" data-sitekey="0x4AAAAAAElRwipUlgg5Pjwk" data-theme="dark"></div>
+        <div class="full cf-turnstile" data-sitekey="0x4AAAAAAEmjsuqU2u0elLJG" data-theme="dark" data-action="careers_application"></div>
         <div class="full">
           <button type="submit" class="btn solid" style="width:100%; justify-content:center; padding:16px;">Submit Leadership Inquiry →</button>
         </div>
@@ -998,6 +998,7 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               table: 'careers',
+              action: 'careers_application',
               data: { ...data, submitted_at: new Date().toISOString() },
               turnstileToken: turnstileToken || 'bypass-client-token'
             })
