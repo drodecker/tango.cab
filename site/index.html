@@ -414,11 +414,17 @@
       flex-direction: column;
       justify-content: space-between;
       transition: all 0.25s ease;
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
     }
     .tier-card:hover {
       border-color: var(--teal);
-      transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.4), 0 0 24px rgba(46, 230, 168, 0.12);
+    }
+    .tier-card:active {
+      transform: translateY(-1px);
     }
     .tier-card.primary {
       border-color: rgba(46, 230, 168, 0.5);
@@ -426,10 +432,10 @@
       box-shadow: 0 0 26px rgba(46, 230, 168, 0.08);
     }
     .tier-card.solo {
-      opacity: 0.68;
+      opacity: 0.75;
       border-style: dashed;
     }
-    .tier-card.solo:hover { opacity: 0.95; }
+    .tier-card.solo:hover { opacity: 1; }
     .tier-badge {
       display: inline-block;
       font-size: 11px;
@@ -470,6 +476,23 @@
       border-top: 1px solid var(--line);
       font-size: 12.5px;
       color: var(--dim);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .tier-card .tier-action {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--teal);
+      white-space: nowrap;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+      opacity: 0.85;
+    }
+    .tier-card:hover .tier-action {
+      transform: translateX(4px);
+      opacity: 1;
     }
 
     /* Showcase Visuals */
@@ -1311,7 +1334,7 @@
 
       <div class="tiers-grid">
         <!-- Tier 1: Solo Tango (Grayed out / Illustration) -->
-        <div class="tier-card solo">
+        <a href="#economics" class="tier-card solo" data-tier-select="solo" aria-label="Select Solo Tango ROI model">
           <div>
             <span class="tier-badge">INDEPENDENT OPERATORS</span>
             <h3>Solo Tango</h3>
@@ -1321,12 +1344,13 @@
             </p>
           </div>
           <div class="bottom-spec">
-            * Managed partner vehicle; not owned by Tango
+            <span>* Managed partner vehicle</span>
+            <span class="tier-action">Test 1 Veh ROI →</span>
           </div>
-        </div>
+        </a>
 
         <!-- Tier 2: Tango Station -->
-        <div class="tier-card">
+        <a href="#economics" class="tier-card" data-tier-select="station" aria-label="Select Tango Station ROI model">
           <div>
             <span class="tier-badge">MICRO-DEPOT</span>
             <h3>Tango Station</h3>
@@ -1336,12 +1360,13 @@
             </p>
           </div>
           <div class="bottom-spec">
-            Ideal for gas stations, car washes &amp; retail lots
+            <span>Ideal for retail &amp; gas lots</span>
+            <span class="tier-action">Test 4 Veh ROI →</span>
           </div>
-        </div>
+        </a>
 
         <!-- Tier 3: Tango Fleet (Core Base Case) -->
-        <div class="tier-card primary">
+        <a href="#economics" class="tier-card primary" data-tier-select="fleet" aria-label="Select Tango Fleet ROI model">
           <div>
             <span class="tier-badge">SEEKING INVESTOR GROUPS</span>
             <h3>Tango Fleet</h3>
@@ -1351,12 +1376,13 @@
             </p>
           </div>
           <div class="bottom-spec" style="color:var(--teal); font-weight:600;">
-            ★ Base case economics: ~9.5 mo payback
+            <span>★ Base case (~9.5 mo payback)</span>
+            <span class="tier-action">Test 12 Veh ROI →</span>
           </div>
-        </div>
+        </a>
 
         <!-- Tier 4: Tango Depot (Airports / Municipal) -->
-        <div class="tier-card">
+        <a href="#economics" class="tier-card" data-tier-select="depot" aria-label="Select Tango Depot ROI model">
           <div>
             <span class="tier-badge">MASS TRANSIT &amp; AIRPORT</span>
             <h3>Tango Depot</h3>
@@ -1366,9 +1392,10 @@
             </p>
           </div>
           <div class="bottom-spec">
-            Airport authorities &amp; government partnerships
+            <span>Airports &amp; transit hubs</span>
+            <span class="tier-action">Test 24+ Veh ROI →</span>
           </div>
-        </div>
+        </a>
       </div>
     </div>
   </section>
@@ -2069,6 +2096,17 @@
         else if (tier === 'fleet') elFleet.value = 12;
         else if (tier === 'depot') elFleet.value = 24;
         calculateFinancials();
+      });
+    });
+
+    /* Clickable Tier Cards to ROI Model Tabs */
+    document.querySelectorAll('[data-tier-select]').forEach(card => {
+      card.addEventListener('click', () => {
+        const tier = card.dataset.tierSelect;
+        const targetBtn = document.querySelector(`.tier-tab-btn[data-tier="${tier}"]`);
+        if (targetBtn) {
+          targetBtn.click();
+        }
       });
     });
 
