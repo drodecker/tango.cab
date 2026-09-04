@@ -247,6 +247,52 @@ async function insertIntoNocoDB(nocoUrl, tableId, token, tableName, data, meta) 
   return false;
 }
 
+function mapToInvestorsFallback(tableName, data) {
+  if (tableName === "property_partners") {
+    const propertyNotes = [
+      `[PROPERTY PARTNER / DEPOT INQUIRY]`,
+      data.capacity ? `Capacity / Type: ${data.capacity}` : "",
+      data.existing_charging ? `Existing Infrastructure: ${data.existing_charging}` : "",
+      data.markets ? `Markets / Location: ${data.markets}` : "",
+      data.notes ? `Operational Notes: ${data.notes}` : "",
+    ].filter(Boolean).join("\n");
+
+    return {
+      type: "Property Partner",
+      name: data.name || "",
+      email: data.email || "",
+      phone: data.phone || "",
+      entity: data.capacity || "",
+      source: data.markets || "tango.cab",
+      notes: propertyNotes,
+    };
+  }
+
+  if (tableName === "careers") {
+    const careerNotes = [
+      `[CAREERS / LEADERSHIP INQUIRY]`,
+      `Target Role: ${data.role || "Other"}`,
+      data.linkedin ? `LinkedIn Profile: ${data.linkedin}` : "",
+      data.other_profile ? `Other Profile: ${data.other_profile}` : "",
+      data.resume_url ? `Resume URL: ${data.resume_url}` : "",
+      data.notes ? `Background / Track Record: ${data.notes}` : "",
+    ].filter(Boolean).join("\n");
+
+    return {
+      type: `Careers (${data.role || "Other"})`,
+      name: data.name || "",
+      email: data.email || "",
+      phone: data.phone || "",
+      entity: data.role || "Careers",
+      social: data.linkedin || data.other_profile || "",
+      source: "tango.cab/about",
+      notes: careerNotes,
+    };
+  }
+
+  return data;
+}
+
 export default {
   async fetch(request, env) {
     if (request.method === "OPTIONS") {
@@ -295,7 +341,25 @@ export default {
     const nocoUrl = (env.NOCODB_URL || "https://nocodb.localsplash.ai").replace(/\/$/, "");
     const token = env.NOCODB_TOKEN || env.NOCODB_API_KEY || "";
 
-    await insertIntoNocoDB(nocoUrl, tableId, token, table, data, meta);
+    let ok = await insertIntoNocoDB(nocoUrl, tableId, token, table, data, meta);
+
+    // If dedicated table insertion failed and not already on investors table, fallback to primary working table
+    if (!ok && table !== "investors") {
+      const primaryTableId = TABLE_MAP(env).investors;
+      console.warn(`[Worker NocoDB] Retrying ${table} via primary table ${primaryTableId}...`);
+      const fallbackData = mapToInvestorsFallback(table, data);
+      ok = await insertIntoNocoDB(nocoUrl, primaryTableId, token, "investors", fallbackData, meta);
+      if (ok) {
+        console.log(`[Worker NocoDB] Successfully recorded ${table} lead into primary table ${primaryTableId}!`);
+      }
+    }
+
+    if (!ok) {
+      return new Response(JSON.stringify({ ok: false, error: "Unable to save submission" }), {
+        status: 502,
+        headers: { ...cors(request, env), "Content-Type": "application/json" },
+      });
+    }
 
     return new Response(JSON.stringify({ ok: true, table, received: true }), {
       status: 200,

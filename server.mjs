@@ -213,6 +213,52 @@ async function insertIntoNocoDB(base, tableId, apiKey, tableName, data, meta) {
   return false;
 }
 
+function mapToInvestorsFallback(tableName, data) {
+  if (tableName === "property_partners") {
+    const propertyNotes = [
+      `[PROPERTY PARTNER / DEPOT INQUIRY]`,
+      data.capacity ? `Capacity / Type: ${data.capacity}` : "",
+      data.existing_charging ? `Existing Infrastructure: ${data.existing_charging}` : "",
+      data.markets ? `Markets / Location: ${data.markets}` : "",
+      data.notes ? `Operational Notes: ${data.notes}` : "",
+    ].filter(Boolean).join("\n");
+
+    return {
+      type: "Property Partner",
+      name: data.name || "",
+      email: data.email || "",
+      phone: data.phone || "",
+      entity: data.capacity || "",
+      source: data.markets || "tango.cab",
+      notes: propertyNotes,
+    };
+  }
+
+  if (tableName === "careers") {
+    const careerNotes = [
+      `[CAREERS / LEADERSHIP INQUIRY]`,
+      `Target Role: ${data.role || "Other"}`,
+      data.linkedin ? `LinkedIn Profile: ${data.linkedin}` : "",
+      data.other_profile ? `Other Profile: ${data.other_profile}` : "",
+      data.resume_url ? `Resume URL: ${data.resume_url}` : "",
+      data.notes ? `Background / Track Record: ${data.notes}` : "",
+    ].filter(Boolean).join("\n");
+
+    return {
+      type: `Careers (${data.role || "Other"})`,
+      name: data.name || "",
+      email: data.email || "",
+      phone: data.phone || "",
+      entity: data.role || "Careers",
+      social: data.linkedin || data.other_profile || "",
+      source: "tango.cab/about",
+      notes: careerNotes,
+    };
+  }
+
+  return data;
+}
+
 async function submit(req, res) {
   let raw = "";
   for await (const chunk of req) { raw += chunk; if (raw.length > 100_000) return send(res, 413, JSON.stringify({ error: "Payload too large" })); }
@@ -245,7 +291,18 @@ async function submit(req, res) {
   };
 
   try {
-    const ok = await insertIntoNocoDB(base, tables[table], apiKey, table, data, meta);
+    let ok = await insertIntoNocoDB(base, tables[table], apiKey, table, data, meta);
+
+    // If dedicated table insertion failed and not already on investors table, fallback to primary working table
+    if (!ok && table !== "investors") {
+      console.warn(`[NocoDB] Retrying ${table} submission via primary working table (${tables.investors})...`);
+      const fallbackData = mapToInvestorsFallback(table, data);
+      ok = await insertIntoNocoDB(base, tables.investors, apiKey, "investors", fallbackData, meta);
+      if (ok) {
+        console.log(`[NocoDB] Successfully recorded ${table} lead into primary table (${tables.investors})!`);
+      }
+    }
+
     if (!ok) {
       return send(res, 502, JSON.stringify({ error: "Unable to save submission" }));
     }

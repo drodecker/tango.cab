@@ -1009,11 +1009,9 @@
           const tEl = form.querySelector('.cf-turnstile');
           if (window.turnstile && tEl) { try { turnstile.reset(tEl); } catch {} }
         } catch (err) {
-          msg.textContent = 'Application logged! Our team will review your profile and reach out directly.';
-          msg.classList.add('ok');
-          form.reset();
-          const tEl = form.querySelector('.cf-turnstile');
-          if (window.turnstile && tEl) { try { turnstile.reset(tEl); } catch {} }
+          msg.textContent = 'We could not save your application yet. Please try again or email careers@tango.cab.';
+          msg.classList.add('err');
+          console.error(err);
         } finally {
           btn.disabled = false;
           btn.textContent = 'Submit Leadership Inquiry →';
