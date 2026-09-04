@@ -6,9 +6,9 @@ import { extname, join, normalize, resolve } from "node:path";
 const root = process.env.SITE_ROOT || (existsSync(join(process.cwd(), "site")) ? resolve(join(process.cwd(), "site")) : "/app/site");
 const port = Number(process.env.PORT || 3000);
 const tables = {
-  investors: process.env.NOCODB_INVESTORS_TABLE || "mqi90dk7p4nlpf0",
-  property_partners: process.env.NOCODB_PROPERTY_PARTNERS_TABLE || "m2fsritrqpepcc2",
-  careers: process.env.NOCODB_CAREERS_TABLE || "mewoa8u9qvjlsvb",
+  investors: process.env.NOCODB_INVESTORS_TABLE || process.env.TABLE_INVESTORS || "mqi90dk7p4nlpf0",
+  property_partners: process.env.NOCODB_PROPERTY_PARTNERS_TABLE || process.env.TABLE_PROPERTY || process.env.TABLE_PROPERTY_PARTNERS || process.env.NOCODB_PROPERTY_TABLE || "m2fsritrqpepcc2",
+  careers: process.env.NOCODB_CAREERS_TABLE || process.env.TABLE_CAREERS || "mewoa8u9qvjlsvb",
 };
 const fields = {
   investors: ["type", "name", "email", "phone", "entity", "social", "interest_range", "source", "notes", "accredited", "privacy_consent", "privacy"],
@@ -45,6 +45,174 @@ async function verifyTurnstile(secret, token, ip, expectedAction, allowedHostnam
   }
 }
 
+const tableColumnsCache = new Map();
+
+function normalizeKey(str) {
+  return String(str || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+}
+
+async function getTableColumns(base, tableId, apiKey) {
+  const cached = tableColumnsCache.get(tableId);
+  if (cached && (Date.now() - cached.timestamp < 10 * 60 * 1000)) {
+    return cached.columns;
+  }
+  try {
+    const res = await fetch(`${base}/api/v2/meta/tables/${tableId}`, {
+      headers: { "xc-token": apiKey },
+      signal: AbortSignal.timeout(5000),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      const cols = data.columns || [];
+      if (Array.isArray(cols) && cols.length > 0) {
+        tableColumnsCache.set(tableId, { columns: cols, timestamp: Date.now() });
+        return cols;
+      }
+    }
+  } catch {
+    // meta endpoint might be restricted; fallback handlers will be used
+  }
+  return null;
+}
+
+async function insertIntoNocoDB(base, tableId, apiKey, tableName, data, meta) {
+  const columns = await getTableColumns(base, tableId, apiKey);
+
+  if (columns && columns.length > 0) {
+    const allInput = { ...data, ...meta };
+    const payload = {};
+    const matchedKeys = new Set();
+
+    for (const col of columns) {
+      const colTitle = col.title || col.column_name;
+      const normCol = normalizeKey(colTitle);
+      for (const [inKey, inVal] of Object.entries(allInput)) {
+        if (inVal === undefined || inVal === null || inVal === "") continue;
+        if (normalizeKey(inKey) === normCol) {
+          payload[colTitle] = inVal;
+          matchedKeys.add(inKey);
+          break;
+        }
+      }
+    }
+
+    const notesExtra = [];
+    for (const [inKey, inVal] of Object.entries(data)) {
+      if (!matchedKeys.has(inKey) && inVal !== undefined && inVal !== "") {
+        notesExtra.push(`${inKey}: ${inVal}`);
+      }
+    }
+
+    if (notesExtra.length > 0) {
+      const noteCol = columns.find(c => ["notes", "note", "message", "details"].includes(normalizeKey(c.title || c.column_name)));
+      if (noteCol) {
+        const colTitle = noteCol.title || noteCol.column_name;
+        payload[colTitle] = (payload[colTitle] ? payload[colTitle] + "\n\n" : "") + `[Additional: ${notesExtra.join(", ")}]`;
+      }
+    }
+
+    try {
+      const res = await fetch(`${base}/api/v2/tables/${tableId}/records`, {
+        method: "POST",
+        headers: { "content-type": "application/json", "xc-token": apiKey },
+        body: JSON.stringify(payload),
+        signal: AbortSignal.timeout(10000),
+      });
+      if (res.ok) return true;
+      console.warn(`[NocoDB] Schema mapped insert failed for ${tableName} (${tableId}) [${res.status}]:`, await res.text());
+    } catch (err) {
+      console.warn(`[NocoDB] Schema mapped request error for ${tableName}:`, err.message);
+    }
+  }
+
+  // Attempt 1: Whitelist + standard metadata
+  const allowed = fields[tableName] || [];
+  const standardRecord = {};
+  for (const key of allowed) {
+    if (data[key] !== undefined && data[key] !== "") standardRecord[key] = data[key];
+  }
+  standardRecord.status = "New";
+  standardRecord.submitted_at = meta.submitted_at;
+  standardRecord.ip = meta.ip;
+  standardRecord.user_agent = meta.user_agent;
+
+  try {
+    const res = await fetch(`${base}/api/v2/tables/${tableId}/records`, {
+      method: "POST",
+      headers: { "content-type": "application/json", "xc-token": apiKey },
+      body: JSON.stringify(standardRecord),
+      signal: AbortSignal.timeout(10000),
+    });
+    if (res.ok) return true;
+    console.warn(`[NocoDB] Standard insert failed for ${tableName} [${res.status}]:`, await res.text());
+  } catch (err) {
+    console.warn(`[NocoDB] Standard request error for ${tableName}:`, err.message);
+  }
+
+  // Attempt 2: Clean base without metadata columns
+  const cleanBase = {};
+  for (const key of allowed) {
+    if (data[key] !== undefined && data[key] !== "") cleanBase[key] = data[key];
+  }
+  try {
+    const res = await fetch(`${base}/api/v2/tables/${tableId}/records`, {
+      method: "POST",
+      headers: { "content-type": "application/json", "xc-token": apiKey },
+      body: JSON.stringify(cleanBase),
+      signal: AbortSignal.timeout(10000),
+    });
+    if (res.ok) return true;
+    console.warn(`[NocoDB] Clean base insert failed for ${tableName} [${res.status}]:`, await res.text());
+  } catch (err) {
+    console.warn(`[NocoDB] Clean base request error for ${tableName}:`, err.message);
+  }
+
+  // Attempt 3: TitleCased fields
+  const titleCased = {};
+  for (const [k, v] of Object.entries(cleanBase)) {
+    const titleKey = k.charAt(0).toUpperCase() + k.slice(1);
+    titleCased[titleKey] = v;
+  }
+  try {
+    const res = await fetch(`${base}/api/v2/tables/${tableId}/records`, {
+      method: "POST",
+      headers: { "content-type": "application/json", "xc-token": apiKey },
+      body: JSON.stringify(titleCased),
+      signal: AbortSignal.timeout(10000),
+    });
+    if (res.ok) return true;
+    console.warn(`[NocoDB] TitleCased insert failed for ${tableName} [${res.status}]:`, await res.text());
+  } catch (err) {
+    console.warn(`[NocoDB] TitleCased request error for ${tableName}:`, err.message);
+  }
+
+  // Attempt 4: Minimal (Name, Email, Phone, Notes)
+  const summaryNotes = Object.entries(cleanBase)
+    .filter(([k]) => !["name", "email", "phone", "Name", "Email", "Phone"].includes(k))
+    .map(([k, v]) => `${k}: ${v}`)
+    .join("\n");
+  const minimalPayload = {
+    Name: data.name,
+    Email: data.email,
+    Phone: data.phone || "",
+    Notes: (data.notes ? data.notes + "\n\n" : "") + summaryNotes,
+  };
+  try {
+    const res = await fetch(`${base}/api/v2/tables/${tableId}/records`, {
+      method: "POST",
+      headers: { "content-type": "application/json", "xc-token": apiKey },
+      body: JSON.stringify(minimalPayload),
+      signal: AbortSignal.timeout(10000),
+    });
+    if (res.ok) return true;
+    console.error(`[NocoDB] Minimal TitleCased insert failed for ${tableName} [${res.status}]:`, await res.text());
+  } catch (err) {
+    console.error(`[NocoDB] Minimal request error for ${tableName}:`, err.message);
+  }
+
+  return false;
+}
+
 async function submit(req, res) {
   let raw = "";
   for await (const chunk of req) { raw += chunk; if (raw.length > 100_000) return send(res, 413, JSON.stringify({ error: "Payload too large" })); }
@@ -62,19 +230,30 @@ async function submit(req, res) {
     if (!ok) return send(res, 403, JSON.stringify({ error: "Bot check failed" }));
   }
 
-  const record = {};
-  for (const key of fields[table]) if (data[key] !== undefined && data[key] !== "") record[key] = data[key];
-  record.status = "New";
-  record.submitted_at = new Date().toISOString();
-  record.ip = ip;
-  record.user_agent = userAgent;
-  const base = String(process.env.NOCODB_URL || "").replace(/\/$/, "");
-  if (!base || !process.env.NOCODB_API_KEY) return send(res, 503, JSON.stringify({ error: "Lead service unavailable" }));
+  const base = String(process.env.NOCODB_URL || "https://nocodb.localsplash.ai").replace(/\/$/, "");
+  const apiKey = process.env.NOCODB_API_KEY || process.env.NOCODB_TOKEN || process.env.XC_TOKEN || "";
+  if (!base || !apiKey) {
+    console.error("Lead service unavailable: missing NOCODB_API_KEY or NOCODB_URL");
+    return send(res, 503, JSON.stringify({ error: "Lead service unavailable" }));
+  }
+
+  const meta = {
+    status: "New",
+    submitted_at: new Date().toISOString(),
+    ip: ip,
+    user_agent: userAgent
+  };
+
   try {
-    const upstream = await fetch(`${base}/api/v2/tables/${tables[table]}/records`, { method: "POST", headers: { "content-type": "application/json", "xc-token": process.env.NOCODB_API_KEY }, body: JSON.stringify(record) });
-    if (!upstream.ok) { console.error("NocoDB error", upstream.status, await upstream.text()); return send(res, 502, JSON.stringify({ error: "Unable to save submission" })); }
+    const ok = await insertIntoNocoDB(base, tables[table], apiKey, table, data, meta);
+    if (!ok) {
+      return send(res, 502, JSON.stringify({ error: "Unable to save submission" }));
+    }
     return send(res, 200, JSON.stringify({ ok: true }));
-  } catch (error) { console.error(error); return send(res, 502, JSON.stringify({ error: "Unable to save submission" })); }
+  } catch (error) {
+    console.error("Submission processing error:", error);
+    return send(res, 502, JSON.stringify({ error: "Unable to save submission" }));
+  }
 }
 
 createServer(async (req, res) => {
