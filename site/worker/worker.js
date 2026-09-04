@@ -113,6 +113,21 @@ function normalizeKey(str) {
   return String(str || "").toLowerCase().replace(/[^a-z0-9]/g, "");
 }
 
+function getSelectOptions(col) {
+  const options = col?.colOptions?.options;
+  if (!Array.isArray(options)) return null;
+  return options.map(option => option?.title ?? option?.value ?? option?.label ?? option).filter(Boolean).map(String);
+}
+
+function isAllowedColumnValue(col, value) {
+  const type = col?.uidt || "";
+  if (!["SingleSelect", "MultiSelect"].includes(type)) return true;
+  const options = getSelectOptions(col);
+  if (!options || options.length === 0) return false;
+  const values = Array.isArray(value) ? value : String(value).split(",").map(v => v.trim()).filter(Boolean);
+  return values.every(v => options.includes(v));
+}
+
 async function insertIntoNocoDB(nocoUrl, tableId, token, tableName, data, meta) {
   if (!token) return true;
 
@@ -141,6 +156,7 @@ async function insertIntoNocoDB(nocoUrl, tableId, token, tableName, data, meta) 
       for (const [inKey, inVal] of Object.entries(allInput)) {
         if (inVal === undefined || inVal === null || inVal === "") continue;
         if (normalizeKey(inKey) === normCol) {
+          if (!isAllowedColumnValue(col, inVal)) continue;
           payload[colTitle] = inVal;
           matchedKeys.add(inKey);
           break;
